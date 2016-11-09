@@ -16,9 +16,14 @@ import pandemic.game.roles.Roles;
 public class Pandemic {
 
     /**
+     * This method throws RuntimeException  if no player goes to play.
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        if (args.length == 0){
+            throw new RuntimeException("At least one player is expected!");
+        }
         new Board(new Logic(new Roles())).startGame();
     }
     
