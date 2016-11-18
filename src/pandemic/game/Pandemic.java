@@ -45,7 +45,7 @@ public class Pandemic implements Observer {
                 createAndShowGUI();
             }
         });
-        board = new Board(new Logic(new Roles()));
+        board = new Board(new Logic(new Roles(args)));
         board.addObserver(this);
         board.notifyObservers();
         

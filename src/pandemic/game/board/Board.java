@@ -5,6 +5,7 @@
  */
 package pandemic.game.board;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,10 +33,24 @@ public class Board extends Observable {
     private Deck deck;
     private Drugs drugs;
     private BufferedImage currentBoard;
+    private BufferedImage mainBoardImage;
 
     public Board(Logic logic) throws IOException {
-        currentBoard = ImageIO.read(new File("C:\\Users\\Petr\\Desktop\\Pandemic\\image003.jpg"));
+        loadResources();
+        drawBoard();
         this.notifyObservers();
+    }
+
+    private void drawBoard() {
+        currentBoard = new BufferedImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g2d = currentBoard.createGraphics();
+        g2d.drawImage(mainBoardImage, 0, 0, null);
+        
+        notifyObservers();
+    }
+
+    private void loadResources() throws IOException {
+        mainBoardImage = ImageIO.read(new File("C:\\Users\\Petr\\Desktop\\Pandemic\\image003.jpg"));
     }
 
     @Override
