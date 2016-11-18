@@ -36,6 +36,7 @@ public class Board extends Observable {
     private BufferedImage mainBoardImage;
 
     public Board(Logic logic) throws IOException {
+        this.logic = logic;
         loadResources();
         drawBoard();
         this.notifyObservers();
@@ -45,7 +46,7 @@ public class Board extends Observable {
         currentBoard = new BufferedImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g2d = currentBoard.createGraphics();
         g2d.drawImage(mainBoardImage, 0, 0, null);
-        
+        logic.getRoles().drawPlayers(currentBoard);
         notifyObservers();
     }
 

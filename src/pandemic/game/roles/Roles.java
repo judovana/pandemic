@@ -5,7 +5,11 @@
  */
 package pandemic.game.roles;
 
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Collection;
+import pandemic.game.roles.implementations.Medic;
+import pandemic.game.roles.implementations.Scientist;
 
 /**
  *
@@ -13,9 +17,31 @@ import java.util.Collection;
  */
 public class Roles {
 
-    private Collection<Role> roles;
+    private Collection<Role> roles = new ArrayList<>();
+
+    public Roles(String[] args) {
+        for (String arg : args) {
+            switch (arg) {
+                case "medic":
+                    roles.add(new Medic());
+                    break;
+                case "scientist":
+                    roles.add(new Scientist());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid type of player: " + arg);
+            }
+        }
+    }
+
     public Role getNextPlayer() {
         return null;
     }
-    
+
+    public void drawPlayers(BufferedImage currentBoard) {
+        for (Role role : roles) {
+            role.paint(currentBoard.createGraphics());
+        }
+    }
+
 }

@@ -5,6 +5,7 @@
  */
 package pandemic.game.roles;
 
+import java.awt.Graphics2D;
 import java.util.Collection;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.board.parts.Deck;
@@ -48,6 +49,10 @@ public abstract class Role {
     }
     
     public void discardCard(){
+    }
+
+    void paint(Graphics2D g) {
+        g.drawString(this.getClass().getName(), 100, 100);
     }
     
    

@@ -16,9 +16,17 @@ import pandemic.game.roles.Role;
  public class Logic {
 
     private Role currentPlayer;
+    private final Roles roles;
 
     public Logic(Roles roles) {
+        this.roles = roles;
     }
+
+    public Roles getRoles() {
+        return roles;
+    }
+    
+    
 
     public void nextPlayer() {
     }
