@@ -5,6 +5,11 @@
  */
 package pandemic.game.board;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Observable;
+import javax.imageio.ImageIO;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.Outbreaks;
@@ -17,7 +22,7 @@ import pandemic.game.roles.Roles;
  *
  * @author Pípa
  */
-public class Board {
+public class Board extends Observable {
 
     private Roles roles;
     private Cities cities;
@@ -26,22 +31,29 @@ public class Board {
     private Logic logic;
     private Deck deck;
     private Drugs drugs;
-    
-    public Board(Logic logic) {
+    private BufferedImage currentBoard;
+
+    public Board(Logic logic) throws IOException {
+        currentBoard = ImageIO.read(new File("C:\\Users\\Petr\\Desktop\\Pandemic\\image003.jpg"));
+        this.notifyObservers();
+    }
+
+    @Override
+    public void notifyObservers() {
+        this.setChanged();
+        this.notifyObservers(currentBoard);
     }
 
     public City getCity() {
         return null;
     }
-    
-   public Roles getRoles(){
+
+    public Roles getRoles() {
         return null;
     }
-    
-   
-    
-     public void startGame() {
+
+    public void startGame() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
