@@ -7,6 +7,8 @@ package pandemic.game;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Observable;
@@ -48,7 +50,6 @@ public class Pandemic implements Observer {
         board = new Board(new Logic(new Roles(args)));
         board.addObserver(this);
         board.notifyObservers();
-        
 
     }
 
@@ -57,7 +58,7 @@ public class Pandemic implements Observer {
         frame = new JFrame("Pandemic");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        drawPane=new DrawingPanel();
+        drawPane = new DrawingPanel();
         frame.add(drawPane);
         frame.pack();
         frame.setVisible(true);
@@ -70,9 +71,29 @@ public class Pandemic implements Observer {
         frame.repaint();
     }
 
-    private static class DrawingPanel extends JPanel {
+    private class DrawingPanel extends JPanel {
 
         BufferedImage currentImage;
+
+        public DrawingPanel() {
+            this.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    board.higlight(
+                            real(e.getX(), DrawingPanel.this.getWidth(), board.getOrigWidth()),
+                            real(e.getY(), DrawingPanel.this.getHeight(), board.getOrigHeight()));
+                }
+
+            });
+        }
+
+        private int real(int coord, int current, int orig) {
+            return (int) real((double) coord, (double) current, (double) orig);
+        }
+
+        private double real(double coord, double current, double orig) {
+            return (orig / current) * coord;
+        }
 
         public void setCurrentImage(BufferedImage currentImage) {
             this.currentImage = currentImage;

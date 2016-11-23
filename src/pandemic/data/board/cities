@@ -1,0 +1,15 @@
+#it was more easy to include all neighbors, its also more easy to declare one ways:)
+288:263;blue;montreal;washington:new york:chicago:washington
+205:265;blue;chicago;san francisco:los angeles:mexico city:atlanta:montreal
+98:298;blue;san francisco;los angeles:tokyo:manila:chicago
+238:327;blue;atlanta;chicago:miami:washington
+326:322;blue;washington;montreal:atlanta:miami:new york
+353:269;blue;new york;london:madrid:montreal:washington
+114:365;yellow;los angeles;sydney:san francisco:chicago:mexico city
+197:402;yellow;mexico city;los angeles:chicago:miami:lima
+289:393;yellow;miami;atlanta:washington:mexico city:bogota
+280:478;yellow;bogota;mexico city:miami:sao paulo:buenos aires:lima
+249:572;yellow;lima;santiago:bogota:mexico city
+264:655;yellow;santiago;lima
+347:639;yellow;buenos aires;sao paulo:bogota
+399:580;yellow;sao paulo;buenos aires:madrid:lagos:bogota

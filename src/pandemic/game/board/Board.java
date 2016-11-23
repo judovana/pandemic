@@ -6,6 +6,7 @@
 package pandemic.game.board;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,9 +35,11 @@ public class Board extends Observable {
     private Drugs drugs;
     private BufferedImage currentBoard;
     private BufferedImage mainBoardImage;
+    private City higlightCity;
 
     public Board(Logic logic) throws IOException {
         this.logic = logic;
+        cities = new Cities();
         loadResources();
         drawBoard();
         this.notifyObservers();
@@ -46,7 +49,10 @@ public class Board extends Observable {
         currentBoard = new BufferedImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g2d = currentBoard.createGraphics();
         g2d.drawImage(mainBoardImage, 0, 0, null);
-        logic.getRoles().drawPlayers(currentBoard);
+        logic.getRoles().drawPlayers(g2d);
+        if (higlightCity != null) {
+            higlightCity.draw(g2d);
+        }
         notifyObservers();
     }
 
@@ -70,6 +76,26 @@ public class Board extends Observable {
 
     public void startGame() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public int getOrigWidth() {
+        return mainBoardImage.getWidth();
+    }
+
+    public int getOrigHeight() {
+        return mainBoardImage.getHeight();
+    }
+
+    public void higlight(int x, int y) {
+        City found = cities.getCityByCoord(new Point(x, y));
+        if (found != null) {
+            System.out.println(found.getName());
+            higlightCity = found;
+            drawBoard();
+            return;
+        }
+        higlightCity = null;
+
     }
 
 }

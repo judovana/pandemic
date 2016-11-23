@@ -5,7 +5,7 @@
  */
 package pandemic.game.roles;
 
-import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import pandemic.game.roles.implementations.Medic;
@@ -38,9 +38,9 @@ public class Roles {
         return null;
     }
 
-    public void drawPlayers(BufferedImage currentBoard) {
+    public void drawPlayers(Graphics2D g) {
         for (Role role : roles) {
-            role.paint(currentBoard.createGraphics());
+            role.paint(g);
         }
     }
 
