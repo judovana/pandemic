@@ -51,7 +51,7 @@ public class Board extends Observable {
     }
 
     private void loadResources() throws IOException {
-        mainBoardImage = ImageIO.read(new File("C:\\Users\\Petr\\Desktop\\Pandemic\\image003.jpg"));
+        mainBoardImage = ImageIO.read(this.getClass().getResourceAsStream("/pandemic/data/board.jpg"));
     }
 
     @Override
