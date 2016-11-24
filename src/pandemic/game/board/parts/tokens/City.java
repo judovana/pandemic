@@ -69,23 +69,20 @@ public class City {
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
         g2d.fillOval(center.x - 10, center.y - 10, 20, 20);
-        drawOutlined(Color.white, color, g2d, center.x, center.y + g2d.getFontMetrics().getHeight(), name);
+        drawOutlined(Color.white, color, g2d, center.x, center.y, name);
         for (City city : neighbors) {
             g2d.setColor(Color.white);
             g2d.drawLine(center.x, center.y, city.center.x, city.center.y);
-            drawOutlined(Color.white, city.color, g2d, city.center.x, city.center.y + g2d.getFontMetrics().getHeight(), city.name);
+            drawOutlined(Color.white, city.color, g2d, city.center.x, city.center.y, city.name);
         }
 
     }
 
     private void drawOutlined(Color c1, Color c2, Graphics2D g2d, int x, int y, String s) {
-        g2d.setColor(c1);
-        g2d.drawString(s, x - 2, y - 2);
-        g2d.drawString(s, x - 1, y - 1);
-        g2d.drawString(s, x + 1, y + 1);
-        g2d.drawString(s, x + 2, y + 2);
+        g2d.setColor(new Color(c1.getRed(), c1.getGreen(), c1.getBlue(), 100));
+        g2d.fillRect(x, y, g2d.getFontMetrics().stringWidth(s), g2d.getFontMetrics().getHeight());
         g2d.setColor(c2);
-        g2d.drawString(s, x, y);
+        g2d.drawString(s, x, y + g2d.getFontMetrics().getHeight());
     }
 
 }
