@@ -60,7 +60,7 @@ public class Cities {
 
     }
 
-    private void loadBaseCities(URL u) throws IOException {
+    private static void processCities(URL u, CitiesProcessor p) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream(), StandardCharsets.UTF_8))) {
             while (true) {
                 String s = br.readLine();
@@ -72,24 +72,29 @@ public class Cities {
                     continue;
                 }
                 String[] parts = s.split(";");
-                cities.add(City.create(parts[0], parts[2], parts[1]));
+                p.processLine(parts);
 
             }
         }
     }
 
+    private void loadBaseCities(URL u) throws IOException {
+        processCities(u, new CitiesProcessor() {
+
+            @Override
+            public void processLine(String... parts) {
+                cities.add(City.create(parts[0], parts[2], parts[1]));
+            }
+        });
+
+    }
+
     private void setNeighbors(URL u) throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream(), StandardCharsets.UTF_8))) {
-            while (true) {
-                String s = br.readLine();
-                if (s == null) {
-                    break;
-                }
-                s = s.trim();
-                if (s.startsWith("#")) {
-                    continue;
-                }
-                String[] parts = s.split(";");
+        processCities(u, new CitiesProcessor() {
+
+            @Override
+            public void processLine(String... parts) {
+
                 String[] nbrs = parts[3].split(",");
                 City current = getCityByName(parts[2]);
                 for (String nbr : nbrs) {
@@ -99,10 +104,16 @@ public class Cities {
                         System.out.println(current.getName() + " siding: " + neighbor.getName());
                     } catch (CityNotFoundException ex) {
                         System.out.println(ex.getMessage());
+
                     }
 
                 }
             }
-        }
+        });
+    }
+
+    private static interface CitiesProcessor {
+
+        public void processLine(String... s);
     }
 }
