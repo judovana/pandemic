@@ -9,12 +9,10 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import pandemic.game.board.parts.tokens.City;
 import java.util.Collection;
 
 /**

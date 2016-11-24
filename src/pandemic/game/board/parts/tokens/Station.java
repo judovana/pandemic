@@ -9,6 +9,6 @@ package pandemic.game.board.parts.tokens;
  *
  * @author Pípa
  */
-public class Station extends Token {
+public class Station {
     
 }

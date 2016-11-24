@@ -5,6 +5,7 @@
  */
 package pandemic.game.board.parts.tokens;
 
+import java.awt.Point;
 import pandemic.game.board.DiseaseType;
 
 /**
@@ -13,4 +14,8 @@ import pandemic.game.board.DiseaseType;
  */
 public class Cubes extends Token {
     private DiseaseType diseasetype;
+
+    public Cubes(Point point) {
+        super(point);
+    }
 }
