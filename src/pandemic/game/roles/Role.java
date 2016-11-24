@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Random;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.board.parts.Deck;
-import pandemic.game.cards.PlayerCards;
+import pandemic.game.cards.PlayerCard;
 
 /**
  *
@@ -20,7 +20,7 @@ public abstract class Role {
 
     private String name;
 
-    private Collection<PlayerCards> cardsInHands;
+    private Collection<PlayerCard> cardsInHands;
 
     private City city;
 

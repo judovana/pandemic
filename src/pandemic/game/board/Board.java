@@ -14,6 +14,7 @@ import java.util.Observable;
 import javax.imageio.ImageIO;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
+import pandemic.game.board.parts.InfectionDeck;
 import pandemic.game.board.parts.Outbreaks;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
@@ -32,6 +33,7 @@ public class Board extends Observable {
     private InfecetionRate infectionRate;
     private Logic logic;
     private Deck deck;
+    private InfectionDeck infDeck;
     private Drugs drugs;
     private BufferedImage currentBoard;
     private BufferedImage mainBoardImage;
@@ -41,6 +43,8 @@ public class Board extends Observable {
         this.logic = logic;
         cities = new Cities();
         outbreaks = new Outbreaks();
+        deck = new Deck();
+        infDeck = new InfectionDeck();
         logic.getRoles().initPlayers(cities);
         loadResources();
         drawBoard();
@@ -55,6 +59,9 @@ public class Board extends Observable {
             higlightCity.draw(currentBoard.createGraphics());
         }
         outbreaks.draw(currentBoard.createGraphics());
+        deck.draw(currentBoard.createGraphics());
+        infDeck.draw(currentBoard.createGraphics());
+        
         notifyObservers();
     }
 

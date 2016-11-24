@@ -6,6 +6,7 @@
 package pandemic.game.cards;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import pandemic.game.board.DiseaseType;
 
 /**
@@ -16,15 +17,27 @@ public class Card {
 
     public static class InfectionCard extends Card {
 
-    }
-    
-   
-    
-    private String cityName;
+        public InfectionCard(BufferedImage bg, BufferedImage fg) {
+            super(bg, fg);
+        }
 
+    }
+
+    private String cityName;
     private DiseaseType diseaseType;
+    private final BufferedImage bg;
+    private final BufferedImage fg;
+
+    public Card(BufferedImage bg, BufferedImage fg) {
+        this.bg = bg;
+        this.fg = fg;
+    }
 
     public Image getBackground() {
-        return null;
+        return bg;
+    }
+
+    public Image getForeground() {
+        return fg;
     }
 }
