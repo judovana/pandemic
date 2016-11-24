@@ -67,7 +67,7 @@ public class City {
         if (new Random().nextBoolean()) {
             int count = r.nextInt(3) + 1;
             for (int i = 0; i < count; i++) {
-                cubes.add(new Cubes(randomize(r,center)));
+                cubes.add(new Cubes(randomize(r, center)));
             }
         }
         // end of testing impl of  diseases
@@ -118,16 +118,16 @@ public class City {
             g2d.fillRect(center.x - 2 * radius + 3, center.y - 2 * radius, radius - 6, radius);
             g2d.fillRect(center.x - 2 * radius, center.y - 2 * radius + 3, radius, radius - 6);
         }
-        g2d.setColor(Color.CYAN);
         for (Cubes cube : cubes) {
+            g2d.setColor(Color.CYAN);
             cube.draw(g2d);
         }
     }
 
     private Point randomize(Random r, Point center) {
-        int x = center.x+radius+r.nextInt(10);
-        int y = center.y+radius+r.nextInt(10);
-        return  new Point(x, y);
+        int x = center.x + radius + r.nextInt(10);
+        int y = center.y + radius + r.nextInt(10);
+        return new Point(x, y);
     }
 
 }
