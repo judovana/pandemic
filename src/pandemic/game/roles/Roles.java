@@ -8,6 +8,7 @@ package pandemic.game.roles;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collection;
+import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.roles.implementations.Medic;
 import pandemic.game.roles.implementations.Scientist;
 
@@ -41,6 +42,12 @@ public class Roles {
     public void drawPlayers(Graphics2D g) {
         for (Role role : roles) {
             role.paint(g);
+        }
+    }
+
+    public void initPlayers(Cities cities) {
+        for (Role role : roles) {
+            role.flyToTheCity(cities.getCityByName("atlanta"));
         }
     }
 

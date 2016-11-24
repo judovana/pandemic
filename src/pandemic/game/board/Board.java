@@ -40,6 +40,8 @@ public class Board extends Observable {
     public Board(Logic logic) throws IOException {
         this.logic = logic;
         cities = new Cities();
+        outbreaks = new Outbreaks();
+        logic.getRoles().initPlayers(cities);
         loadResources();
         drawBoard();
         this.notifyObservers();
@@ -47,12 +49,12 @@ public class Board extends Observable {
 
     private void drawBoard() {
         currentBoard = new BufferedImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D g2d = currentBoard.createGraphics();
-        g2d.drawImage(mainBoardImage, 0, 0, null);
-        logic.getRoles().drawPlayers(g2d);
+        currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
+        logic.getRoles().drawPlayers(currentBoard.createGraphics());
         if (higlightCity != null) {
-            higlightCity.draw(g2d);
+            higlightCity.draw(currentBoard.createGraphics());
         }
+        outbreaks.draw(currentBoard.createGraphics());
         notifyObservers();
     }
 

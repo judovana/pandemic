@@ -91,4 +91,9 @@ public class City {
         g2d.drawString(s, x, y + g2d.getFontMetrics().getHeight());
     }
 
+    public Point getCenter() {
+        return center;
+    }
+    
+
 }
