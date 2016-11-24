@@ -5,6 +5,7 @@
  */
 package pandemic.game.board.parts.tokens;
 
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -116,4 +117,10 @@ public class Cities {
 
         public void processLine(String... s);
     }
+    
+     public void drawStations(Graphics2D g2d) {
+         for (City city : cities) {
+             city.drawStation(g2d);
+         }
+     }
 }

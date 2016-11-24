@@ -11,6 +11,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Random;
+import sun.java2d.loops.FillRect;
 
 /**
  *
@@ -49,11 +51,17 @@ public class City {
     private final String name;
     private final Color color;
     private final Collection<City> neighbors = new ArrayList<>();
+    private final int radius = 10;
 
     private City(Point center, String name, Color color) {
         this.center = center;
         this.name = name;
         this.color = color;
+        //FIXME remove!
+        if (new Random().nextBoolean()) {
+            this.station = new Station();
+        }
+        // end of testing impl of  stations
     }
 
     public String getName() {
@@ -69,12 +77,12 @@ public class City {
     }
 
     boolean isOn(Point point) {
-        return (center.distance(point)) < 20;
+        return (center.distance(point)) < 2 * radius;
     }
 
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
-        g2d.fillOval(center.x - 10, center.y - 10, 20, 20);
+        g2d.fillOval(center.x - radius, center.y - radius, radius * 2, radius * 2);
         drawOutlined(Color.white, color, g2d, center.x, center.y, name);
         for (City city : neighbors) {
             g2d.setColor(Color.white);
@@ -94,6 +102,12 @@ public class City {
     public Point getCenter() {
         return center;
     }
-    
+
+    void drawStation(Graphics2D g2d) {
+        if (station != null) {
+            g2d.setColor(color);
+            g2d.fillRect(center.x - 2 * radius, center.y - 2 * radius, radius, radius);
+        }
+    }
 
 }

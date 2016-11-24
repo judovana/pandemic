@@ -5,10 +5,8 @@
  */
 package pandemic.game.board;
 
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 import javax.imageio.ImageIO;
@@ -55,6 +53,7 @@ public class Board extends Observable {
     private void drawBoard() {
         currentBoard = new BufferedImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
+        cities.drawStations(currentBoard.createGraphics());
         logic.getRoles().drawPlayers(currentBoard.createGraphics());
         if (higlightCity != null) {
             higlightCity.draw(currentBoard.createGraphics());
