@@ -90,7 +90,7 @@ public class Cities {
                     continue;
                 }
                 String[] parts = s.split(";");
-                String[] nbrs = parts[3].split(":");
+                String[] nbrs = parts[3].split(",");
                 City current = getCityByName(parts[2]);
                 for (String nbr : nbrs) {
                     try {

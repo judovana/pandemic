@@ -36,7 +36,7 @@ public class City {
             default:
                 throw new IllegalArgumentException("Invalid type of color: " + color);
         }
-        String[] pointParts = point.split(":");
+        String[] pointParts = point.split(",");
         Point p = new Point(Integer.valueOf(pointParts[0]), Integer.valueOf(pointParts[1]));
         System.out.println("Creating: " + name + ", " + p.toString() + ", " + c);
         return new City(p, name, c);
