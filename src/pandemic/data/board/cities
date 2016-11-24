@@ -13,3 +13,9 @@
 264:655;yellow;santiago;lima
 347:639;yellow;buenos aires;sao paulo:bogota
 399:580;yellow;sao paulo;buenos aires:madrid:lagos:bogota
+508:220;blue;london;essen:paris:madrid:new york
+587:206;blue;essen;st. peterburg:paris:milan:london
+679:190;blue;st. peterburg;essen:istanbul:moscow
+625:246;blue;milan;essen:paris:istanbul
+567:263;blue;paris;madrid:london:essen:milan:algiers
+492:300;blue;madrid;london:new york:sao paulo:algiers:paris
