@@ -19,3 +19,7 @@
 625:246;blue;milan;essen:paris:istanbul
 567:263;blue;paris;madrid:london:essen:milan:algiers
 492:300;blue;madrid;london:new york:sao paulo:algiers:paris
+559:461;yellow;lagos;khartolum:kinshasa:sao paulo
+664:448;yellow;khartolum;:cairo:johannesburg:kinshasa:lagos
+611:521;yellow;kinshasa;lagos:khartolum:johannesburg
+658:604;yellow;johannesburg;khartolum:kinshasa
