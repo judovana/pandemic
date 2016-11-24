@@ -61,6 +61,7 @@ public class Pandemic implements Observer {
         drawPane = new DrawingPanel();
         frame.add(drawPane);
         frame.pack();
+        frame.setSize(300, 200);
         frame.setVisible(true);
         frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
     }
