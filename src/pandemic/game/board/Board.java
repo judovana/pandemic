@@ -28,12 +28,12 @@ import pandemic.game.roles.Roles;
 public class Board extends Observable {
 
     private Roles roles;
-    private Cities cities;
-    private Outbreaks outbreaks;
-    private InfecetionRate infectionRate;
-    private Logic logic;
-    private Deck deck;
-    private InfectionDeck infDeck;
+    private final Cities cities;
+    private final Outbreaks outbreaks;
+    private final InfecetionRate infectionRate;
+    private final Logic logic;
+    private final Deck deck;
+    private final InfectionDeck infDeck;
     private Drugs drugs;
     private BufferedImage currentBoard;
     private BufferedImage mainBoardImage;
@@ -45,6 +45,7 @@ public class Board extends Observable {
         outbreaks = new Outbreaks();
         deck = new Deck();
         infDeck = new InfectionDeck();
+        infectionRate = new InfecetionRate();
         logic.getRoles().initPlayers(cities);
         loadResources();
         drawBoard();
@@ -59,9 +60,9 @@ public class Board extends Observable {
             higlightCity.draw(currentBoard.createGraphics());
         }
         outbreaks.draw(currentBoard.createGraphics());
+        infectionRate.draw(currentBoard.createGraphics());
         deck.draw(currentBoard.createGraphics());
         infDeck.draw(currentBoard.createGraphics());
-        
         notifyObservers();
     }
 
