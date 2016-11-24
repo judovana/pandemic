@@ -27,8 +27,9 @@ public class Outbreaks {
     private static final int radius = 20;
 
     public void addOutbreak() {
-        
+        count++;
     }
+
     public Outbreaks() {
         URL cfgFile = this.getClass().getResource("/pandemic/data/board/outbreaks");
         try {
