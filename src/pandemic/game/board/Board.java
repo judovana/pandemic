@@ -95,6 +95,7 @@ public class Board extends Observable {
             return;
         }
         higlightCity = null;
+        drawBoard();
 
     }
 
