@@ -5,7 +5,7 @@
 238:327;blue;atlanta;chicago:miami:washington
 326:322;blue;washington;montreal:atlanta:miami:new york
 353:269;blue;new york;london:madrid:montreal:washington
-114:365;yellow;los angeles;sydney:san francisco:chicago:mexico city
+118:372;yellow;los angeles;sydney:san francisco:chicago:mexico city
 197:402;yellow;mexico city;los angeles:chicago:miami:lima
 289:393;yellow;miami;atlanta:washington:mexico city:bogota
 280:478;yellow;bogota;mexico city:miami:sao paulo:buenos aires:lima
@@ -23,3 +23,15 @@
 664:448;yellow;khartolum;:cairo:johannesburg:kinshasa:lagos
 611:521;yellow;kinshasa;lagos:khartolum:johannesburg
 658:604;yellow;johannesburg;khartolum:kinshasa
+724:243;black;moscow;st. peterbutg:istanbul:tehran
+659:294;black;istanbul;moscow:milan:algiers:st. peterburg:baghdad:cairo
+586:349;black;algiers;istanbul:cairo:paris:madrid
+648:364;black;cairo;algiers:istanbul:baghdad:khartolum:riyadh
+719:335;black;baghdad;riyadh:cairo:istanbul:tehran:karachi
+724:413;black;riyadh;karachi:baghdad:cairo
+782:287;black;tehran;delhi:karachi:baghdad:moscow
+1092:294;red;tokyo;seoul:osaka:shanghai:san francisco
+1104:360;red;osaka;tokyo:taipei
+1042:383;red;taipei;shanghai:osaka:hong kong:manila
+1060:483;red;manila;taipei:hong kong:ho chi minh city:sydney:san francisco
+1106:653;red;sydney;los angeles:manila:jakarta

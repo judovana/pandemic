@@ -27,6 +27,12 @@ public class City {
             case "blue":
                 c = Color.BLUE;
                 break;
+            case "red":
+                c = Color.red;
+                break;
+            case "black":
+                c = Color.black;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid type of color: " + color);
         }
