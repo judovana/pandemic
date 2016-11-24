@@ -35,3 +35,15 @@
 1042:383;red;taipei;shanghai:osaka:hong kong:manila
 1060:483;red;manila;taipei:hong kong:ho chi minh city:sydney:san francisco
 1106:653;red;sydney;los angeles:manila:jakarta
+795:360;black;karachi;tehran:delhi:mumbai:riyadh:baghdad
+859:341;black;delhi;kolkata:chennai:mumbai:karachi
+915:362;black;kolkata;hong kong:bangkok:chennai:delhi
+870:471;black;chennai;mumbai:delhi:kolkata:jakarta:bangkok
+804:426;black;mumbai;karachi:delhi:chennai
+928:432;red;bangkok;kolkata:chennai:ho chi minh city:hong kong:jakarta
+927:542;red;jakarta;sydney:ho chi minh city:chennai:bangkok
+982:486;red;ho chi minh city;hong kong:bangkok:jakarta:manila
+976:394;red;hong kong;shanghai:kolkata:bangkok:ho chi minh city:taipei:manila
+963:266;red;beijing;seoul:shanghai
+961:328;red;shanghai;beijing:seoul:tokyo:taipei:hong kong
+1037:261;red;seoul;beijing:shanghai:tokyo
