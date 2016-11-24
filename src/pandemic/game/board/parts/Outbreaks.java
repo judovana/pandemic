@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class Outbreaks {
 
-    private int count = 1;
+    private int count = 0;
     private final List<Point> centers = new ArrayList<>(8);
     private static int radius = 20;
 
