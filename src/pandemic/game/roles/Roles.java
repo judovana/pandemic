@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 import pandemic.game.board.parts.tokens.Cities;
+import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 import pandemic.game.roles.implementations.Medic;
 import pandemic.game.roles.implementations.Scientist;
@@ -73,6 +74,16 @@ public class Roles {
             return role.selectHand(x, y);
         }
         return null;
+    }
+
+    public List<Role> getPlayersInCity(City city) {
+        List<Role> r = new ArrayList<>(roles.size());
+        for (Role role : roles) {
+            if (role.getCity().equals(city)) {
+                r.add(role);
+            }
+        }
+        return r;
     }
 
 }

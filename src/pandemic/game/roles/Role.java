@@ -54,7 +54,7 @@ public abstract class Role {
     }
 
     void paint(Graphics2D g) {
-        g.drawString(this.getClass().getSimpleName(), city.getCenter().x - 20 + placer.nextInt(40), city.getCenter().y - 20 + placer.nextInt(40));
+        g.drawString(getName(), city.getCenter().x - 20 + placer.nextInt(40), city.getCenter().y - 20 + placer.nextInt(40));
     }
 
     public void setCardToHand(PlayerCard c) {
@@ -80,7 +80,9 @@ public abstract class Role {
     public City getCity() {
         return city;
     }
-    
-    
+
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
 
 }

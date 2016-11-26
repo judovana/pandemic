@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Observable;
 import javax.imageio.ImageIO;
+import pandemic.game.OtherActions;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.InfectionDeck;
@@ -145,6 +146,12 @@ public class Board extends Observable {
             System.out.println(found.getName());
             if (selected == found && roles.getCurrentPlayer().getCity().isNigbouring(found)){
                 roles.getCurrentPlayer().flyToTheCity(found);
+                selected = null;
+                drawBoard();
+                return;
+            }
+            if (selected == found && roles.getCurrentPlayer().getCity().equals(found)){
+                new OtherActions(roles);
                 selected = null;
                 drawBoard();
                 return;
