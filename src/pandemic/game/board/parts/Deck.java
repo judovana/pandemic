@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.imageio.ImageIO;
 import pandemic.game.board.parts.tokens.Cities;
@@ -38,6 +39,7 @@ public class Deck {
             Card card = new PlayerCard(backgroud, city);
             cards.add(card);
         }
+        Collections.shuffle(cards);
     }
 
     Deck(String bg, Cities c) {

@@ -6,6 +6,7 @@
 package pandemic.game.board.parts;
 
 import java.awt.Point;
+import java.util.Collections;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
@@ -22,6 +23,7 @@ public class InfectionDeck extends Deck {
             Card card = new Card.InfectionCard(backgroud, city);
             cards.add(card);
         }
+        Collections.shuffle(cards);
     }
 
     Point getCorner() {
