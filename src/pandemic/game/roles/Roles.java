@@ -7,8 +7,9 @@ package pandemic.game.roles;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import pandemic.game.board.parts.tokens.Cities;
+import pandemic.game.cards.Card;
 import pandemic.game.roles.implementations.Medic;
 import pandemic.game.roles.implementations.Scientist;
 
@@ -18,7 +19,8 @@ import pandemic.game.roles.implementations.Scientist;
  */
 public class Roles {
 
-    private Collection<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
+    private int currentPlayer;
 
     public Roles(String[] args) {
         for (String arg : args) {
@@ -35,8 +37,12 @@ public class Roles {
         }
     }
 
-    public Role getNextPlayer() {
-        return null;
+    public Role setNextPlayer() {
+        currentPlayer++;
+        if (currentPlayer >= roles.size()) {
+            currentPlayer = 0;
+        }
+        return getCurrentPlayer();
     }
 
     public void drawPlayers(Graphics2D g) {
@@ -49,6 +55,24 @@ public class Roles {
         for (Role role : roles) {
             role.flyToTheCity(cities.getCityByName("atlanta"));
         }
+        currentPlayer = 0;
+    }
+
+    public Role getCurrentPlayer() {
+        return roles.get(currentPlayer);
+    }
+
+    public void drawPlayersHands(Graphics2D g) {
+        for (Role role : roles) {
+            role.drawHand(g);
+        }
+    }
+
+    public Card selectPlayersHands(int x, int y) {
+        for (Role role : roles) {
+            return role.selectHand(x, y);
+        }
+        return null;
     }
 
 }

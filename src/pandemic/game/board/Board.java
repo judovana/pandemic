@@ -18,6 +18,7 @@ import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.board.parts.tokens.Drugs;
 import pandemic.game.cards.Card;
+import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Roles;
 
 /**
@@ -30,7 +31,6 @@ public class Board extends Observable {
     private final Cities cities;
     private final Outbreaks outbreaks;
     private final InfecetionRate infectionRate;
-    private final Logic logic;
     private final Deck deck;
     private final InfectionDeck infDeck;
     private Drugs drugs;
@@ -38,14 +38,14 @@ public class Board extends Observable {
     private BufferedImage mainBoardImage;
     private Object selected;
 
-    public Board(Logic logic) throws IOException {
-        this.logic = logic;
+    public Board(Roles roles) throws IOException {
+        this.roles = roles;
         cities = new Cities();
         outbreaks = new Outbreaks();
         deck = new Deck(cities);
         infDeck = new InfectionDeck(cities);
         infectionRate = new InfecetionRate();
-        logic.getRoles().initPlayers(cities);
+        roles.initPlayers(cities);
         loadResources();
         drawBoard();
         this.notifyObservers();
@@ -55,7 +55,7 @@ public class Board extends Observable {
         currentBoard = new BufferedImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
         cities.drawStations(currentBoard.createGraphics());
-        logic.getRoles().drawPlayers(currentBoard.createGraphics());
+        roles.drawPlayers(currentBoard.createGraphics());
         if (selected instanceof City) {
             ((City) selected).draw(currentBoard.createGraphics());
         }
@@ -63,6 +63,9 @@ public class Board extends Observable {
         infectionRate.draw(currentBoard.createGraphics());
         deck.draw(currentBoard.createGraphics());
         infDeck.draw(currentBoard.createGraphics());
+
+        roles.drawPlayersHands(currentBoard.createGraphics());
+
         if (selected instanceof Card) {
             ((Card) selected).drawPlaced(currentBoard.createGraphics());
         }
@@ -99,8 +102,19 @@ public class Board extends Observable {
         return mainBoardImage.getHeight();
     }
 
-    public void higlight(int x, int y) {
-        Card c = infDeck.clicked(x, y);
+    public void mainClick(int x, int y) {
+        System.out.println("left!");
+        if (selected instanceof Card) {
+            return;
+        }
+        Card c = roles.selectPlayersHands(x, y);
+        if (c != null) {
+            selected = c;
+            System.out.println(selected);
+            drawBoard();
+            return;
+        }
+        c = infDeck.clicked(x, y);
         if (c != null) {
             selected = c;
             System.out.println(selected);
@@ -125,6 +139,27 @@ public class Board extends Observable {
         System.out.println("Unselected");
         drawBoard();
 
+    }
+
+    public void move(int x, int y) {
+        if (selected instanceof Card) {
+            ((Card) selected).setCoords(x, y);
+            drawBoard();
+        }
+    }
+
+    public void second(int real, int real0) {
+        System.out.println("right!");
+        if (selected instanceof PlayerCard) {
+            roles.getCurrentPlayer().setCardToHand((PlayerCard) selected);
+            selected = null;
+            drawBoard();
+        }
+        if (selected instanceof Card.InfectionCard) {
+            infDeck.used((Card.InfectionCard) selected);
+            selected = null;
+            drawBoard();
+        }
     }
 
 }

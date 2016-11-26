@@ -7,9 +7,12 @@ package pandemic.game.roles;
 
 import java.awt.Graphics2D;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.board.parts.Deck;
+import pandemic.game.cards.Card;
 import pandemic.game.cards.PlayerCard;
 
 /**
@@ -20,7 +23,7 @@ public abstract class Role {
 
     private String name;
 
-    private Collection<PlayerCard> cardsInHands;
+    private Set<PlayerCard> cardsInHand = new HashSet<>(7);
 
     private City city;
 
@@ -58,6 +61,26 @@ public abstract class Role {
 
     void paint(Graphics2D g) {
         g.drawString(this.getClass().getSimpleName(), city.getCenter().x - 20 + placer.nextInt(40), city.getCenter().y - 20 + placer.nextInt(40));
+    }
+
+    public void setCardToHand(PlayerCard c) {
+        this.cardsInHand.add(c);
+    }
+
+    void drawHand(Graphics2D g) {
+        for (PlayerCard c : cardsInHand) {
+            c.drawPlaced(g);
+        }
+    }
+
+    Card selectHand(int x, int y) {
+        for (Card c : cardsInHand) {
+            if (c.isFreeClicked(x, y)) {
+                cardsInHand.remove(c);
+                return c;
+            }
+        }
+        return null;
     }
 
 }

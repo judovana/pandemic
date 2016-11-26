@@ -37,4 +37,8 @@ public class InfectionDeck extends Deck {
     public Card returnUsedCards() {
         return null;
     }
+
+    public void used(Card.InfectionCard infectionCard) {
+        usedCards.add(infectionCard);
+    }
 }

@@ -34,7 +34,7 @@ public class Card {
 
     protected final City city;
     private final BufferedImage bg;
-    private Point freeCoords = new Point(0, 0);
+    private Point freeCoords = null;
 
     public Card(BufferedImage bg, City c) {
         this.bg = bg;
@@ -52,7 +52,7 @@ public class Card {
         int column = b.getWidth() / 6;
         g2d.fillRect(b.getWidth() / 3 - column / 2, 0, column, b.getHeight());
         g2d.fillRect(b.getWidth() * 2 / 3 - column / 2, 0, column, b.getHeight());
-
+        g2d.drawRect(0, 0, b.getWidth() - 1, b.getHeight() - 1);
         /*+"  " YAH! box is newer wide enough!*/
         int w = g2d.getFontMetrics().stringWidth(city.getName() + "  ");
 
@@ -70,5 +70,15 @@ public class Card {
 
     public void setCoords(int x, int y) {
         this.freeCoords = new Point(x, y);
+    }
+
+    public boolean isFreeClicked(int x, int y) {
+        if (freeCoords == null) {
+            return false;
+        }
+        return (x > freeCoords.x
+                && x < freeCoords.x + getBackground().getWidth(null)
+                && y > freeCoords.y
+                && y < freeCoords.y + getBackground().getHeight(null));
     }
 }

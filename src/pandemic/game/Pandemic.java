@@ -15,7 +15,6 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import pandemic.game.board.Logic;
 import pandemic.game.board.Board;
 import pandemic.game.roles.Roles;
 
@@ -47,7 +46,7 @@ public class Pandemic implements Observer {
                 createAndShowGUI();
             }
         });
-        board = new Board(new Logic(new Roles(args)));
+        board = new Board(new Roles(args));
         board.addObserver(this);
         board.notifyObservers();
 
@@ -77,15 +76,33 @@ public class Pandemic implements Observer {
         BufferedImage currentImage;
 
         public DrawingPanel() {
-            this.addMouseListener(new MouseAdapter() {
+            this.addMouseMotionListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    board.higlight(
+                public void mouseMoved(MouseEvent e) {
+                    board.move(
                             real(e.getX(), DrawingPanel.this.getWidth(), board.getOrigWidth()),
                             real(e.getY(), DrawingPanel.this.getHeight(), board.getOrigHeight()));
                 }
 
             });
+
+            this.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        board.mainClick(
+                                real(e.getX(), DrawingPanel.this.getWidth(), board.getOrigWidth()),
+                                real(e.getY(), DrawingPanel.this.getHeight(), board.getOrigHeight()));
+                    }
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        board.second(
+                                real(e.getX(), DrawingPanel.this.getWidth(), board.getOrigWidth()),
+                                real(e.getY(), DrawingPanel.this.getHeight(), board.getOrigHeight()));
+                    }
+                }
+
+            });
+
         }
 
         private int real(int coord, int current, int orig) {
