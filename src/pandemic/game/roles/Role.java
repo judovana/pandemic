@@ -6,8 +6,10 @@
 package pandemic.game.roles;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import pandemic.game.board.parts.tokens.City;
@@ -23,7 +25,7 @@ public abstract class Role {
 
     private String name;
 
-    private Set<PlayerCard> cardsInHand = new HashSet<>(7);
+    private List<PlayerCard> cardsInHand = new ArrayList<>(7);
 
     private City city;
 
@@ -83,6 +85,10 @@ public abstract class Role {
 
     public String getName() {
         return this.getClass().getSimpleName();
+    }
+
+    public List<PlayerCard> getCardsInHand() {
+        return cardsInHand;
     }
 
 }
