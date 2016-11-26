@@ -31,9 +31,6 @@ public abstract class Role {
 
     public abstract void doJob();
 
-    public void moveToTheCity(City city) {
-    }
-
     public void cureDisease() {
     }
 
@@ -51,9 +48,6 @@ public abstract class Role {
     }
 
     public void passTheAction() {
-    }
-
-    public void drawCards(Deck deck) {
     }
 
     public void discardCard() {
@@ -82,5 +76,11 @@ public abstract class Role {
         }
         return null;
     }
+
+    public City getCity() {
+        return city;
+    }
+    
+    
 
 }

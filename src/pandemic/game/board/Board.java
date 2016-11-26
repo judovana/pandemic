@@ -105,6 +105,18 @@ public class Board extends Observable {
     public void mainClick(int x, int y) {
         System.out.println("left!");
         if (selected instanceof Card) {
+            Card card = (Card) selected;
+            //special cards
+            if (card.getCity() == null) {
+                return;
+            }
+            if (card.getCity().equals(cities.getCityByCoord(new Point(x, y)))
+                    || card.getCity().equals(roles.getCurrentPlayer().getCity())) {
+                deck.returnCard(card);
+                selected = null;
+                roles.getCurrentPlayer().flyToTheCity(cities.getCityByCoord(new Point(x, y)));
+                drawBoard();
+            }
             return;
         }
         Card c = roles.selectPlayersHands(x, y);

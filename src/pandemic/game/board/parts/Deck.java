@@ -89,4 +89,8 @@ public class Deck {
         }
         return null;
     }
+
+    public void returnCard(Card card) {
+        usedCards.add(card);
+    }
 }

@@ -81,4 +81,10 @@ public class Card {
                 && y > freeCoords.y
                 && y < freeCoords.y + getBackground().getHeight(null));
     }
+
+    public City getCity() {
+        return city;
+    }
+    
+    
 }
