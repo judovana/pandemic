@@ -143,6 +143,12 @@ public class Board extends Observable {
         City found = cities.getCityByCoord(new Point(x, y));
         if (found != null) {
             System.out.println(found.getName());
+            if (selected == found && roles.getCurrentPlayer().getCity().isNigbouring(found)){
+                roles.getCurrentPlayer().flyToTheCity(found);
+                selected = null;
+                drawBoard();
+                return;
+            }
             selected = found;
             drawBoard();
             return;

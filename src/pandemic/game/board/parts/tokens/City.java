@@ -133,7 +133,9 @@ public class City {
     public Color getColor() {
         return color;
     }
-    
-    
+
+    public boolean isNigbouring(City found) {
+        return neighbors.contains(found);
+    }
 
 }
