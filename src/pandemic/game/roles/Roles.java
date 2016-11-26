@@ -70,10 +70,7 @@ public class Roles {
     }
 
     public Card selectPlayersHands(int x, int y) {
-        for (Role role : roles) {
-            return role.selectHand(x, y);
-        }
-        return null;
+        return getCurrentPlayer().selectHand(x, y);
     }
 
     public List<Role> getPlayersInCity(City city) {
