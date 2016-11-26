@@ -17,6 +17,7 @@ import pandemic.game.board.parts.Outbreaks;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.board.parts.tokens.Drugs;
+import pandemic.game.cards.Card;
 import pandemic.game.roles.Roles;
 
 /**
@@ -35,7 +36,7 @@ public class Board extends Observable {
     private Drugs drugs;
     private BufferedImage currentBoard;
     private BufferedImage mainBoardImage;
-    private City higlightCity;
+    private Object selected;
 
     public Board(Logic logic) throws IOException {
         this.logic = logic;
@@ -55,13 +56,16 @@ public class Board extends Observable {
         currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
         cities.drawStations(currentBoard.createGraphics());
         logic.getRoles().drawPlayers(currentBoard.createGraphics());
-        if (higlightCity != null) {
-            higlightCity.draw(currentBoard.createGraphics());
+        if (selected instanceof City) {
+            ((City) selected).draw(currentBoard.createGraphics());
         }
         outbreaks.draw(currentBoard.createGraphics());
         infectionRate.draw(currentBoard.createGraphics());
         deck.draw(currentBoard.createGraphics());
         infDeck.draw(currentBoard.createGraphics());
+        if (selected instanceof Card) {
+            ((Card) selected).drawPlaced(currentBoard.createGraphics());
+        }
         notifyObservers();
     }
 
@@ -96,14 +100,29 @@ public class Board extends Observable {
     }
 
     public void higlight(int x, int y) {
-        City found = cities.getCityByCoord(new Point(x, y));
-        if (found != null) {
-            System.out.println(found.getName());
-            higlightCity = found;
+        Card c = infDeck.clicked(x, y);
+        if (c != null) {
+            selected = c;
+            System.out.println(selected);
             drawBoard();
             return;
         }
-        higlightCity = null;
+        c = deck.clicked(x, y);
+        if (c != null) {
+            selected = c;
+            System.out.println(selected);
+            drawBoard();
+            return;
+        }
+        City found = cities.getCityByCoord(new Point(x, y));
+        if (found != null) {
+            System.out.println(found.getName());
+            selected = found;
+            drawBoard();
+            return;
+        }
+        selected = null;
+        System.out.println("Unselected");
         drawBoard();
 
     }

@@ -69,11 +69,24 @@ public class Deck {
     public void draw(Graphics2D g) {
         for (int i = 0; i < usedCards.size(); i++) {
             Card c = usedCards.get(i);
-            g.drawImage(c.getForeground(), getDiscarCorner().x + i, getDiscarCorner().y + i, null);
+            g.drawImage(c.getForeground(), getDiscarCorner().x + i / 2, getDiscarCorner().y + i / 2, null);
         }
         for (int i = 0; i < cards.size(); i++) {
             Card c = cards.get(i);
-            g.drawImage(c.getBackground(), getCorner().x + i, getCorner().y + i, null);
+            g.drawImage(c.getBackground(), getCorner().x + i / 2, getCorner().y + i / 2, null);
         }
+    }
+
+    public Card clicked(int x, int y) {
+        if (x > getCorner().x
+                && x < getCorner().getX() + backgroud.getWidth()
+                && y > getCorner().y
+                && y < getCorner().getY() + backgroud.getHeight()
+                && cards.size() > 0) {
+            Card c = cards.remove(cards.size() - 1);
+            c.setCoords(x, y);
+            return c;
+        }
+        return null;
     }
 }

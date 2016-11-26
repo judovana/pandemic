@@ -27,6 +27,11 @@ public class Card {
 
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " for " + city.getName();
+    }
+
     protected final City city;
     private final BufferedImage bg;
     private Point freeCoords = new Point(0, 0);
@@ -49,13 +54,21 @@ public class Card {
         g2d.fillRect(b.getWidth() * 2 / 3 - column / 2, 0, column, b.getHeight());
 
         /*+"  " YAH! box is newer wide enough!*/
-        int w = g2d.getFontMetrics().stringWidth(city.getName()+"  ");
+        int w = g2d.getFontMetrics().stringWidth(city.getName() + "  ");
 
         g2d.setColor(Color.WHITE);
-        g2d.fillRect((b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2 - g2d.getFontMetrics().getHeight(), w, (int)(g2d.getFontMetrics().getHeight()*1.5));
+        g2d.fillRect((b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2 - g2d.getFontMetrics().getHeight(), w, (int) (g2d.getFontMetrics().getHeight() * 1.5));
         g2d.setColor(Color.BLACK);
         g2d.setFont(g2d.getFont().deriveFont(Font.BOLD));
         g2d.drawString(city.getName(), (b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2);
         return b;
+    }
+
+    public void drawPlaced(Graphics2D g) {
+        g.drawImage(getForeground(), freeCoords.x, freeCoords.y, null);
+    }
+
+    public void setCoords(int x, int y) {
+        this.freeCoords = new Point(x, y);
     }
 }
