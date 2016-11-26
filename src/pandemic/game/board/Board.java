@@ -41,8 +41,8 @@ public class Board extends Observable {
         this.logic = logic;
         cities = new Cities();
         outbreaks = new Outbreaks();
-        deck = new Deck();
-        infDeck = new InfectionDeck();
+        deck = new Deck(cities);
+        infDeck = new InfectionDeck(cities);
         infectionRate = new InfecetionRate();
         logic.getRoles().initPlayers(cities);
         loadResources();

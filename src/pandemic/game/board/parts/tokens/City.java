@@ -130,4 +130,10 @@ public class City {
         return new Point(x, y);
     }
 
+    public Color getColor() {
+        return color;
+    }
+    
+    
+
 }

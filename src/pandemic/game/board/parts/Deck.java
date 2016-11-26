@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.imageio.ImageIO;
+import pandemic.game.board.parts.tokens.Cities;
+import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 import pandemic.game.cards.PlayerCard;
 
@@ -22,19 +24,24 @@ import pandemic.game.cards.PlayerCard;
  */
 public class Deck {
 
-    protected List<Card> cards = new ArrayList<>(40);
-    protected List<Card> usedCards = new ArrayList<>(40);
+    //TODO
+    //not only regular card city/color are implemented.
+    //missing are events and infections from plyers' deck (this Deck)
+    protected List<Card> cards = new ArrayList<>(48);
+    protected List<Card> usedCards = new ArrayList<>(48);
     protected final BufferedImage backgroud;
+    protected final Cities cities;
 
-    public Deck() {
-        this("/pandemic/data/images/backgrounds/playerCard.jpg");
-        for (int i = 0; i < 40; i++) {
-            Card c = new PlayerCard(backgroud, null);
-            cards.add(c);
+    public Deck(Cities c) {
+        this("/pandemic/data/images/backgrounds/playerCard.jpg", c);
+        for (City city : cities.getCities()) {
+            Card card = new PlayerCard(backgroud, city);
+            cards.add(card);
         }
     }
 
-    Deck(String bg) {
+    Deck(String bg, Cities c) {
+        this.cities = c;
         try {
             backgroud = ImageIO.read(this.getClass().getResourceAsStream(bg));
         } catch (IOException ex) {

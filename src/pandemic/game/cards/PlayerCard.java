@@ -6,6 +6,7 @@
 package pandemic.game.cards;
 
 import java.awt.image.BufferedImage;
+import pandemic.game.board.parts.tokens.City;
 
 /**
  *
@@ -13,20 +14,20 @@ import java.awt.image.BufferedImage;
  */
 public class PlayerCard extends Card {
 
-    public PlayerCard(BufferedImage bg, BufferedImage fg) {
+    public PlayerCard(BufferedImage bg, City fg) {
         super(bg, fg);
     }
-    
+
     public static class EventCard extends PlayerCard {
 
-        public EventCard(BufferedImage bg, BufferedImage fg) {
+        public EventCard(BufferedImage bg, City fg) {
             super(bg, fg);
         }
     }
 
     public static class Epidemy extends PlayerCard {
 
-        public Epidemy(BufferedImage bg, BufferedImage fg) {
+        public Epidemy(BufferedImage bg, City fg) {
             super(bg, fg);
         }
     }

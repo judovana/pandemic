@@ -6,6 +6,8 @@
 package pandemic.game.board.parts;
 
 import java.awt.Point;
+import pandemic.game.board.parts.tokens.Cities;
+import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 
 /**
@@ -14,11 +16,11 @@ import pandemic.game.cards.Card;
  */
 public class InfectionDeck extends Deck {
 
-    public InfectionDeck() {
-        super("/pandemic/data/images/backgrounds/infectionCard.jpg");
-        for (int i = 0; i < 40; i++) {
-            Card c = new Card.InfectionCard(backgroud, null);
-            cards.add(c);
+    public InfectionDeck(Cities c) {
+        super("/pandemic/data/images/backgrounds/infectionCard.jpg", c);
+        for (City city : cities.getCities()) {
+            Card card = new Card.InfectionCard(backgroud, city);
+            cards.add(card);
         }
     }
 

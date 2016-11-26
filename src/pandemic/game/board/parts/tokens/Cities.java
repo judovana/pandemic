@@ -14,6 +14,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  *
@@ -50,6 +51,12 @@ public class Cities {
         }
         return null;
     }
+
+    public Collection<City> getCities() {
+        return Collections.unmodifiableCollection(cities);
+    }
+    
+    
 
     public static class CityNotFoundException extends RuntimeException {
 
