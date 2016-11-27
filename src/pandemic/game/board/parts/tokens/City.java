@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import pandemic.game.board.parts.Outbreaks;
 
 /**
  *
@@ -63,7 +64,7 @@ public class City {
         if (new Random().nextBoolean()) {
             int count = r.nextInt(3) + 1;
             for (int i = 0; i < count; i++) {
-                cubes.add(new Cubes(randomize(r, center), color));
+                cubes.add(new Cubes(randomize(i, center), color));
             }
         }
         // end of testing impl of  diseases
@@ -110,16 +111,16 @@ public class City {
 
     void drawStation(Graphics2D g2d) {
         if (station != null) {
-          station.draw(g2d);
+            station.draw(g2d);
         }
         for (Cubes cube : cubes) {
             cube.draw(g2d);
         }
     }
 
-    private Point randomize(Random r, Point center) {
-        int x = center.x + radius + r.nextInt(10);
-        int y = center.y + radius + r.nextInt(10);
+    private Point randomize(int i, Point center) {
+        int x = center.x + (radius * i) / 2;
+        int y = center.y + (radius * i) / 2;
         return new Point(x, y);
     }
 
@@ -141,6 +142,31 @@ public class City {
 
     public List<Cubes> getCubes() {
         return cubes;
+    }
+
+    public boolean infect(Color c, List<City> processed) {
+        int sameColors = 0;
+        for (Cubes cube : cubes) {
+            if (cube.getColor().equals(c)) {
+                sameColors++;
+            }
+        }
+        if (sameColors < 3) {
+            cubes.add(new Cubes(randomize(cubes.size(), center), c));
+            return false;
+        }
+        //this is hart of algotihm
+        //disease canspread to cities where alredy was spread
+        //but it can not spread back to cities,where already was panedmy
+        //this algorithm is hyper fun when yo see it on real board!
+        processed.add(this);
+        Outbreaks.self.addOutbreak();
+        for (City n : neighbors) {
+            if (!processed.contains(n)) {
+                n.infect(c, processed);
+            }
+        }
+        return true;
     }
 
 }

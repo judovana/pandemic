@@ -26,11 +26,15 @@ public class Outbreaks {
     private int count = 0;
     private final List<Point> centers = new ArrayList<>(8);
     private static final int radius = 20;
-    
+
     //FIXME fasle singleton to finish cheat game quickly
     public static Outbreaks self;
 
     public void addOutbreak() {
+        if (count >= 8) {
+            //lost
+            return;
+        }
         count++;
     }
 
@@ -41,7 +45,7 @@ public class Outbreaks {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        self=this;
+        self = this;
     }
 
     private void load(URL u) throws IOException {
@@ -60,11 +64,6 @@ public class Outbreaks {
 
             }
         }
-    }
-
-    ///fixme method for fake gameplay only
-    public void chaos() {
-        count = new Random().nextInt(centers.size() - 1);
     }
 
     public void draw(Graphics2D g) {

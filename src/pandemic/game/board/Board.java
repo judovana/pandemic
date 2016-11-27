@@ -8,6 +8,7 @@ package pandemic.game.board;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import javax.imageio.ImageIO;
 import pandemic.game.OtherActions;
@@ -188,6 +189,7 @@ public class Board extends Observable {
         }
         if (selected instanceof Card.InfectionCard) {
             infDeck.used((Card.InfectionCard) selected);
+            ((Card.InfectionCard) selected).getCity().infect(((Card.InfectionCard) selected).getCity().getColor(), new ArrayList<>());
             selected = null;
             drawBoard();
         }
