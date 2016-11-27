@@ -15,6 +15,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -25,6 +26,9 @@ public class InfecetionRate {
     private int count;
     private final List<Value> values = new ArrayList<>(7);
     private final int radius = 20;
+    
+    //FIXME fasle singleton to make cheat game possible
+    public static InfecetionRate self;
 
     private class Value {
 
@@ -45,6 +49,7 @@ public class InfecetionRate {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        self=this;
     }
 
     private void load(URL u) throws IOException {
@@ -71,12 +76,17 @@ public class InfecetionRate {
         count++;
     }
 
+    ///fixme method for fake gameplay only
+    public void chaos() {
+        count = new Random().nextInt(values.size() - 1);
+    }
+
     public int getInfectionRate() {
         return values.get(count).value;
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(new Color(120+(count * 15), 125, 125, 125));
+        g.setColor(new Color(120 + (count * 15), 125, 125, 125));
         g.fillOval(values.get(count).center.x - radius, values.get(count).center.y - radius, radius * 2, radius * 2);
     }
 

@@ -19,6 +19,8 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
+import pandemic.game.board.parts.InfecetionRate;
+import pandemic.game.board.parts.Outbreaks;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 import pandemic.game.roles.Role;
@@ -117,6 +119,9 @@ public class OtherActions extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 OtherActions.this.setVisible(false);
                 roles.setNextPlayer();
+                //TODO remove tose two chaos methods once proper gamepaly is in place
+                InfecetionRate.self.chaos();
+                Outbreaks.self.chaos();
                 OtherActions.this.dispose();
 
             }
