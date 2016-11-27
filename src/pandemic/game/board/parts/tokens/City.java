@@ -57,11 +57,6 @@ public class City {
         this.center = center;
         this.name = name;
         this.color = color;
-        //FIXME remove!
-        if (new Random().nextBoolean()) {
-            this.station = new Station();
-        }
-        // end of testing impl of  stations
 
         //FIXME remove!
         Random r = new Random();
@@ -140,6 +135,10 @@ public class City {
 
     public boolean haveStation() {
         return station != null;
+    }
+
+    public void setStation() {
+        station = new Station();
     }
 
 }
