@@ -153,7 +153,7 @@ public class OtherActions extends JDialog {
                 } else {
                     drop.setEnabled(false);
                 }
-                if (mainList.getSelectedIndices().length == CARDS_TO_CURE) {
+                if (mainList.getSelectedIndices().length == CARDS_TO_CURE && roles.getCurrentPlayer().getCity().haveStation()) {
                     List<Card> l = mainList.getSelectedValuesList();
                     Color c = l.get(0).getCity().getColor();
                     for (Card l1 : l) {
@@ -245,6 +245,9 @@ public class OtherActions extends JDialog {
                     @Override
                     public void actionPerformed(ActionEvent e
                     ) {
+                        if (!roles.getCurrentPlayer().getCity().haveStation()) {
+                            return;
+                        }
                         List<Card> l = mainList.getSelectedValuesList();
                         Color c = l.get(0).getCity().getColor();
                         for (Card l1 : l) {
