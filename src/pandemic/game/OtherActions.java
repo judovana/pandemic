@@ -26,7 +26,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import pandemic.game.board.parts.Deck;
@@ -47,6 +46,7 @@ public class OtherActions extends JDialog {
     public static final int CARDS_TO_CURE = 5;
     private final String CD = "Cure disease";
     private final List<OtherPlayerGuiWrapper> others = new ArrayList<>();
+    private final Deck deck;
 
     private static class CardsList extends JList<Card> {
 
@@ -106,13 +106,14 @@ public class OtherActions extends JDialog {
 
     public OtherActions(final Roles roles, final Deck playerCards) {
         super((Dialog) null, true);
+        this.deck = playerCards;
         List<Role> allInCity = roles.getPlayersInCity(roles.getCurrentPlayer().getCity());
         this.setLayout(new GridLayout(0, 6));
 
         this.add(new JLabel(roles.getCurrentPlayer().getName()));
 
         mainList = new CardsList(new CardsModel(roles.getCurrentPlayer()));
-        final JButton drop = new JButton("drop card");
+        final JButton drop = new JButton("drop card(s)");
         final JButton station = new JButton("Build station");
         final JButton cure = new JButton("invent cure");
         final JButton cureDisease = new JButton(CD);
@@ -326,10 +327,8 @@ public class OtherActions extends JDialog {
         private final JButton takeFrom;
         private final CardsList cardList;
         private final JButton dropCard;
-        private final Role role;
 
-        public OtherPlayerGuiWrapper(Role role, Role main) {
-            this.role = role;
+        public OtherPlayerGuiWrapper(final Role role, final Role main) {
             giveTo = new JButton("give to " + main.getName());
             takeFrom = new JButton("take from " + main.getName());
             takeFrom.addActionListener(new ActionListener() {
@@ -344,11 +343,63 @@ public class OtherActions extends JDialog {
                     role.getCardsInHand().add((PlayerCard) c);
                     ((CardsModel) mainList.getModel()).update();
                     ((CardsModel) cardList.getModel()).update();
-                    takeFrom.setEnabled(false);
+                    cardList.setSelectedIndices(new int[0]);
+                    mainList.setSelectedIndices(new int[0]);
+                    for (OtherPlayerGuiWrapper other : others) {
+                        other.takeFrom.setEnabled(false);
+                        other.dropCard.setEnabled(false);
+                    }
                 }
             });
             cardList = new CardsList(new CardsModel(role));
-            dropCard = new JButton("drop card");
+            dropCard = new JButton("drop card(s)");
+            dropCard.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    List<Card> l = cardList.getSelectedValuesList();
+                    for (Card c : l) {
+                        role.discardCard(c);
+                        deck.returnCard(c);
+                        dropCard.setEnabled(false);
+                        OtherActions.this.repaint();
+                    }
+                    mainList.setSelectedIndices(new int[0]);
+                }
+            });
+            giveTo.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Card c = cardList.getSelectedValue();
+                    role.getCardsInHand().remove((PlayerCard) c);
+                    main.getCardsInHand().add((PlayerCard) c);
+                    ((CardsModel) mainList.getModel()).update();
+                    ((CardsModel) cardList.getModel()).update();
+                    cardList.setSelectedIndices(new int[0]);
+                    mainList.setSelectedIndices(new int[0]);
+                    for (OtherPlayerGuiWrapper other : others) {
+                        other.giveTo.setEnabled(false);
+                        other.dropCard.setEnabled(false);
+                    }
+                }
+            });
+            cardList.addListSelectionListener(new ListSelectionListener() {
+
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    giveTo.setEnabled(false);
+                    dropCard.setEnabled(false);
+                    if (cardList.getSelectedIndices().length == 1) {
+                        if (cardList.getSelectedValue().getCity().equals(main.getCity())) {
+                            giveTo.setEnabled(true);
+                        }
+                    }
+                    if (cardList.getSelectedIndices().length > 0) {
+                        dropCard.setEnabled(true);
+                    }
+                }
+            });
             giveTo.setEnabled(false);
             takeFrom.setEnabled(false);
             dropCard.setEnabled(false);
