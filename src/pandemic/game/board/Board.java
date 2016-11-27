@@ -74,7 +74,7 @@ public class Board extends Observable {
         if (selected instanceof Card) {
             ((Card) selected).drawPlaced(currentBoard.createGraphics());
         }
-        currentBoard.createGraphics().drawString(roles.getCurrentPlayer().getName(), getOrigWidth()/2-10, 20);
+        currentBoard.createGraphics().drawString(roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")", getOrigWidth() / 2 - 40, 20);
         notifyObservers();
     }
 
