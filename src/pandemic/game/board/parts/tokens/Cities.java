@@ -27,6 +27,8 @@ public class Cities {
 
     private final Collection<City> cities = new ArrayList<>(100);
     public static final Set<Color> colors = new HashSet<>(4);
+    //parody to singleton
+    public static Cities self;
 
     public Cities() {
         URL cfgFile = this.getClass().getResource("/pandemic/data/board/cities");
@@ -39,6 +41,7 @@ public class Cities {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        this.self = this;
     }
 
     public City getCityByName(String name) {
@@ -132,5 +135,13 @@ public class Cities {
         for (City city : cities) {
             city.drawStation(g2d);
         }
+    }
+
+    public int countColor(Color c) {
+        int i = 0;
+        for (City city : cities) {
+            i += city.getCubesCount(c);
+        }
+        return i;
     }
 }

@@ -183,14 +183,17 @@ public class OtherActions extends JDialog {
                             colors.add(cube.getColor());
                         }
                         if (colors.size() == 1) {
-                            if (Drugs.self.isCured(cubes.get(0).getColor())) {
+                            Color cc = cubes.get(0).getColor();
+                            if (Drugs.self.isCured(cc)) {
                                 int inLength = cubes.size();
                                 for (int i = 0; i < inLength; i++) {
                                     cubes.remove(0);
                                 }
+                                Drugs.self.checkFixed(cc);
                                 tuneCureButton(roles, cureDisease);
                             } else {
                                 cubes.remove(0);
+                                Drugs.self.checkFixed(cc);
                                 tuneCureButton(roles, cureDisease);
                             }
                         } else {
@@ -223,6 +226,7 @@ public class OtherActions extends JDialog {
                                                 }
                                             }
                                         }
+                                        Drugs.self.checkFixed(targetColor);
                                         tuneCureButton(roles, cureDisease);
                                     }
                                 });

@@ -17,8 +17,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
-import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.board.parts.tokens.DrugTokens;
 
 /**
@@ -52,8 +52,7 @@ public class Drugs {
                                 int x = Integer.valueOf(coords[0]);
                                 int y = Integer.valueOf(coords[1]);
                                 Color c = City.stringToColor(parts[0]);
-                                //todo replace random boolean by  false, and add proper handling for fixing diseases
-                                centers.put(c, new DrugTokens(new Point(x, y), c, new Random().nextBoolean()));
+                                centers.put(c, new DrugTokens(new Point(x, y), c, false));
                             }
                         }
                         this.self = this;
@@ -61,6 +60,13 @@ public class Drugs {
 
     public void cure(Color c) {
         cured.add(centers.get(c));
+        checkFixed(c);
+    }
+
+    public void checkFixed(Color c) {
+        if (Cities.self.countColor(c) == 0) {
+            centers.get(c).setFixed(true);
+        }
     }
 
     public void draw(Graphics2D g) {

@@ -44,7 +44,7 @@ public class City {
                 throw new IllegalArgumentException("Invalid type of color: " + color1);
         }
     }
-    
+
     private Station station;
     private final List<Cubes> cubes = new ArrayList<>(3);
 
@@ -167,6 +167,16 @@ public class City {
             }
         }
         return true;
+    }
+
+    public int getCubesCount(Color c) {
+        int i = 0;
+        for (Cubes cube : cubes) {
+            if (cube.color.equals(c)) {
+                i++;
+            }
+        }
+        return i;
     }
 
 }
