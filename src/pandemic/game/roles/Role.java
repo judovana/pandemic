@@ -81,6 +81,9 @@ public abstract class Role {
     }
 
     public City getCity() {
+        if (city == null) {
+            throw new RuntimeException("Null city!");
+        }
         return city;
     }
 
