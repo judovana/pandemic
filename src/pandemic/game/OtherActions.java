@@ -11,9 +11,11 @@ import java.awt.Dialog;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.AbstractListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -32,6 +34,7 @@ import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.Card;
+import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
 
@@ -43,6 +46,7 @@ public class OtherActions extends JDialog {
 
     public static final int CARDS_TO_CURE = 5;
     private final String CD = "Cure disease";
+    private final List<OtherPlayerGuiWrapper> others = new ArrayList<>();
 
     private static class CardsList extends JList<Card> {
 
@@ -74,7 +78,7 @@ public class OtherActions extends JDialog {
 
     }
 
-    private static class CardsModel implements ListModel<Card> {
+    private static class CardsModel extends AbstractListModel<Card> {
 
         private final Role owner;
 
@@ -92,17 +96,13 @@ public class OtherActions extends JDialog {
             return owner.getCardsInHand().get(index);
         }
 
-        @Override
-        public void addListDataListener(ListDataListener l) {
-
-        }
-
-        @Override
-        public void removeListDataListener(ListDataListener l) {
-
+        public void update() {
+            fireContentsChanged(this, 0, getSize());
         }
 
     }
+
+    final CardsList mainList;
 
     public OtherActions(final Roles roles, final Deck playerCards) {
         super((Dialog) null, true);
@@ -111,7 +111,7 @@ public class OtherActions extends JDialog {
 
         this.add(new JLabel(roles.getCurrentPlayer().getName()));
 
-        final CardsList mainList = new CardsList(new CardsModel(roles.getCurrentPlayer()));
+        mainList = new CardsList(new CardsModel(roles.getCurrentPlayer()));
         final JButton drop = new JButton("drop card");
         final JButton station = new JButton("Build station");
         final JButton cure = new JButton("invent cure");
@@ -148,6 +148,9 @@ public class OtherActions extends JDialog {
         mainList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+                for (OtherPlayerGuiWrapper other : others) {
+                    other.cantTake();
+                }
                 if (mainList.getSelectedIndices().length > 0) {
                     drop.setEnabled(true);
                 } else {
@@ -165,6 +168,13 @@ public class OtherActions extends JDialog {
                     cure.setEnabled(true);
                 } else {
                     cure.setEnabled(false);
+                }
+                if (mainList.getSelectedIndices().length == 1) {
+                    if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())) {
+                        for (OtherPlayerGuiWrapper other : others) {
+                            other.canTake();
+                        }
+                    }
                 }
             }
         }
@@ -240,8 +250,7 @@ public class OtherActions extends JDialog {
                 }
         );
 
-        cure.setEnabled(
-                false);
+        cure.setEnabled(false);
 
         cure.addActionListener(
                 new ActionListener() {
@@ -271,24 +280,21 @@ public class OtherActions extends JDialog {
         );
 
         this.add(station);
-
         this.add(cureDisease);
-
         this.add(cure);
-
-        this.add(
-                new JScrollPane(mainList));
-
+        this.add(new JScrollPane(mainList));
         this.add(drop);
 
         for (Role role : allInCity) {
             if (role != roles.getCurrentPlayer()) {
                 this.add(new JLabel());
                 this.add(new JLabel(role.getName()));
-                this.add(new JButton("give to " + roles.getCurrentPlayer().getName()));
-                this.add(new JButton("take from " + roles.getCurrentPlayer().getName()));
-                this.add(new CardsList(new CardsModel(role)));
-                this.add(new JButton("drop card"));
+                OtherPlayerGuiWrapper other = new OtherPlayerGuiWrapper(role, roles.getCurrentPlayer());
+                others.add(other);
+                this.add(other.giveTo);
+                this.add(other.takeFrom);
+                this.add(new JScrollPane(other.cardList));
+                this.add(other.dropCard);
             }
         }
         JButton finish = new JButton("finish turn");
@@ -310,11 +316,52 @@ public class OtherActions extends JDialog {
         );
 
         this.add(finish);
-
         this.pack();
+        this.setVisible(true);
+    }
 
-        this.setVisible(
-                true);
+    private class OtherPlayerGuiWrapper {
+
+        private final JButton giveTo;
+        private final JButton takeFrom;
+        private final CardsList cardList;
+        private final JButton dropCard;
+        private final Role role;
+
+        public OtherPlayerGuiWrapper(Role role, Role main) {
+            this.role = role;
+            giveTo = new JButton("give to " + main.getName());
+            takeFrom = new JButton("take from " + main.getName());
+            takeFrom.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (mainList.getSelectedValuesList().size() != 1) {
+                        throw new RuntimeException("only one can be selected");
+                    }
+                    Card c = mainList.getSelectedValue();
+                    main.getCardsInHand().remove((PlayerCard) c);
+                    role.getCardsInHand().add((PlayerCard) c);
+                    ((CardsModel) mainList.getModel()).update();
+                    ((CardsModel) cardList.getModel()).update();
+                    takeFrom.setEnabled(false);
+                }
+            });
+            cardList = new CardsList(new CardsModel(role));
+            dropCard = new JButton("drop card");
+            giveTo.setEnabled(false);
+            takeFrom.setEnabled(false);
+            dropCard.setEnabled(false);
+        }
+
+        private void cantTake() {
+            takeFrom.setEnabled(false);
+        }
+
+        private void canTake() {
+            takeFrom.setEnabled(true);
+        }
+
     }
 
     public final void tuneCureButton(final Roles roles, final JButton cureDisease) {
