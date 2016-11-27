@@ -12,6 +12,7 @@ import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 import pandemic.game.roles.implementations.Medic;
+import pandemic.game.roles.implementations.Researcher;
 import pandemic.game.roles.implementations.Scientist;
 
 /**
@@ -31,6 +32,9 @@ public class Roles {
                     break;
                 case "scientist":
                     roles.add(new Scientist());
+                    break;
+                case "researcher":
+                    roles.add(new Researcher());
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid type of player: " + arg);
