@@ -26,7 +26,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
-import pandemic.game.board.parts.Outbreaks;
 import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.Card;
 import pandemic.game.roles.Role;
@@ -44,7 +43,7 @@ public class OtherActions extends JDialog {
 
         public CardsList(ListModel<Card> dataModel) {
             super(dataModel);
-            this.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+            this.setSelectionMode(DefaultListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         }
 
         @Override
@@ -110,6 +109,7 @@ public class OtherActions extends JDialog {
         final CardsList mainList = new CardsList(new CardsModel(roles.getCurrentPlayer()));
         final JButton drop = new JButton("drop card");
         final JButton station = new JButton("Build station");
+        final JButton cure = new JButton("invent cure");
         final JButton cureDisease = new JButton(CD);
 
         drop.setEnabled(false);
@@ -148,6 +148,19 @@ public class OtherActions extends JDialog {
                 } else {
                     drop.setEnabled(false);
                 }
+                if (mainList.getSelectedIndices().length == 5) {
+                    List<Card> l = mainList.getSelectedValuesList();
+                    Color c = l.get(0).getCity().getColor();
+                    for (Card l1 : l) {
+                        if (!l1.getCity().getColor().equals(c)) {
+                            cure.setEnabled(false);
+                            return;
+                        }
+                        cure.setEnabled(true);
+                    }
+                } else {
+                    cure.setEnabled(false);
+                }
             }
         }
         );
@@ -174,12 +187,12 @@ public class OtherActions extends JDialog {
                 }
         );
 
+        cure.setEnabled(false);
         this.add(station);
 
         this.add(cureDisease);
 
-        this.add(
-                new JButton("invent cure"));
+        this.add(cure);
 
         this.add(mainList);
 
