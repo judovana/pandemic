@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
-import java.util.Set;
 
 /**
  *
@@ -110,9 +109,7 @@ public class City {
 
     void drawStation(Graphics2D g2d) {
         if (station != null) {
-            g2d.setColor(Color.CYAN);
-            g2d.fillRect(center.x - 2 * radius + 3, center.y - 2 * radius, radius - 6, radius);
-            g2d.fillRect(center.x - 2 * radius, center.y - 2 * radius + 3, radius, radius - 6);
+          station.draw(g2d);
         }
         for (Cubes cube : cubes) {
             cube.draw(g2d);
@@ -138,7 +135,7 @@ public class City {
     }
 
     public void setStation() {
-        station = new Station();
+        station = new Station(center);
     }
 
 }

@@ -15,8 +15,8 @@ import java.awt.Point;
  */
 public class Token {
 
-    private final Point point;
-    private final Color color;
+    protected final Point point;
+    protected final Color color;
 
     public Token(Point point, Color c) {
         this.point = point;
