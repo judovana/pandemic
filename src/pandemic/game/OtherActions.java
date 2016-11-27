@@ -19,12 +19,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import pandemic.game.board.parts.Deck;
+import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.Card;
@@ -37,6 +39,7 @@ import pandemic.game.roles.Roles;
  */
 public class OtherActions extends JDialog {
 
+    public static final int CARDS_TO_CURE = 5;
     private final String CD = "Cure disease";
 
     private static class CardsList extends JList<Card> {
@@ -136,11 +139,11 @@ public class OtherActions extends JDialog {
                     drop.setEnabled(false);
                     OtherActions.this.repaint();
                 }
+                mainList.setSelectedIndices(new int[0]);
             }
         });
 
         mainList.addListSelectionListener(new ListSelectionListener() {
-
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (mainList.getSelectedIndices().length > 0) {
@@ -148,7 +151,7 @@ public class OtherActions extends JDialog {
                 } else {
                     drop.setEnabled(false);
                 }
-                if (mainList.getSelectedIndices().length == 5) {
+                if (mainList.getSelectedIndices().length == CARDS_TO_CURE) {
                     List<Card> l = mainList.getSelectedValuesList();
                     Color c = l.get(0).getCity().getColor();
                     for (Card l1 : l) {
@@ -156,8 +159,8 @@ public class OtherActions extends JDialog {
                             cure.setEnabled(false);
                             return;
                         }
-                        cure.setEnabled(true);
                     }
+                    cure.setEnabled(true);
                 } else {
                     cure.setEnabled(false);
                 }
@@ -188,14 +191,31 @@ public class OtherActions extends JDialog {
         );
 
         cure.setEnabled(false);
+
+        cure.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Card> l = mainList.getSelectedValuesList();
+                Color c = l.get(0).getCity().getColor();
+                for (Card l1 : l) {
+                    if (!l1.getCity().getColor().equals(c)) {
+                        return;
+                    }
+                }
+                for (Card l1 : l) {
+                    roles.getCurrentPlayer().getCardsInHand().remove(l1);
+                    playerCards.returnCard(l1);
+                }
+                mainList.setSelectedIndices(new int[0]);
+                Drugs.self.cure(c);
+                OtherActions.this.repaint();
+            }
+        });
         this.add(station);
-
         this.add(cureDisease);
-
         this.add(cure);
-
-        this.add(mainList);
-
+        this.add(new JScrollPane(mainList));
         this.add(drop);
 
         for (Role role : allInCity) {

@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.Observable;
 import javax.imageio.ImageIO;
 import pandemic.game.OtherActions;
+import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.InfectionDeck;
 import pandemic.game.board.parts.Outbreaks;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
-import pandemic.game.board.parts.tokens.Drugs;
 import pandemic.game.cards.Card;
 import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Roles;
@@ -35,10 +35,10 @@ public class Board extends Observable {
     private final InfecetionRate infectionRate;
     private final Deck deck;
     private final InfectionDeck infDeck;
-    private Drugs drugs;
     private BufferedImage currentBoard;
     private BufferedImage mainBoardImage;
     private Object selected;
+    private final Drugs cures;
 
     public Board(Roles roles) throws IOException {
         this.roles = roles;
@@ -47,6 +47,7 @@ public class Board extends Observable {
         deck = new Deck(cities);
         infDeck = new InfectionDeck(cities);
         infectionRate = new InfecetionRate();
+        cures=new Drugs();
         roles.initPlayers(cities);
         loadResources();
         drawBoard();
@@ -56,6 +57,7 @@ public class Board extends Observable {
     private void drawBoard() {
         currentBoard = new BufferedImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
+        cures.draw(currentBoard.createGraphics());
         cities.drawStations(currentBoard.createGraphics());
         roles.drawPlayers(currentBoard.createGraphics());
         if (selected instanceof City) {

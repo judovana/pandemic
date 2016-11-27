@@ -6,7 +6,8 @@
 package pandemic.game.board;
 
 /**
- *
+ *This class is unused - it apeared to be more practical to use direct colors on implementation level.
+ * 
  * @author Pípa
  */
 public enum DiseaseType {

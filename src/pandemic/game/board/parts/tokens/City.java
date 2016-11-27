@@ -22,29 +22,29 @@ import pandemic.game.board.parts.Outbreaks;
 public class City {
 
     static City create(String point, String name, String color) {
-        Color c = null;
-        switch (color) {
-            case "yellow":
-                c = Color.YELLOW;
-                break;
-            case "blue":
-                c = Color.BLUE;
-                break;
-            case "red":
-                c = Color.red;
-                break;
-            case "black":
-                c = Color.black;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid type of color: " + color);
-        }
+        Color c = stringToColor(color);
         String[] pointParts = point.split(",");
         Point p = new Point(Integer.valueOf(pointParts[0]), Integer.valueOf(pointParts[1]));
         System.out.println("Creating: " + name + ", " + p.toString() + ", " + c);
         return new City(p, name, c);
 
     }
+
+    public static Color stringToColor(String color1) throws IllegalArgumentException {
+        switch (color1) {
+            case "yellow":
+                return Color.YELLOW;
+            case "blue":
+                return Color.BLUE;
+            case "red":
+                return Color.red;
+            case "black":
+                return Color.black;
+            default:
+                throw new IllegalArgumentException("Invalid type of color: " + color1);
+        }
+    }
+    
     private Station station;
     private final List<Cubes> cubes = new ArrayList<>(3);
 
@@ -59,7 +59,7 @@ public class City {
         this.name = name;
         this.color = color;
 
-        //FIXME remove!
+        //FIXME adapt to real play
         Random r = new Random();
         if (new Random().nextBoolean()) {
             int count = r.nextInt(3) + 1;
