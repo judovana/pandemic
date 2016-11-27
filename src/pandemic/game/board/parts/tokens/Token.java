@@ -16,9 +16,11 @@ import java.awt.Point;
 public class Token {
 
     private final Point point;
+    private final Color color;
 
-    public Token(Point point) {
+    public Token(Point point, Color c) {
         this.point = point;
+        this.color = c;
     }
 
     int getRadius() {
@@ -26,6 +28,7 @@ public class Token {
     }
 
     public void draw(Graphics2D g2d) {
+        g2d.setColor(color);
         g2d.fillRect(point.x, point.y, getRadius(), getRadius());
         g2d.setColor(Color.black);
         g2d.drawRect(point.x, point.y, getRadius(), getRadius());

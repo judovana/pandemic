@@ -5,6 +5,7 @@
  */
 package pandemic.game.board.parts.tokens;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.BufferedReader;
@@ -15,6 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -23,11 +26,15 @@ import java.util.Collections;
 public class Cities {
 
     private final Collection<City> cities = new ArrayList<>(100);
+    public static final Set<Color> colors = new HashSet<>(4);
 
     public Cities() {
         URL cfgFile = this.getClass().getResource("/pandemic/data/board/cities");
         try {
             loadBaseCities(cfgFile);
+            for (City city : cities) {
+                colors.add(city.getColor());
+            }
             setNeighbors(cfgFile);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -55,8 +62,6 @@ public class Cities {
     public Collection<City> getCities() {
         return Collections.unmodifiableCollection(cities);
     }
-    
-    
 
     public static class CityNotFoundException extends RuntimeException {
 
@@ -122,10 +127,10 @@ public class Cities {
 
         public void processLine(String... s);
     }
-    
-     public void drawStations(Graphics2D g2d) {
-         for (City city : cities) {
-             city.drawStation(g2d);
-         }
-     }
+
+    public void drawStations(Graphics2D g2d) {
+        for (City city : cities) {
+            city.drawStation(g2d);
+        }
+    }
 }

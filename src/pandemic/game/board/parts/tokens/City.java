@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Set;
 
 /**
  *
@@ -67,7 +68,7 @@ public class City {
         if (new Random().nextBoolean()) {
             int count = r.nextInt(3) + 1;
             for (int i = 0; i < count; i++) {
-                cubes.add(new Cubes(randomize(r, center)));
+                cubes.add(new Cubes(randomize(r, center), color));
             }
         }
         // end of testing impl of  diseases
@@ -114,12 +115,11 @@ public class City {
 
     void drawStation(Graphics2D g2d) {
         if (station != null) {
-            g2d.setColor(color);
+            g2d.setColor(Color.CYAN);
             g2d.fillRect(center.x - 2 * radius + 3, center.y - 2 * radius, radius - 6, radius);
             g2d.fillRect(center.x - 2 * radius, center.y - 2 * radius + 3, radius, radius - 6);
         }
         for (Cubes cube : cubes) {
-            g2d.setColor(Color.CYAN);
             cube.draw(g2d);
         }
     }
