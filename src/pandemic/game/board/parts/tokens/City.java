@@ -138,4 +138,8 @@ public class City {
         return neighbors.contains(found);
     }
 
+    public boolean haveStation() {
+        return station != null;
+    }
+
 }

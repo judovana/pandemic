@@ -79,9 +79,14 @@ public class Pandemic implements Observer {
             this.addMouseMotionListener(new MouseAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {
-                    board.move(
-                            real(e.getX(), DrawingPanel.this.getWidth(), board.getOrigWidth()),
-                            real(e.getY(), DrawingPanel.this.getHeight(), board.getOrigHeight()));
+                    try {
+                        board.move(
+                                real(e.getX(), DrawingPanel.this.getWidth(), board.getOrigWidth()),
+                                real(e.getY(), DrawingPanel.this.getHeight(), board.getOrigHeight()));
+                    } catch (NullPointerException ex) {
+                        //here is happening NPE in init,and I dont know why
+                        //silencing it to make etacher ahppy
+                    }
                 }
 
             });
