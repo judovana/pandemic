@@ -11,7 +11,10 @@ import java.awt.Dialog;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -24,6 +27,7 @@ import javax.swing.event.ListSelectionListener;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.Outbreaks;
+import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.Card;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
@@ -34,10 +38,13 @@ import pandemic.game.roles.Roles;
  */
 public class OtherActions extends JDialog {
 
+    private final String CD = "Cure disease";
+
     private static class CardsList extends JList<Card> {
 
         public CardsList(ListModel<Card> dataModel) {
             super(dataModel);
+            this.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         }
 
         @Override
@@ -101,8 +108,9 @@ public class OtherActions extends JDialog {
         this.add(new JLabel(roles.getCurrentPlayer().getName()));
 
         final CardsList mainList = new CardsList(new CardsModel(roles.getCurrentPlayer()));
-        final JButton drop = new JButton("drop card(s)");
+        final JButton drop = new JButton("drop card");
         final JButton station = new JButton("Build station");
+        final JButton cureDisease = new JButton(CD);
 
         drop.setEnabled(false);
         if (roles.getCurrentPlayer().getCity().haveStation()) {
@@ -144,10 +152,37 @@ public class OtherActions extends JDialog {
         }
         );
 
+        tuneCureButton(roles, cureDisease);
+
+        cureDisease.addActionListener(
+                new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        List<Cubes> cubes = roles.getCurrentPlayer().getCity().getCubes();
+                        Set<Color> colors = new HashSet<>();
+                        for (Cubes cube : cubes) {
+                            colors.add(cube.getColor());
+                        }
+                        if (colors.size() == 1) {
+                            cubes.remove(0);
+                            tuneCureButton(roles, cureDisease);
+                        }
+                        //fixme 
+                        //if more then one color is there offer popup menu to select exact cube
+                    }
+                }
+        );
+
         this.add(station);
-        this.add(new JButton("Cure disease"));
-        this.add(new JButton("invent cure"));
+
+        this.add(cureDisease);
+
+        this.add(
+                new JButton("invent cure"));
+
         this.add(mainList);
+
         this.add(drop);
 
         for (Role role : allInCity) {
@@ -185,6 +220,16 @@ public class OtherActions extends JDialog {
 
         this.setVisible(
                 true);
+    }
+
+    public final void tuneCureButton(final Roles roles, final JButton cureDisease) {
+        if (roles.getCurrentPlayer().getCity().getCubes().size() <= 0) {
+            cureDisease.setEnabled(false);
+            cureDisease.setText(CD + " (" + roles.getCurrentPlayer().getCity().getCubes().size() + ")");
+        } else {
+            cureDisease.setEnabled(true);
+            cureDisease.setText(CD + " (" + roles.getCurrentPlayer().getCity().getCubes().size() + ")");
+        }
     }
 
 }

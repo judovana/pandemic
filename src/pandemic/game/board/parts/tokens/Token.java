@@ -37,4 +37,8 @@ public class Token {
         g2d.drawRect(point.x, point.y, getRadius(), getRadius());
     }
 
+    public Color getColor() {
+        return color;
+    }
+
 }

@@ -11,6 +11,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -44,7 +45,7 @@ public class City {
 
     }
     private Station station;
-    private Collection<Cubes> cubes = new ArrayList<>(3);
+    private final List<Cubes> cubes = new ArrayList<>(3);
 
     private final Point center;
     private final String name;
@@ -136,6 +137,10 @@ public class City {
 
     public void setStation() {
         station = new Station(center);
+    }
+
+    public List<Cubes> getCubes() {
+        return cubes;
     }
 
 }
