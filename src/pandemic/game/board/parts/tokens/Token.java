@@ -30,7 +30,10 @@ public class Token {
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
         g2d.fillRect(point.x, point.y, getRadius(), getRadius());
-        g2d.setColor(Color.black);
+        Color c2 = new Color(255 - color.getRed(),
+                255 - color.getGreen(),
+                255 - color.getBlue());
+        g2d.setColor(c2);
         g2d.drawRect(point.x, point.y, getRadius(), getRadius());
     }
 
