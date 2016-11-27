@@ -19,6 +19,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
@@ -175,7 +177,7 @@ public class OtherActions extends JDialog {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        List<Cubes> cubes = roles.getCurrentPlayer().getCity().getCubes();
+                        final List<Cubes> cubes = roles.getCurrentPlayer().getCity().getCubes();
                         Set<Color> colors = new HashSet<>();
                         for (Cubes cube : cubes) {
                             colors.add(cube.getColor());
@@ -191,9 +193,45 @@ public class OtherActions extends JDialog {
                                 cubes.remove(0);
                                 tuneCureButton(roles, cureDisease);
                             }
+                        } else {
+                            JPopupMenu jpp = new JPopupMenu();
+                            for (Color color : colors) {
+
+                                int localCount = 0;
+                                for (Cubes cube : cubes) {
+                                    if (cube.getColor().equals(color)) {
+                                        localCount++;
+
+                                    }
+                                }
+
+                                JMenuItem jpps = new JMenuItem("_-_-_-_ ( " + localCount + " ) _-_-_-_");
+                                jpps.addActionListener(new ActionListener() {
+
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        Color targetColor = ((JMenuItem) e.getSource()).getBackground();
+                                        for (int i = 0; i < cubes.size(); i++) {
+                                            Cubes cube = cubes.get(i);
+                                            if (cube.getColor().equals(targetColor)) {
+                                                cubes.remove(i);
+                                                i--;
+                                                if (Drugs.self.isCured(targetColor)) {
+                                                    continue;
+                                                } else {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        tuneCureButton(roles, cureDisease);
+                                    }
+                                });
+                                jpps.setBackground(color);
+                                jpp.add(jpps);
+                            }
+                            JButton jb = (JButton) e.getSource();
+                            jpp.show(jb, 0, 0);
                         }
-                        //fixme 
-                        //if more then one color is there offer popup menu to select exact cube
                     }
                 }
         );
