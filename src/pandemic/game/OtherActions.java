@@ -19,6 +19,9 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.Outbreaks;
 import pandemic.game.cards.Card;
@@ -30,17 +33,17 @@ import pandemic.game.roles.Roles;
  * @author pipa
  */
 public class OtherActions extends JDialog {
-    
+
     private static class CardsList extends JList<Card> {
-        
+
         public CardsList(ListModel<Card> dataModel) {
             super(dataModel);
         }
-        
+
         @Override
         public ListCellRenderer<? super Card> getCellRenderer() {
             return new ListCellRenderer<Card>() {
-                
+
                 @Override
                 public Component getListCellRendererComponent(JList<? extends Card> list, Card value, int index, boolean isSelected, boolean cellHasFocus) {
                     JLabel l = new JLabel(value.getCity().getName());
@@ -57,50 +60,56 @@ public class OtherActions extends JDialog {
                 }
             };
         }
-        
+
     }
-    
+
     private static class CardsModel implements ListModel<Card> {
-        
+
         private final Role owner;
-        
+
         public CardsModel(Role owner) {
             this.owner = owner;
         }
-        
+
         @Override
         public int getSize() {
             return owner.getCardsInHand().size();
         }
-        
+
         @Override
         public Card getElementAt(int index) {
             return owner.getCardsInHand().get(index);
         }
-        
+
         @Override
         public void addListDataListener(ListDataListener l) {
-            
+
         }
-        
+
         @Override
         public void removeListDataListener(ListDataListener l) {
-            
+
         }
-        
+
     }
-    
-    public OtherActions(Roles roles) {
+
+    public OtherActions(final Roles roles, final Deck playerCards) {
         super((Dialog) null, true);
         List<Role> allInCity = roles.getPlayersInCity(roles.getCurrentPlayer().getCity());
         this.setLayout(new GridLayout(0, 6));
+
         this.add(new JLabel(roles.getCurrentPlayer().getName()));
-        JButton station = new JButton("Build station");
+
+        final CardsList mainList = new CardsList(new CardsModel(roles.getCurrentPlayer()));
+        final JButton drop = new JButton("drop card(s)");
+        final JButton station = new JButton("Build station");
+
+        drop.setEnabled(false);
         if (roles.getCurrentPlayer().getCity().haveStation()) {
             station.setEnabled(false);
         } else {
             station.addActionListener(new ActionListener() {
-                
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     roles.getCurrentPlayer().getCity().setStation();
@@ -108,12 +117,39 @@ public class OtherActions extends JDialog {
                 }
             });
         }
+        drop.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Card> l = mainList.getSelectedValuesList();
+                for (Card c : l) {
+                    roles.getCurrentPlayer().discardCard(c);
+                    playerCards.returnCard(c);
+                    drop.setEnabled(false);
+                    OtherActions.this.repaint();
+                }
+            }
+        });
+
+        mainList.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (mainList.getSelectedIndices().length > 0) {
+                    drop.setEnabled(true);
+                } else {
+                    drop.setEnabled(false);
+                }
+            }
+        }
+        );
+
         this.add(station);
         this.add(new JButton("Cure disease"));
         this.add(new JButton("invent cure"));
-        this.add(new CardsList(new CardsModel(roles.getCurrentPlayer())));
-        this.add(new JButton("drop card"));
-        
+        this.add(mainList);
+        this.add(drop);
+
         for (Role role : allInCity) {
             if (role != roles.getCurrentPlayer()) {
                 this.add(new JLabel());
@@ -125,22 +161,30 @@ public class OtherActions extends JDialog {
             }
         }
         JButton finish = new JButton("finish turn");
-        finish.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                OtherActions.this.setVisible(false);
-                roles.setNextPlayer();
-                //TODO remove tose two chaos methods once proper gamepaly is in place
-                InfecetionRate.self.chaos();
-                Outbreaks.self.chaos();
-                OtherActions.this.dispose();
-                
-            }
-        });
+
+        finish.addActionListener(
+                new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        OtherActions.this.setVisible(false);
+                        roles.setNextPlayer();
+                        //TODO remove tose two chaos methods once proper gamepaly is in place
+                        InfecetionRate.self.chaos();
+                        Outbreaks.self.chaos();
+                        OtherActions.this.dispose();
+
+                    }
+                }
+        );
+
         this.add(finish);
+
         this.pack();
-        this.setVisible(true);
+
+        this.setVisible(
+                true);
     }
-    
+
 }

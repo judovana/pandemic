@@ -151,7 +151,7 @@ public class Board extends Observable {
                 return;
             }
             if (selected == found && roles.getCurrentPlayer().getCity().equals(found)) {
-                new OtherActions(roles);
+                new OtherActions(roles, deck);
                 selected = null;
                 drawBoard();
                 return;

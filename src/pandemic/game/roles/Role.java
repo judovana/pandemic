@@ -52,7 +52,8 @@ public abstract class Role {
     public void passTheAction() {
     }
 
-    public void discardCard() {
+    public void discardCard(Card c) {
+        cardsInHand.remove(c);
     }
 
     void paint(Graphics2D g) {
