@@ -181,8 +181,16 @@ public class OtherActions extends JDialog {
                             colors.add(cube.getColor());
                         }
                         if (colors.size() == 1) {
-                            cubes.remove(0);
-                            tuneCureButton(roles, cureDisease);
+                            if (Drugs.self.isCured(cubes.get(0).getColor())) {
+                                int inLength = cubes.size();
+                                for (int i = 0; i < inLength; i++) {
+                                    cubes.remove(0);
+                                }
+                                tuneCureButton(roles, cureDisease);
+                            } else {
+                                cubes.remove(0);
+                                tuneCureButton(roles, cureDisease);
+                            }
                         }
                         //fixme 
                         //if more then one color is there offer popup menu to select exact cube
@@ -190,32 +198,42 @@ public class OtherActions extends JDialog {
                 }
         );
 
-        cure.setEnabled(false);
+        cure.setEnabled(
+                false);
 
-        cure.addActionListener(new ActionListener() {
+        cure.addActionListener(
+                new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Card> l = mainList.getSelectedValuesList();
-                Color c = l.get(0).getCity().getColor();
-                for (Card l1 : l) {
-                    if (!l1.getCity().getColor().equals(c)) {
-                        return;
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        List<Card> l = mainList.getSelectedValuesList();
+                        Color c = l.get(0).getCity().getColor();
+                        for (Card l1 : l) {
+                            if (!l1.getCity().getColor().equals(c)) {
+                                return;
+                            }
+                        }
+                        for (Card l1 : l) {
+                            roles.getCurrentPlayer().getCardsInHand().remove(l1);
+                            playerCards.returnCard(l1);
+                        }
+                        mainList.setSelectedIndices(new int[0]);
+                        Drugs.self.cure(c);
+                        OtherActions.this.repaint();
                     }
                 }
-                for (Card l1 : l) {
-                    roles.getCurrentPlayer().getCardsInHand().remove(l1);
-                    playerCards.returnCard(l1);
-                }
-                mainList.setSelectedIndices(new int[0]);
-                Drugs.self.cure(c);
-                OtherActions.this.repaint();
-            }
-        });
+        );
+
         this.add(station);
+
         this.add(cureDisease);
+
         this.add(cure);
-        this.add(new JScrollPane(mainList));
+
+        this.add(
+                new JScrollPane(mainList));
+
         this.add(drop);
 
         for (Role role : allInCity) {

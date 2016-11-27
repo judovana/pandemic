@@ -18,8 +18,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import pandemic.game.board.parts.tokens.City;
+import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.board.parts.tokens.DrugTokens;
-import pandemic.game.board.parts.tokens.Token;
 
 /**
  *
@@ -27,8 +27,8 @@ import pandemic.game.board.parts.tokens.Token;
  */
 public class Drugs {
 
-    private final Map<Color, Token> centers = new HashMap<>(4);
-    private final Set<Token> cured = new HashSet<>(4);
+    private final Map<Color, DrugTokens> centers = new HashMap<>(4);
+    private final Set<DrugTokens> cured = new HashSet<>(4);
     //very bad parody to singleton
     public static Drugs self;
 
@@ -64,9 +64,27 @@ public class Drugs {
     }
 
     public void draw(Graphics2D g) {
-        for (Token c : cured) {
+        for (DrugTokens c : cured) {
             c.draw(g);;
         }
+    }
+
+    public boolean isCured(Color c) {
+        for (DrugTokens cured1 : cured) {
+            if (cured1.getColor().equals(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isFixed(Color c) {
+        for (DrugTokens cured1 : cured) {
+            if (cured1.getColor().equals(c) && cured1.isFixed()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
