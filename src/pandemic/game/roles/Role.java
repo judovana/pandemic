@@ -57,7 +57,7 @@ public abstract class Role {
     }
 
     void paint(Graphics2D g) {
-        g.drawString(getName(), city.getCenter().x - 20 + placer.nextInt(40), city.getCenter().y - 20 + placer.nextInt(40));
+        g.drawString(getName(), getCity().getCenter().x - 20 + placer.nextInt(40), city.getCenter().y - 20 + placer.nextInt(40));
     }
 
     public void setCardToHand(PlayerCard c) {
