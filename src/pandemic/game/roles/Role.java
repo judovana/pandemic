@@ -37,6 +37,10 @@ public abstract class Role {
     }
 
     public void flyToTheCity(City city) {
+        if (city == null) {
+            throw new RuntimeException("Moving to nullcity!");
+        }
+        System.out.println(this.getName() + " moved to " + city.getName());
         this.city = city;
     }
 
