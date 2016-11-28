@@ -5,7 +5,6 @@
  */
 package pandemic.game.board;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -49,7 +48,7 @@ public class Board extends Observable {
         infDeck = new InfectionDeck(cities);
         infectionRate = new InfecetionRate();
         cures = new Drugs();
-        roles.initPlayers(cities);
+        roles.initPlayers(cities, deck);
         loadResources();
         drawBoard();
         this.notifyObservers();

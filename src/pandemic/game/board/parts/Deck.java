@@ -60,7 +60,8 @@ public class Deck {
     }
 
     public Card getCard() {
-        return null;
+        Card c = cards.remove(cards.size() - 1);
+        return c;
     }
 
     public void shuffle() {
@@ -83,7 +84,7 @@ public class Deck {
                 && y > getCorner().y
                 && y < getCorner().getY() + backgroud.getHeight()
                 && cards.size() > 0) {
-            Card c = cards.remove(cards.size() - 1);
+            Card c = getCard();
             c.setCoords(x, y);
             return c;
         }
