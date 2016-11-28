@@ -27,6 +27,9 @@ public class Roles {
 
     public Roles(String[] args) {
         for (String arg : args) {
+            if (args.length > 4) {
+                throw new IllegalArgumentException("Max number fo players is 4. Forced: " + arg.length());
+            }
             switch (arg) {
                 case "medic":
                     roles.add(new Medic());
