@@ -24,11 +24,11 @@ public class PandemicSwing extends javax.swing.JFrame {
     /**
      * Creates new form PandemicSwing
      */
-    public PandemicSwing() {
-        initComponents();
+    public PandemicSwing(final String[] args) {
+        initComponents(args);
     }
 
-    private void initComponents() {
+    private void initComponents(final String[] mainArgs) {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLayout(new GridLayout(0, 1));
@@ -50,16 +50,29 @@ public class PandemicSwing extends javax.swing.JFrame {
                         l++;
                     }
                 }
-                String[] args = new String[l];
+                String[] lArgs = new String[l];
                 l = 0;
                 for (JCheckBox box : boxes) {
                     if (box.isSelected()) {
-                        args[l] = box.getText();
+                        lArgs[l] = box.getText();
                         l++;
                     }
                 }
                 try {
-                    Pandemic.main(args);
+                    if (mainArgs.length == 0) {
+                        Pandemic.main(lArgs);
+                    } else {
+                        String[] call = new String[]{
+                            "java",
+                            "-cp",
+                            mainArgs[0],
+                            Pandemic.class.getName()
+                        };
+                        String[] c = new String[call.length + lArgs.length];
+                        System.arraycopy(call, 0, c, 0, call.length);
+                        System.arraycopy(lArgs, 0, c, call.length, lArgs.length);
+                        Runtime.getRuntime().exec(c);
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(PandemicSwing.this, ex.getMessage());
@@ -76,12 +89,12 @@ public class PandemicSwing extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(final String args[]) {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PandemicSwing().setVisible(true);
+                new PandemicSwing(args).setVisible(true);
             }
         });
     }
