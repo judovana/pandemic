@@ -30,7 +30,6 @@ import pandemic.game.roles.implementations.Scientist;
 public class Roles {
 
     private List<Role> roles = new ArrayList<>();
-    private List<Point> homes = new ArrayList<>();
     private int currentPlayer;
 
     public Roles(String[] args) {
@@ -64,6 +63,7 @@ public class Roles {
 
     private void initHomes() throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResource("/pandemic/data/board/playerHomes").openStream(), StandardCharsets.UTF_8))) {
+            int home = -1;
             while (true) {
                 String s = br.readLine();
                 if (s == null) {
@@ -76,7 +76,11 @@ public class Roles {
                 String[] parts = s.split(";");
                 int x = Integer.parseInt(parts[0]);
                 int y = Integer.parseInt(parts[1]);
-                homes.add(new Point(x, y));
+                home++;
+                if (home >= roles.size()) {
+                    break;
+                }
+                roles.get(home).setHome(new Point(x, y));
 
             }
         }
@@ -104,13 +108,11 @@ public class Roles {
         if (roles.size() == 3) {
             cards = 3;
         }
-        int x = -1;
         for (Role role : roles) {
-            x++;
             role.flyToTheCity(cities.getCityByName("atlanta"));
             for (int i = 0; i < cards; i++) {
                 Card c = deck.getCard();
-                Point p = homes.get(x);
+                Point p = role.getHome();
                 int xx = p.x + 20 * i;
                 int yy = p.y + 20 * i;
                 c.setCoords(xx, yy);

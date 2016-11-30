@@ -341,6 +341,7 @@ public class OtherActions extends JDialog {
                     Card c = mainList.getSelectedValue();
                     main.getCardsInHand().remove((PlayerCard) c);
                     role.getCardsInHand().add((PlayerCard) c);
+                    c.setCoords(role.getHome());
                     ((CardsModel) mainList.getModel()).update();
                     ((CardsModel) cardList.getModel()).update();
                     cardList.setSelectedIndices(new int[0]);
@@ -374,6 +375,7 @@ public class OtherActions extends JDialog {
                     Card c = cardList.getSelectedValue();
                     role.getCardsInHand().remove((PlayerCard) c);
                     main.getCardsInHand().add((PlayerCard) c);
+                    c.setCoords(main.getHome());
                     ((CardsModel) mainList.getModel()).update();
                     ((CardsModel) cardList.getModel()).update();
                     cardList.setSelectedIndices(new int[0]);
