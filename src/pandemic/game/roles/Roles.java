@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
@@ -32,26 +35,38 @@ public class Roles {
     private List<Role> roles = new ArrayList<>();
     private int currentPlayer;
 
+    public static final String[] knownRoles = new String[]{
+        "medic",
+        "scientist",
+        "researcher",
+        "dispatcher"
+    };
+
+    public static final List<String> knownRolesList = new ArrayList<>(Arrays.asList(Roles.knownRoles));
+
+    public static final Map<String, Role> rolesInstances = new HashMap<>();
+
+    static {
+        rolesInstances.put(knownRoles[0], new Medic());
+        rolesInstances.put(knownRoles[1], new Scientist());
+        rolesInstances.put(knownRoles[2], new Researcher());
+        rolesInstances.put(knownRoles[3], new Dispatcher());
+    }
+
+    ;
+
     public Roles(String[] args) {
+        if (args.length > 4) {
+            throw new IllegalArgumentException("Max number fo players is 4. Forced: " + args.length);
+        }
+        if (args.length <= 0) {
+            throw new IllegalArgumentException("At least one palyer expected. Forced: " + args.length);
+        }
         for (String arg : args) {
-            if (args.length > 4) {
-                throw new IllegalArgumentException("Max number fo players is 4. Forced: " + arg.length());
-            }
-            switch (arg) {
-                case "medic":
-                    roles.add(new Medic());
-                    break;
-                case "scientist":
-                    roles.add(new Scientist());
-                    break;
-                case "researcher":
-                    roles.add(new Researcher());
-                    break;
-                case "dispatcher":
-                    roles.add(new Dispatcher());
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid type of player: " + arg);
+            if (knownRolesList.contains(arg)) {
+                roles.add(rolesInstances.get(arg));
+            } else {
+                throw new IllegalArgumentException("Invalid type of player: " + arg);
             }
         }
         try {
