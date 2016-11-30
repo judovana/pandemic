@@ -6,8 +6,11 @@
 package pandemic.game;
 
 import java.awt.GridLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -29,9 +32,11 @@ public class PandemicSwing extends javax.swing.JFrame {
     }
 
     private void initComponents(final String[] mainArgs) {
-
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(Manual.SHOW_MANUAL);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(0, 1));
+
+        setLayout(
+                new GridLayout(0, 1));
         final List<String> q = Roles.knownRolesList;
         final List<JCheckBox> boxes = new ArrayList<>(q.size());
         for (String q1 : q) {
@@ -40,50 +45,59 @@ public class PandemicSwing extends javax.swing.JFrame {
             this.add(j);
         }
         JButton s = new JButton("Start game");
-        s.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int l = 0;
-                for (JCheckBox box : boxes) {
-                    if (box.isSelected()) {
-                        l++;
+        s.addActionListener(
+                new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        int l = 0;
+                        for (JCheckBox box : boxes) {
+                            if (box.isSelected()) {
+                                l++;
+                            }
+                        }
+                        String[] lArgs = new String[l];
+                        l = 0;
+                        for (JCheckBox box : boxes) {
+                            if (box.isSelected()) {
+                                lArgs[l] = box.getText();
+                                l++;
+                            }
+                        }
+                        try {
+                            if (mainArgs.length == 0) {
+                                Pandemic.main(lArgs);
+                            } else {
+                                String[] call = new String[]{
+                                    "java",
+                                    "-cp",
+                                    mainArgs[0],
+                                    Pandemic.class.getName()
+                                };
+                                String[] c = new String[call.length + lArgs.length];
+                                System.arraycopy(call, 0, c, 0, call.length);
+                                System.arraycopy(lArgs, 0, c, call.length, lArgs.length);
+                                Runtime.getRuntime().exec(c);
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(PandemicSwing.this, ex.getMessage());
+                        } finally {
+                            KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(Manual.SHOW_MANUAL);
+                            PandemicSwing.this.dispose();
+                        }
                     }
                 }
-                String[] lArgs = new String[l];
-                l = 0;
-                for (JCheckBox box : boxes) {
-                    if (box.isSelected()) {
-                        lArgs[l] = box.getText();
-                        l++;
-                    }
-                }
-                try {
-                    if (mainArgs.length == 0) {
-                        Pandemic.main(lArgs);
-                    } else {
-                        String[] call = new String[]{
-                            "java",
-                            "-cp",
-                            mainArgs[0],
-                            Pandemic.class.getName()
-                        };
-                        String[] c = new String[call.length + lArgs.length];
-                        System.arraycopy(call, 0, c, 0, call.length);
-                        System.arraycopy(lArgs, 0, c, call.length, lArgs.length);
-                        Runtime.getRuntime().exec(c);
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(PandemicSwing.this, ex.getMessage());
-                } finally {
-                    PandemicSwing.this.dispose();
-                }
-            }
-        });
+        );
+
         this.add(s);
+
         pack();
-        this.setLocationRelativeTo(null);
+
+        this.setLocationRelativeTo(
+                null);
     }
 
     /**

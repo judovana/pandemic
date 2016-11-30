@@ -7,6 +7,7 @@ package pandemic.game;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -53,7 +54,7 @@ public class Pandemic implements Observer {
     }
 
     private void createAndShowGUI() {
-        //Create and set up the window.
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(Manual.SHOW_MANUAL);
         frame = new JFrame("Pandemic");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
