@@ -62,7 +62,10 @@ public class Drugs {
         cured.add(centers.get(c));
         checkFixed(c);
     }
-
+    /**
+     * checking the disease is cured - checking all cities
+     * @param c the color of the disease in the city
+     */
     public void checkFixed(Color c) {
         if (Cities.self.countColor(c) == 0) {
             centers.get(c).setFixed(true);
@@ -83,7 +86,11 @@ public class Drugs {
         }
         return false;
     }
-
+    /**
+     * checkong if the disease was cured in the past
+     * @param c color of the disease
+     * @return 
+     */
     public boolean isFixed(Color c) {
         for (DrugTokens cured1 : cured) {
             if (cured1.getColor().equals(c) && cured1.isFixed()) {

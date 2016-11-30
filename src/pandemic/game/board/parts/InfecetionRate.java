@@ -29,7 +29,10 @@ public class InfecetionRate {
     
     //FIXME fasle singleton to make cheat game possible
     public static InfecetionRate self;
-
+    
+    /**
+     *values for infection rate 
+     */
     private class Value {
 
         private final Point center;
@@ -41,7 +44,9 @@ public class InfecetionRate {
         }
 
     }
-
+    /**
+     * Loading the the config file for infection rate
+     */
     public InfecetionRate() {
         URL cfgFile = this.getClass().getResource("/pandemic/data/board/infectionRates");
         try {
@@ -51,7 +56,11 @@ public class InfecetionRate {
         }
         self=this;
     }
-
+/**
+ * for loading the coordinates
+ * @param u url of source to load
+ * @throws IOException 
+ */
     private void load(URL u) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream(), StandardCharsets.UTF_8))) {
             while (true) {
@@ -76,7 +85,7 @@ public class InfecetionRate {
         count++;
     }
 
-    ///fixme method for fake gameplay only
+    ///fixme method for fake gameplay only, putting the infection rate to the random value
     public void chaos() {
         count = new Random().nextInt(values.size() - 1);
     }
@@ -84,7 +93,10 @@ public class InfecetionRate {
     public int getInfectionRate() {
         return values.get(count).value;
     }
-
+    /**
+     * drawing the infection rate circle
+     * @param g graphics to draw to
+     */
     public void draw(Graphics2D g) {
         g.setColor(new Color(120 + (count * 15), 125, 125, 125));
         g.fillOval(values.get(count).center.x - radius, values.get(count).center.y - radius, radius * 2, radius * 2);

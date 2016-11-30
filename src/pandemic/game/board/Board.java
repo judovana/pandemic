@@ -62,6 +62,8 @@ public class Board extends Observable {
         roles.drawPlayers(currentBoard.createGraphics());
         if (selected instanceof City) {
             ((City) selected).draw(currentBoard.createGraphics());
+            /* when city is selected the directions are drow
+             */
         }
         outbreaks.draw(currentBoard.createGraphics());
         infectionRate.draw(currentBoard.createGraphics());
@@ -76,11 +78,13 @@ public class Board extends Observable {
         currentBoard.createGraphics().drawString(roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")", getOrigWidth() / 2 - 40, 20);
         notifyObservers();
     }
-
+    //loading the picture from path in the jar
     private void loadResources() throws IOException {
         mainBoardImage = ImageIO.read(this.getClass().getResourceAsStream("/pandemic/data/images/board.jpg"));
     }
-
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void notifyObservers() {
         this.setChanged();
@@ -107,6 +111,14 @@ public class Board extends Observable {
         return mainBoardImage.getHeight();
     }
 
+    /**
+     * On the basis of clicking bz the left button decides what will happen.
+     * e.g. moving to the city, highlighting, taking cards, dropping cards,
+     * currently selected card may affect the game
+     *
+     * @param x coordinate recalculated to the size of an image
+     * @param y coordinate recalculated to the size of an image
+     */
     public void mainClick(int x, int y) {
         System.out.println("left!");
         if (selected instanceof Card) {
@@ -115,6 +127,7 @@ public class Board extends Observable {
             if (card.getCity() == null) {
                 return;
             }
+            //Condition for moving with the city cards
             if (card.getCity().equals(cities.getCityByCoord(new Point(x, y)))
                     || card.getCity().equals(roles.getCurrentPlayer().getCity())) {
                 deck.returnCard(card);
@@ -124,6 +137,7 @@ public class Board extends Observable {
             }
             return;
         }
+        //selecting players card and drawing them on the board
         Card c = roles.selectPlayersHands(x, y);
         if (c != null) {
             selected = c;
@@ -131,6 +145,7 @@ public class Board extends Observable {
             drawBoard();
             return;
         }
+        //card selected from infection cards 
         c = infDeck.clicked(x, y);
         if (c != null) {
             selected = c;
@@ -145,6 +160,7 @@ public class Board extends Observable {
             drawBoard();
             return;
         }
+        //decide what to do when the city is selected
         City found = cities.getCityByCoord(new Point(x, y));
         if (found != null) {
             System.out.println(found.getName());
@@ -176,6 +192,12 @@ public class Board extends Observable {
 
     }
 
+    /**
+     * moving to a city by using a card
+     *
+     * @param x coordinate recalculated to the size of an image
+     * @param y coordinate recalculated to the size of an image
+     */
     public void move(int x, int y) {
         if (selected instanceof Card) {
             ((Card) selected).setCoords(x, y);
@@ -183,6 +205,13 @@ public class Board extends Observable {
         }
     }
 
+    /**
+     * Clicking the right button allows to drop infection cards and do the
+     * infecting or take cards to players hands
+     *
+     * @param real  coordinate recalculated to the size of an image
+     * @param real0 coordinate recalculated to the size of an image
+     */
     public void second(int real, int real0) {
         System.out.println("right!");
         if (selected instanceof PlayerCard) {

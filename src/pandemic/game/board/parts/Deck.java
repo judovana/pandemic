@@ -41,7 +41,11 @@ public class Deck {
         }
         Collections.shuffle(cards);
     }
-
+    /**
+     * Loading the background and remembering the cities
+     * @param bg path to the back ground image
+     * @param c list of all cities that are generated
+     */
     Deck(String bg, Cities c) {
         this.cities = c;
         try {
@@ -58,7 +62,10 @@ public class Deck {
     Point getDiscarCorner() {
         return new Point(874, 615);
     }
-
+    /**
+     * removes cards to discard corner
+     * @return the top card from the deck
+     */
     public Card getCard() {
         Card c = cards.remove(cards.size() - 1);
         return c;
@@ -66,7 +73,10 @@ public class Deck {
 
     public void shuffle() {
     }
-
+    /**
+     * Drawing the used cards and not used cards
+     * @param g graphic to draw to
+     */
     public void draw(Graphics2D g) {
         for (int i = 0; i < usedCards.size(); i++) {
             Card c = usedCards.get(i);
@@ -77,7 +87,12 @@ public class Deck {
             g.drawImage(c.getBackground(), getCorner().x + i / 2, getCorner().y + i / 2, null);
         }
     }
-
+    /**
+     * When clicking to the area of player card, the card on the top is selected
+     * @param x coordinate recalculetade to the size of an image
+     * @param y coordinate recalculetade to the size of an image
+     * @return if the click on the deck it gives a card else it returns null
+     */
     public Card clicked(int x, int y) {
         if (x > getCorner().x
                 && x < getCorner().getX() + backgroud.getWidth()

@@ -37,7 +37,9 @@ public class Outbreaks {
         }
         count++;
     }
-
+    /**
+     * Loading configuration file 
+     */
     public Outbreaks() {
         URL cfgFile = this.getClass().getResource("/pandemic/data/board/outbreaks");
         try {
@@ -47,7 +49,11 @@ public class Outbreaks {
         }
         self = this;
     }
-
+    /**
+     * Loading the coordinates of outbreaks
+     * @param u url of resource to load
+     * @throws IOException 
+     */
     private void load(URL u) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream(), StandardCharsets.UTF_8))) {
             while (true) {
