@@ -41,14 +41,14 @@ public class Pandemic implements Observer {
         if (args.length == 0) {
             throw new RuntimeException("At least one player is expected!");
         }
+        board = new Board(new Roles(args));
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
+                board.addObserver(Pandemic.this);
+                board.notifyObservers();
             }
         });
-        board = new Board(new Roles(args));
-        board.addObserver(this);
-        board.notifyObservers();
 
     }
 
@@ -67,8 +67,10 @@ public class Pandemic implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
-        drawPane.setCurrentImage((BufferedImage) o1);
-        frame.repaint();
+        if (drawPane != null) {
+            drawPane.setCurrentImage((BufferedImage) o1);
+            frame.repaint();
+        }
     }
 
     private class DrawingPanel extends JPanel {
