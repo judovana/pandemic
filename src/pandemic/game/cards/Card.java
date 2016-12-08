@@ -20,7 +20,11 @@ import pandemic.game.board.parts.tokens.City;
 public class Card {
     
     public static class InfectionCard extends Card {
-        
+        /**
+         * creating new card from background image and represented city
+         * @param bg background image
+         * @param fg city affecting the play of this card and affecting the rendering of the foreground.
+         */
         public InfectionCard(BufferedImage bg, City fg) {
             super(bg, fg);
         }
@@ -36,6 +40,11 @@ public class Card {
     private final BufferedImage bg;
     private Point freeCoords = null;
     
+    /**
+     * for all cards exception infection cards
+     * @param bg background image
+     * @param c city
+     */
     public Card(BufferedImage bg, City c) {
         this.bg = bg;
         this.city = c;
@@ -44,7 +53,10 @@ public class Card {
     public Image getBackground() {
         return bg;
     }
-    
+    /**
+     * Drawing foreground of cards
+     * @return rendered background
+     */
     public BufferedImage getForeground() {
         BufferedImage b = new BufferedImage(getBackground().getWidth(null), getBackground().getHeight(null), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = b.createGraphics();
@@ -75,7 +87,12 @@ public class Card {
     public void setCoords(Point p) {
         this.freeCoords = p;
     }
-    
+    /**
+     * if the card isnt in the deck its finding out wthether the card was clicked or not
+     * @param x the coordinate x
+     * @param y the coordinate y
+     * @return 
+     */
     public boolean isFreeClicked(int x, int y) {
         if (freeCoords == null) {
             return false;

@@ -27,7 +27,7 @@ public abstract class Role {
     private City city;
 
     private static final Random placer = new Random();
-    
+    //Homes fot the players (cards in corners)
     private Point home;
 
     public abstract void doJob();
@@ -58,7 +58,7 @@ public abstract class Role {
     public void discardCard(Card c) {
         cardsInHand.remove(c);
     }
-
+    //drawing the name of role next to the city the role is standing in. The coordinates are affected by random noise
     void paint(Graphics2D g) {
         g.drawString(getName(), getCity().getCenter().x - 20 + placer.nextInt(40), city.getCenter().y - 20 + placer.nextInt(40));
     }
@@ -72,7 +72,12 @@ public abstract class Role {
             c.drawPlaced(g);
         }
     }
-
+    /** on the basis of coordinates Select the card from the player's hand
+     * 
+     * @param x the coordinate x
+     * @param y the coordinate y
+     * @return the card from the hand or null if no card found on given coordinates for this player
+     */
     Card selectHand(int x, int y) {
         for (Card c : cardsInHand) {
             if (c.isFreeClicked(x, y)) {
@@ -97,11 +102,17 @@ public abstract class Role {
     public List<PlayerCard> getCardsInHand() {
         return cardsInHand;
     }
-
+    /**
+     * 
+     * @return return the coodrdinates the players home on the board
+     */
     public Point getHome() {
         return home;
     }
-
+    /**
+     * 
+     * @param sets the coodrdinates of the players home on the board
+     */
     public void setHome(Point home) {
         this.home = home;
     }

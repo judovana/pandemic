@@ -20,7 +20,7 @@ import pandemic.game.board.Board;
 import pandemic.game.roles.Roles;
 
 /**
- *
+ *this is commandline launcher for application which, based on arguments(players' roles) launches gameboard for given players;
  * @author Pípa
  */
 public class Pandemic implements Observer {
@@ -112,7 +112,8 @@ public class Pandemic implements Observer {
             });
 
         }
-
+        //functions for recalculate coordinations 
+         
         private int real(int coord, int current, int orig) {
             return (int) real((double) coord, (double) current, (double) orig);
         }

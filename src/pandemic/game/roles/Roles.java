@@ -41,11 +41,15 @@ public class Roles {
         "researcher",
         "dispatcher"
     };
-
+    /**
+     * List of all existing roles
+     */
     public static final List<String> knownRolesList = new ArrayList<>(Arrays.asList(Roles.knownRoles));
-
+    /**
+     * Helping structure mapping the name of the role to the implementation(instnce of class)
+     */
     public static final Map<String, Role> rolesInstances = new HashMap<>();
-
+    //filling the map with values
     static {
         rolesInstances.put(knownRoles[0], new Medic());
         rolesInstances.put(knownRoles[1], new Scientist());
@@ -54,7 +58,10 @@ public class Roles {
     }
 
     ;
-
+    /**
+     * Creates new instance of roles and checks the game conditions (min max number of players and availability of players)
+     * @param args names of the roles as deliverd from the command line
+     */
     public Roles(String[] args) {
         if (args.length > 4) {
             throw new IllegalArgumentException("Max number fo players is 4. Forced: " + args.length);
@@ -75,7 +82,7 @@ public class Roles {
             throw new RuntimeException(ex);
         }
     }
-
+    //loading the coordinates of players homes
     private void initHomes() throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResource("/pandemic/data/board/playerHomes").openStream(), StandardCharsets.UTF_8))) {
             int home = -1;
@@ -114,9 +121,14 @@ public class Roles {
             role.paint(g);
         }
     }
-
+    /**
+     * prepare player for game : select (specified) number of cards from deck and set various coords
+     * @param cities to find coordinates of home city (Atlanta)
+     * @param deck take cards from
+     */
     public void initPlayers(Cities cities, Deck deck) {
         int cards = 4;
+        //set the number of cards according to a number of players
         if (roles.size() >= 4) {
             cards = 2;
         }
@@ -124,13 +136,16 @@ public class Roles {
             cards = 3;
         }
         for (Role role : roles) {
+            //moving all players to the default city (Atlanta)
             role.flyToTheCity(cities.getCityByName("atlanta"));
             for (int i = 0; i < cards; i++) {
                 Card c = deck.getCard();
                 Point p = role.getHome();
                 int xx = p.x + 20 * i;
                 int yy = p.y + 20 * i;
+                //set coordinates for cards (cards in corners)
                 c.setCoords(xx, yy);
+                //gives card to the players hand
                 role.setCardToHand((PlayerCard) c);
             }
         }

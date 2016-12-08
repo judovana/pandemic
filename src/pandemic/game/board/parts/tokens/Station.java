@@ -14,7 +14,7 @@ import java.awt.Point;
  * @author Pípa
  */
 public class Station extends Token {
-
+    //Overriding the constructor by hardcoding the color
     public Station(Point point) {
         super(point, Color.CYAN);
     }

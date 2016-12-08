@@ -24,6 +24,8 @@ public class Manual extends javax.swing.JFrame {
 
     /**
      * Creates new form PandemicSwing
+     * initComponents() is a method used in swing Design to initialize swing components( like setting the default values,..)
+     * something like the connection between GUI editor and Java.
      */
     public Manual() {
         initComponents();
@@ -46,17 +48,17 @@ public class Manual extends javax.swing.JFrame {
 
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
-        JPanel p = new JPanel(new GridLayout(0, 1));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);// program ends after clicking on the cross
+        setLayout(new BorderLayout());//placing the components in the window
+        JPanel p = new JPanel(new GridLayout(0, 1));//panel for other components, it holds everything together
         setLayout(new GridLayout(0, 1));
         for (int i = 1; i < 9; i++) {
-            JLabel j = new JLabel(new ImageIcon(this.getClass().getResource("/pandemic/data/manual/0" + i + ".jpg")));
+            JLabel j = new JLabel(new ImageIcon(this.getClass().getResource("/pandemic/data/manual/0" + i + ".jpg"))); //label where I can put some text
             p.add(j);
         }
         this.add(new JScrollPane(p));
         pack();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);//displays the window in the center of monitor
     }
 
     /**

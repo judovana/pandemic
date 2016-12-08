@@ -33,24 +33,32 @@ public class Drugs {
     public static Drugs self;
 
     public Drugs() throws IOException {
-
+        
         try (BufferedReader br
+                //comfortable wrapper around reader allowing work with whole lines(see readline bellow)
                 = new BufferedReader(
+                        //reader is converting the bytes to characters (see encoding UTF8 bellow)
                         new InputStreamReader(
+                                //openstream allows to read resources as bytes
                                 this.getClass().getResource("/pandemic/data/board/cures").openStream(), StandardCharsets.UTF_8))) {
                             while (true) {
                                 String s = br.readLine();
                                 if (s == null) {
                                     break;
                                 }
+                                //all lines that strats with "#" are ignored
                                 s = s.trim();
                                 if (s.startsWith("#")) {
                                     continue;
                                 }
+                                //first we split the line by usin ";".
                                 String[] parts = s.split(";");
+                                //splitting second part of above split.
                                 String[] coords = parts[1].split(",");
+                                //converting firt and second part of second split to x and y to numerical values 
                                 int x = Integer.valueOf(coords[0]);
                                 int y = Integer.valueOf(coords[1]);
+                                //converting the color to the real color object
                                 Color c = City.stringToColor(parts[0]);
                                 centers.put(c, new DrugTokens(new Point(x, y), c, false));
                             }

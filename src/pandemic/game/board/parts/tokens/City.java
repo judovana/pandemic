@@ -168,7 +168,11 @@ public class City {
         }
         return true;
     }
-
+    /**
+     * return the number of cubes of given color in this city
+     * @param c desired color
+     * @return number of cubes
+     */
     public int getCubesCount(Color c) {
         int i = 0;
         for (Cubes cube : cubes) {

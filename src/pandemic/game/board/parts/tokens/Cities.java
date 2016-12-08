@@ -136,7 +136,7 @@ public class Cities {
             city.drawStation(g2d);
         }
     }
-
+    //
     public int countColor(Color c) {
         int i = 0;
         for (City city : cities) {

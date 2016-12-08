@@ -19,7 +19,8 @@ import javax.swing.JOptionPane;
 import pandemic.game.roles.Roles;
 
 /**
- *
+ *This is the main entrance point for application without need to specify the players on a commandline.
+ * This show swing window where players are selected in checkboxes
  * @author Pípa
  */
 public class PandemicSwing extends javax.swing.JFrame {

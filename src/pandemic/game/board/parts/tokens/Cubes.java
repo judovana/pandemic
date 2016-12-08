@@ -10,7 +10,7 @@ import java.awt.Point;
 import pandemic.game.board.DiseaseType;
 
 /**
- *
+ *just for differ from another tokens
  * @author Pípa
  */
 public class Cubes extends Token {

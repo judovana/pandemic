@@ -25,12 +25,12 @@ public class DrugTokens extends Token {
     public void setFixed(boolean fixed) {
         this.fixed = fixed;
     }
-
+    //the size of area for clicking on drug token
     @Override
     int getRadius() {
         return super.getRadius() * 2;
     }
-
+    //if the disease is cured it draws colored token with cross on the surface of token
     @Override
     public void draw(Graphics2D g2d) {
         super.draw(g2d);

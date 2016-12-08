@@ -38,14 +38,15 @@ import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
 
 /**
- *
+ *Dialog is representing the interactions between players
  * @author pipa
  */
 public class OtherActions extends JDialog {
-
+    
+    
     public static final int CARDS_TO_CURE = 5;
     private final String CD = "Cure disease";
-    private final List<OtherPlayerGuiWrapper> others = new ArrayList<>();
+    private final List<OtherPlayerGuiWrapper> others = new ArrayList<>(); //
     private final Deck deck;
 
     private static class CardsList extends JList<Card> {
@@ -320,7 +321,9 @@ public class OtherActions extends JDialog {
         this.pack();
         this.setVisible(true);
     }
-
+    /**
+     * 
+     */
     private class OtherPlayerGuiWrapper {
 
         private final JButton giveTo;
