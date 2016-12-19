@@ -5,9 +5,9 @@
  */
 package pandemic.game.board.parts.tokens;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.Color;
+import j2a.GraphicsCanvas;
+import j2a.Point;
 
 /**
  *
@@ -27,14 +27,14 @@ public class Token {
         return 10;
     }
 
-    public void draw(Graphics2D g2d) {
+    public void draw(GraphicsCanvas g2d) {
         g2d.setColor(color);
-        g2d.fillRect(point.x, point.y, getRadius(), getRadius());
-        Color c2 = new Color(255 - color.getRed(),
+        g2d.fillRect(point.getX(), point.getY(), getRadius(), getRadius());
+        Color c2 = Color.newColor(255 - color.getRed(),
                 255 - color.getGreen(),
                 255 - color.getBlue());
         g2d.setColor(c2);
-        g2d.drawRect(point.x, point.y, getRadius(), getRadius());
+        g2d.drawRect(point.getX(), point.getY(), getRadius(), getRadius());
     }
 
     public Color getColor() {

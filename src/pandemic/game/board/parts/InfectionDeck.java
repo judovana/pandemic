@@ -5,7 +5,7 @@
  */
 package pandemic.game.board.parts;
 
-import java.awt.Point;
+import j2a.Point;
 import java.util.Collections;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
@@ -29,12 +29,14 @@ public class InfectionDeck extends Deck {
         Collections.shuffle(cards);
     }
 
+    @Override
     Point getCorner() {
-        return new Point(714, 47);
+        return Point.newPoint(714, 47);
     }
 
+    @Override
     Point getDiscarCorner() {
-        return new Point(909, 47);
+        return Point.newPoint(909, 47);
     }
 
     public Card returnUsedCards() {

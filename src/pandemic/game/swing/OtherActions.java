@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pandemic.game;
+package pandemic.game.swing;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -65,11 +65,11 @@ public class OtherActions extends JDialog {
                     JLabel l = new JLabel(value.getCity().getName());
                     if (isSelected) {
                         l.setForeground(Color.magenta);
-                        l.setBackground(value.getCity().getColor());
+                        l.setBackground((Color) value.getCity().getColor().getOriginal());
                         l.setOpaque(true);
                     } else {
                         l.setForeground(Color.green);
-                        l.setBackground(value.getCity().getColor());
+                        l.setBackground((Color) value.getCity().getColor().getOriginal());
                         l.setOpaque(true);
                     }
                     return l;
@@ -160,7 +160,7 @@ public class OtherActions extends JDialog {
                 }
                 if (mainList.getSelectedIndices().length == CARDS_TO_CURE && roles.getCurrentPlayer().getCity().haveStation()) {
                     List<Card> l = mainList.getSelectedValuesList();
-                    Color c = l.get(0).getCity().getColor();
+                    j2a.Color c = l.get(0).getCity().getColor();
                     for (Card l1 : l) {
                         if (!l1.getCity().getColor().equals(c)) {
                             cure.setEnabled(false);
@@ -190,12 +190,12 @@ public class OtherActions extends JDialog {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final List<Cubes> cubes = roles.getCurrentPlayer().getCity().getCubes();
-                        Set<Color> colors = new HashSet<>();
+                        Set<j2a.Color> colors = new HashSet<>();
                         for (Cubes cube : cubes) {
                             colors.add(cube.getColor());
                         }
                         if (colors.size() == 1) {
-                            Color cc = cubes.get(0).getColor();
+                            j2a.Color cc =  cubes.get(0).getColor();
                             if (Drugs.self.isCured(cc)) {
                                 int inLength = cubes.size();
                                 for (int i = 0; i < inLength; i++) {
@@ -210,7 +210,7 @@ public class OtherActions extends JDialog {
                             }
                         } else {
                             JPopupMenu jpp = new JPopupMenu();
-                            for (Color color : colors) {
+                            for (j2a.Color color : colors) {
 
                                 int localCount = 0;
                                 for (Cubes cube : cubes) {
@@ -231,18 +231,18 @@ public class OtherActions extends JDialog {
                                             if (cube.getColor().equals(targetColor)) {
                                                 cubes.remove(i);
                                                 i--;
-                                                if (Drugs.self.isCured(targetColor)) {
+                                                if (Drugs.self.isCured(new j2a.java.Color(targetColor))) {
                                                     continue;
                                                 } else {
                                                     break;
                                                 }
                                             }
                                         }
-                                        Drugs.self.checkFixed(targetColor);
+                                        Drugs.self.checkFixed(new j2a.java.Color(targetColor));
                                         tuneCureButton(roles, cureDisease);
                                     }
                                 });
-                                jpps.setBackground(color);
+                                jpps.setBackground((Color) color.getOriginal());
                                 jpp.add(jpps);
                             }
                             JButton jb = (JButton) e.getSource();
@@ -264,7 +264,7 @@ public class OtherActions extends JDialog {
                             return;
                         }
                         List<Card> l = mainList.getSelectedValuesList();
-                        Color c = l.get(0).getCity().getColor();
+                        j2a.Color c = l.get(0).getCity().getColor();
                         for (Card l1 : l) {
                             if (!l1.getCity().getColor().equals(c)) {
                                 return;

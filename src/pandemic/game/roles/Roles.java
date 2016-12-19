@@ -5,8 +5,8 @@
  */
 package pandemic.game.roles;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.GraphicsCanvas;
+import j2a.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -102,7 +102,7 @@ public class Roles {
                 if (home >= roles.size()) {
                     break;
                 }
-                roles.get(home).setHome(new Point(x, y));
+                roles.get(home).setHome(Point.newPoint(x, y));
 
             }
         }
@@ -116,7 +116,7 @@ public class Roles {
         return getCurrentPlayer();
     }
 
-    public void drawPlayers(Graphics2D g) {
+    public void drawPlayers(GraphicsCanvas g) {
         for (Role role : roles) {
             role.paint(g);
         }
@@ -141,8 +141,8 @@ public class Roles {
             for (int i = 0; i < cards; i++) {
                 Card c = deck.getCard();
                 Point p = role.getHome();
-                int xx = p.x + 20 * i;
-                int yy = p.y + 20 * i;
+                int xx = p.getX() + 20 * i;
+                int yy = p.getY() + 20 * i;
                 //set coordinates for cards (cards in corners)
                 c.setCoords(xx, yy);
                 //gives card to the players hand
@@ -157,7 +157,7 @@ public class Roles {
         return roles.get(currentPlayer);
     }
 
-    public void drawPlayersHands(Graphics2D g) {
+    public void drawPlayersHands(GraphicsCanvas g) {
         for (Role role : roles) {
             role.drawHand(g);
         }

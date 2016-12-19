@@ -5,8 +5,8 @@
  */
 package pandemic.game.board.parts.tokens;
 
-import java.awt.Color;
-import java.awt.Point;
+import j2a.Color;
+import j2a.Point;
 import pandemic.game.board.DiseaseType;
 
 /**

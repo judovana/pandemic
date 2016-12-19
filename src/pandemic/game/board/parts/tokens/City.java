@@ -5,9 +5,9 @@
  */
 package pandemic.game.board.parts.tokens;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.Color;
+import j2a.GraphicsCanvas;
+import j2a.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,7 +24,7 @@ public class City {
     static City create(String point, String name, String color) {
         Color c = stringToColor(color);
         String[] pointParts = point.split(",");
-        Point p = new Point(Integer.valueOf(pointParts[0]), Integer.valueOf(pointParts[1]));
+        Point p = Point.newPoint(Integer.valueOf(pointParts[0]), Integer.valueOf(pointParts[1]));
         System.out.println("Creating: " + name + ", " + p.toString() + ", " + c);
         return new City(p, name, c);
 
@@ -33,13 +33,13 @@ public class City {
     public static Color stringToColor(String color1) throws IllegalArgumentException {
         switch (color1) {
             case "yellow":
-                return Color.YELLOW;
+                return Color.getYELLOW();
             case "blue":
-                return Color.BLUE;
+                return Color.getBLUE();
             case "red":
-                return Color.red;
+                return Color.getRED();
             case "black":
-                return Color.black;
+                return Color.getBLACK();
             default:
                 throw new IllegalArgumentException("Invalid type of color: " + color1);
         }
@@ -86,20 +86,20 @@ public class City {
         return (center.distance(point)) < 2 * radius;
     }
 
-    public void draw(Graphics2D g2d) {
+    public void draw(GraphicsCanvas g2d) {
         g2d.setColor(color);
-        g2d.fillOval(center.x - radius, center.y - radius, radius * 2, radius * 2);
-        drawOutlined(Color.white, color, g2d, center.x, center.y, name);
+        g2d.fillOval(center.getX() - radius, center.getY() - radius, radius * 2, radius * 2);
+        drawOutlined(Color.getWHITE(), color, g2d, center.getX(), center.getY(), name);
         for (City city : neighbors) {
-            g2d.setColor(Color.white);
-            g2d.drawLine(center.x, center.y, city.center.x, city.center.y);
-            drawOutlined(Color.white, city.color, g2d, city.center.x, city.center.y, city.name);
+            g2d.setColor(Color.getWHITE());
+            g2d.drawLine(center.getX(), center.getY(), city.center.getX(), city.center.getY());
+            drawOutlined(Color.getWHITE(), city.color, g2d, city.center.getX(), city.center.getY(), city.name);
         }
 
     }
 
-    private void drawOutlined(Color c1, Color c2, Graphics2D g2d, int x, int y, String s) {
-        g2d.setColor(new Color(c1.getRed(), c1.getGreen(), c1.getBlue(), 100));
+    private void drawOutlined(Color c1, Color c2, GraphicsCanvas g2d, int x, int y, String s) {
+        g2d.setColor(Color.newColor(c1.getRed(), c1.getGreen(), c1.getBlue(), 100));
         g2d.fillRect(x, y, g2d.getFontMetrics().stringWidth(s), g2d.getFontMetrics().getHeight());
         g2d.setColor(c2);
         g2d.drawString(s, x, y + g2d.getFontMetrics().getHeight());
@@ -109,7 +109,7 @@ public class City {
         return center;
     }
 
-    void drawStation(Graphics2D g2d) {
+    void drawStation(GraphicsCanvas g2d) {
         if (station != null) {
             station.draw(g2d);
         }
@@ -119,9 +119,9 @@ public class City {
     }
 
     private Point randomize(int i, Point center) {
-        int x = center.x + (radius * i) / 2;
-        int y = center.y + (radius * i) / 2;
-        return new Point(x, y);
+        int x = center.getX() + (radius * i) / 2;
+        int y = center.getY() + (radius * i) / 2;
+        return Point.newPoint(x, y);
     }
 
     public Color getColor() {

@@ -5,17 +5,16 @@
  */
 package pandemic.game.board.parts;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import j2a.Color;
+import j2a.GraphicsCanvas;
 import java.util.List;
-import java.awt.Point;
+import j2a.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
@@ -66,14 +65,14 @@ public class Outbreaks {
                     continue;
                 }
                 String[] parts = s.split(",");
-                centers.add(new Point(Integer.valueOf(parts[0]), Integer.valueOf(parts[1])));
+                centers.add(Point.newPoint(Integer.valueOf(parts[0]), Integer.valueOf(parts[1])));
 
             }
         }
     }
 
-    public void draw(Graphics2D g) {
-        g.setColor(new Color(count * 30, 125, 125, 125));
-        g.fillOval(centers.get(count).x - radius, centers.get(count).y - radius, radius * 2, radius * 2);
+    public void draw(GraphicsCanvas g) {
+        g.setColor(Color.newColor(count * 30, 125, 125, 125));
+        g.fillOval(centers.get(count).getX() - radius, centers.get(count).getY() - radius, radius * 2, radius * 2);
     }
 }

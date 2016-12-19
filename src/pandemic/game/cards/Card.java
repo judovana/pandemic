@@ -4,13 +4,11 @@
  * and open the template in the editor.
  */
 package pandemic.game.cards;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
+import j2a.Color;
+import j2a.Font;
+import j2a.GraphicsCanvas;
+import j2a.BitmapImage;
+import j2a.Point;
 import pandemic.game.board.parts.tokens.City;
 
 /**
@@ -25,7 +23,7 @@ public class Card {
          * @param bg background image
          * @param fg city affecting the play of this card and affecting the rendering of the foreground.
          */
-        public InfectionCard(BufferedImage bg, City fg) {
+        public InfectionCard(BitmapImage bg, City fg) {
             super(bg, fg);
         }
         
@@ -37,7 +35,7 @@ public class Card {
     }
     
     protected final City city;
-    private final BufferedImage bg;
+    private final BitmapImage bg;
     private Point freeCoords = null;
     
     /**
@@ -45,21 +43,21 @@ public class Card {
      * @param bg background image
      * @param c city
      */
-    public Card(BufferedImage bg, City c) {
+    public Card(BitmapImage bg, City c) {
         this.bg = bg;
         this.city = c;
     }
     
-    public Image getBackground() {
+    public BitmapImage getBackground() {
         return bg;
     }
     /**
      * Drawing foreground of cards
      * @return rendered background
      */
-    public BufferedImage getForeground() {
-        BufferedImage b = new BufferedImage(getBackground().getWidth(null), getBackground().getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = b.createGraphics();
+    public BitmapImage getForeground() {
+        BitmapImage b = BitmapImage.newBitmapImage(getBackground().getWidth(), getBackground().getHeight(), BitmapImage.getTYPE_INT_ARGB());
+        GraphicsCanvas g2d = b.createGraphics();
         g2d.setColor(city.getColor());
         int column = b.getWidth() / 6;
         g2d.fillRect(b.getWidth() / 3 - column / 2, 0, column, b.getHeight());
@@ -68,20 +66,20 @@ public class Card {
         /*+"  " YAH! box is newer wide enough!*/
         int w = g2d.getFontMetrics().stringWidth(city.getName() + "  ");
         
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(Color.getWHITE());
         g2d.fillRect((b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2 - g2d.getFontMetrics().getHeight(), w, (int) (g2d.getFontMetrics().getHeight() * 1.5));
-        g2d.setColor(Color.BLACK);
-        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD));
+        g2d.setColor(Color.getBLACK());
+        g2d.setFont(g2d.getFont().deriveFont(Font.getBOLD()));
         g2d.drawString(city.getName(), (b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2);
         return b;
     }
     
-    public void drawPlaced(Graphics2D g) {
-        g.drawImage(getForeground(), freeCoords.x, freeCoords.y, null);
+    public void drawPlaced(GraphicsCanvas g) {
+        g.drawImage(getForeground(), freeCoords.getX(), freeCoords.getY(), null);
     }
     
     public void setCoords(int x, int y) {
-        setCoords(new Point(x, y));
+        setCoords(Point.newPoint(x, y));
     }
 
     public void setCoords(Point p) {
@@ -97,10 +95,10 @@ public class Card {
         if (freeCoords == null) {
             return false;
         }
-        return (x > freeCoords.x
-                && x < freeCoords.x + getBackground().getWidth(null)
-                && y > freeCoords.y
-                && y < freeCoords.y + getBackground().getHeight(null));
+        return (x > freeCoords.getX()
+                && x < freeCoords.getX() + getBackground().getWidth()
+                && y > freeCoords.getY()
+                && y < freeCoords.getX() + getBackground().getHeight());
     }
     
     public City getCity() {

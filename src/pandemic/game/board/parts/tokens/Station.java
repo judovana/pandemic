@@ -5,9 +5,9 @@
  */
 package pandemic.game.board.parts.tokens;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.Color;
+import j2a.GraphicsCanvas;
+import j2a.Point;
 
 /**
  *
@@ -16,7 +16,7 @@ import java.awt.Point;
 public class Station extends Token {
     //Overriding the constructor by hardcoding the color
     public Station(Point point) {
-        super(point, Color.CYAN);
+        super(point, Color.getCYAN());
     }
 
     @Override
@@ -25,10 +25,10 @@ public class Station extends Token {
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
+    public void draw(GraphicsCanvas g2d) {
         g2d.setColor(color);
-        g2d.fillRect(point.x - 2 * getRadius() + 3, point.y - 2 * getRadius(), getRadius() - 6, getRadius());
-        g2d.fillRect(point.x - 2 * getRadius(), point.y - 2 * getRadius() + 3, getRadius(), getRadius() - 6);
+        g2d.fillRect(point.getX() - 2 * getRadius() + 3, point.getY() - 2 * getRadius(), getRadius() - 6, getRadius());
+        g2d.fillRect(point.getX() - 2 * getRadius(), point.getY() - 2 * getRadius() + 3, getRadius(), getRadius() - 6);
     }
 
 }

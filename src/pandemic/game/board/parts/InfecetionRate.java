@@ -5,9 +5,9 @@
  */
 package pandemic.game.board.parts;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.Color;
+import j2a.GraphicsCanvas;
+import j2a.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -76,7 +76,7 @@ public class InfecetionRate {
                 int value = Integer.valueOf(parts[0]);
                 int x = Integer.valueOf(parts[1]);
                 int y = Integer.valueOf(parts[2]);
-                values.add(new Value(new Point(x, y), value));
+                values.add(new Value(Point.newPoint(x, y), value));
             }
         }
     }
@@ -97,9 +97,9 @@ public class InfecetionRate {
      * drawing the infection rate circle
      * @param g graphics to draw to
      */
-    public void draw(Graphics2D g) {
-        g.setColor(new Color(120 + (count * 15), 125, 125, 125));
-        g.fillOval(values.get(count).center.x - radius, values.get(count).center.y - radius, radius * 2, radius * 2);
+    public void draw(GraphicsCanvas g) {
+        g.setColor(Color.newColor(120 + (count * 15), 125, 125, 125));
+        g.fillOval(values.get(count).center.getX() - radius, values.get(count).center.getY() - radius, radius * 2, radius * 2);
     }
 
 }

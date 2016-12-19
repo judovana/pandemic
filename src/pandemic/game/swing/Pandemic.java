@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pandemic.game;
+package pandemic.game.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;

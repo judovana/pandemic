@@ -5,8 +5,8 @@
  */
 package pandemic.game.roles;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.GraphicsCanvas;
+import j2a.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -59,15 +59,15 @@ public abstract class Role {
         cardsInHand.remove(c);
     }
     //drawing the name of role next to the city the role is standing in. The coordinates are affected by random noise
-    void paint(Graphics2D g) {
-        g.drawString(getName(), getCity().getCenter().x - 20 + placer.nextInt(40), city.getCenter().y - 20 + placer.nextInt(40));
+    void paint(GraphicsCanvas g) {
+        g.drawString(getName(), getCity().getCenter().getX() - 20 + placer.nextInt(40), city.getCenter().getY() - 20 + placer.nextInt(40));
     }
 
     public void setCardToHand(PlayerCard c) {
         this.cardsInHand.add(c);
     }
 
-    void drawHand(Graphics2D g) {
+    void drawHand(GraphicsCanvas g) {
         for (PlayerCard c : cardsInHand) {
             c.drawPlaced(g);
         }

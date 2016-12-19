@@ -5,9 +5,9 @@
  */
 package pandemic.game.board.parts.tokens;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.Color;
+import j2a.GraphicsCanvas;
+import j2a.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -131,7 +131,7 @@ public class Cities {
         public void processLine(String... s);
     }
 
-    public void drawStations(Graphics2D g2d) {
+    public void drawStations(GraphicsCanvas g2d) {
         for (City city : cities) {
             city.drawStation(g2d);
         }

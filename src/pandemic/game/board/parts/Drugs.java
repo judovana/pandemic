@@ -5,9 +5,9 @@
  */
 package pandemic.game.board.parts;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.Color;
+import j2a.Point;
+import j2a.GraphicsCanvas;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
@@ -60,7 +59,7 @@ public class Drugs {
                                 int y = Integer.valueOf(coords[1]);
                                 //converting the color to the real color object
                                 Color c = City.stringToColor(parts[0]);
-                                centers.put(c, new DrugTokens(new Point(x, y), c, false));
+                                centers.put(c, new DrugTokens(Point.newPoint(x, y), c, false));
                             }
                         }
                         this.self = this;
@@ -80,9 +79,9 @@ public class Drugs {
         }
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(GraphicsCanvas g) {
         for (DrugTokens c : cured) {
-            c.draw(g);;
+            c.draw(g);
         }
     }
 

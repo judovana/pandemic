@@ -5,13 +5,12 @@
  */
 package pandemic.game.board;
 
-import java.awt.Point;
-import java.awt.image.BufferedImage;
+import j2a.BitmapImage;
+import j2a.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
-import javax.imageio.ImageIO;
-import pandemic.game.OtherActions;
+import pandemic.game.swing.OtherActions;
 import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
@@ -29,14 +28,14 @@ import pandemic.game.roles.Roles;
  */
 public class Board extends Observable {
 
-    private Roles roles;
+    private final Roles roles;
     private final Cities cities;
     private final Outbreaks outbreaks;
     private final InfecetionRate infectionRate;
     private final Deck deck;
     private final InfectionDeck infDeck;
-    private BufferedImage currentBoard;
-    private BufferedImage mainBoardImage;
+    private BitmapImage currentBoard;
+    private BitmapImage mainBoardImage;
     private Object selected;
     private final Drugs cures;
 
@@ -55,7 +54,7 @@ public class Board extends Observable {
     }
 
     private void drawBoard() {
-        currentBoard = new BufferedImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+        currentBoard = BitmapImage.newBitmapImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BitmapImage.getTYPE_4BYTE_ABGR());
         currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
         cures.draw(currentBoard.createGraphics());
         cities.drawStations(currentBoard.createGraphics());
@@ -80,7 +79,7 @@ public class Board extends Observable {
     }
     //loading the picture from path in the jar
     private void loadResources() throws IOException {
-        mainBoardImage = ImageIO.read(this.getClass().getResourceAsStream("/pandemic/data/images/board.jpg"));
+        mainBoardImage = BitmapImage.read(this.getClass().getResourceAsStream("/pandemic/data/images/board.jpg"));
     }
     /**
      * {@inheritDoc }
@@ -128,11 +127,11 @@ public class Board extends Observable {
                 return;
             }
             //Condition for moving with the city cards
-            if (card.getCity().equals(cities.getCityByCoord(new Point(x, y)))
+            if (card.getCity().equals(cities.getCityByCoord(Point.newPoint(x, y)))
                     || card.getCity().equals(roles.getCurrentPlayer().getCity())) {
                 deck.returnCard(card);
                 selected = null;
-                roles.getCurrentPlayer().flyToTheCity(cities.getCityByCoord(new Point(x, y)));
+                roles.getCurrentPlayer().flyToTheCity(cities.getCityByCoord(Point.newPoint(x, y)));
                 drawBoard();
             }
             return;
@@ -161,7 +160,7 @@ public class Board extends Observable {
             return;
         }
         //decide what to do when the city is selected
-        City found = cities.getCityByCoord(new Point(x, y));
+        City found = cities.getCityByCoord(Point.newPoint(x, y));
         if (found != null) {
             System.out.println(found.getName());
             if (selected == found && roles.getCurrentPlayer().getCity().isNigbouring(found)) {

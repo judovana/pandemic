@@ -5,9 +5,9 @@
  */
 package pandemic.game.board.parts.tokens;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import j2a.Color;
+import j2a.GraphicsCanvas;
+import j2a.Point;
 
 /**
  *
@@ -32,11 +32,11 @@ public class DrugTokens extends Token {
     }
     //if the disease is cured it draws colored token with cross on the surface of token
     @Override
-    public void draw(Graphics2D g2d) {
+    public void draw(GraphicsCanvas g2d) {
         super.draw(g2d);
         if (isFixed()) {
-            g2d.drawLine(point.x, point.y, point.x + getRadius(), point.y + getRadius());
-            g2d.drawLine(point.x + getRadius(), point.y, point.x, point.y + getRadius());
+            g2d.drawLine(point.getX(), point.getY(), point.getX() + getRadius(), point.getY() + getRadius());
+            g2d.drawLine(point.getX() + getRadius(), point.getY(), point.getX(), point.getY() + getRadius());
         }
     }
 
