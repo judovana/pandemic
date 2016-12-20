@@ -12,4 +12,6 @@ public interface Font {
         return  j2a.java.Font.getBOLD();
     }
     
+    public Object getOriginal(); 
+    
 }

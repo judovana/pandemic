@@ -111,7 +111,7 @@ public abstract class Role {
     }
     /**
      * 
-     * @param sets the coodrdinates of the players home on the board
+     * @param home sets the coodrdinates of the players home on the board
      */
     public void setHome(Point home) {
         this.home = home;

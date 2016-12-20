@@ -29,6 +29,7 @@ public class Color implements j2a.Color {
     public static j2a.Color getCYAN() {
         return new Color(java.awt.Color.cyan);
     }
+
     public static j2a.Color getWHITE() {
         return new Color(java.awt.Color.white);
     }
@@ -65,6 +66,19 @@ public class Color implements j2a.Color {
     @Override
     public int getBlue() {
         return back.getBlue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof j2a.Color)) {
+            return false;
+        }
+        return this.getOriginal().equals(((j2a.Color)o).getOriginal());
+    }
+
+    @Override
+    public int hashCode(){
+        return back.hashCode();
     }
 
 }

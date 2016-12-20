@@ -19,7 +19,7 @@ public class Point implements j2a.Point{
     }
 
     public Point(int x, int y) {
-        this.back = new java.awt.Point(x, x);
+        this.back = new java.awt.Point(x, y);
     }
 
     @Override
@@ -40,6 +40,19 @@ public class Point implements j2a.Point{
     @Override
     public Object getOriginal() {
         return back;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof j2a.Point)) {
+            return false;
+        }
+        return this.getOriginal().equals(((j2a.Point)o).getOriginal());
+    }
+
+    @Override
+    public int hashCode(){
+        return back.hashCode();
     }
 
 }

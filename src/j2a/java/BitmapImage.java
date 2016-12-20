@@ -2,7 +2,9 @@ package j2a.java;
 
 import j2a.GraphicsCanvas;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -22,14 +24,18 @@ public class BitmapImage implements j2a.BitmapImage {
         return BufferedImage.TYPE_INT_ARGB;
     }
 
-    public static j2a.BitmapImage read(InputStream resourceAsStream) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static j2a.BitmapImage read(InputStream resourceAsStream) throws IOException {
+        BufferedImage bf = ImageIO.read(resourceAsStream);
+        return new BitmapImage(bf);
     }
 
     private final BufferedImage back;
 
     private BitmapImage(int width, int height, int type) {
         back = new BufferedImage(width, height, type);
+    }
+    private BitmapImage(BufferedImage bf) {
+        back = bf;
     }
 
     @Override

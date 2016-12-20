@@ -5,6 +5,7 @@
  */
 package pandemic.game.swing;
 
+import j2a.java.BitmapImage;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
@@ -69,7 +70,7 @@ public class Pandemic implements Observer {
     @Override
     public void update(Observable o, Object o1) {
         if (drawPane != null) {
-            drawPane.setCurrentImage((BufferedImage) o1);
+            drawPane.setCurrentImage((BufferedImage) (((BitmapImage)o1).getOrigianl()));
             frame.repaint();
         }
     }

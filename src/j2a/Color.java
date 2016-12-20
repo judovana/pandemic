@@ -21,24 +21,34 @@ public interface Color {
     public static Color getRED() {
         return j2a.java.Color.getRED();
     }
-    
+
     public static Color getCYAN() {
         return j2a.java.Color.getCYAN();
     }
 
-    public static Color newColor(int r, int g, int b, int a){
-        return j2a.java.Color.newColor(r,g,b,a);
-    }
-    public static Color newColor(int r, int g, int b){
-        return j2a.java.Color.newColor(r,g,b);
+    public static Color newColor(int r, int g, int b, int a) {
+        return j2a.java.Color.newColor(r, g, b, a);
     }
 
-    public static Color getWHITE(){
+    public static Color newColor(int r, int g, int b) {
+        return j2a.java.Color.newColor(r, g, b);
+    }
+
+    public static Color getWHITE() {
         return j2a.java.Color.getWHITE();
     }
-    
+
     public Object getOriginal();
+
     public int getRed();
+
     public int getGreen();
+
     public int getBlue();
+
+    @Override
+    public boolean equals(Object o);
+
+    @Override
+    public int hashCode();
 }

@@ -228,7 +228,7 @@ public class OtherActions extends JDialog {
                                         Color targetColor = ((JMenuItem) e.getSource()).getBackground();
                                         for (int i = 0; i < cubes.size(); i++) {
                                             Cubes cube = cubes.get(i);
-                                            if (cube.getColor().equals(targetColor)) {
+                                            if (cube.getColor().equals(new j2a.java.Color(targetColor))) {
                                                 cubes.remove(i);
                                                 i--;
                                                 if (Drugs.self.isCured(new j2a.java.Color(targetColor))) {
