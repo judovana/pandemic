@@ -18,6 +18,8 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import pandemic.game.board.Board;
+import pandemic.game.board.OtherActionsProvider;
+import pandemic.game.board.parts.Deck;
 import pandemic.game.roles.Roles;
 
 /**
@@ -43,7 +45,13 @@ public class Pandemic implements Observer {
         if (args.length == 0) {
             throw new RuntimeException("At least one player is expected!");
         }
-        board = new Board(new Roles(args));
+        board = new Board(new Roles(args), new OtherActionsProvider() {
+
+            @Override
+            public void provide(Roles r, Deck d) {
+                new OtherActions(r, d);
+            }
+        });
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();

@@ -19,3 +19,6 @@ dist
 pandemic/nbproject/private
 pandemic/build
 pandemic/dist
+/pandemic-lib/nbproject/private/
+pandemic-lib/build
+pandemic-lib/dist

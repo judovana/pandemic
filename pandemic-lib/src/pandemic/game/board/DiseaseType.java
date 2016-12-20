@@ -6,6 +6,8 @@ import j2a.Color;
 /**
  * This class is unused - it appeared to be more practical to use direct colors
  * on implementation level.
+ * 
+ * Now, after splitting to lib and game for java and android implementation, I regret very much...
  *
  * @author Pípa
  */

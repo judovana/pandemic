@@ -10,7 +10,6 @@ import j2a.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
-import pandemic.game.swing.OtherActions;
 import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
@@ -38,8 +37,10 @@ public class Board extends Observable {
     private BitmapImage mainBoardImage;
     private Object selected;
     private final Drugs cures;
+    private final OtherActionsProvider oa;
 
-    public Board(Roles roles) throws IOException {
+    public Board(Roles roles, OtherActionsProvider oa) throws IOException {
+        this.oa=oa;
         this.roles = roles;
         cities = new Cities();
         outbreaks = new Outbreaks();
@@ -170,7 +171,7 @@ public class Board extends Observable {
                 return;
             }
             if (selected == found && roles.getCurrentPlayer().getCity().equals(found)) {
-                new OtherActions(roles, deck);
+                oa.provide(roles, deck);
                 selected = null;
                 drawBoard();
                 return;
