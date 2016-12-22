@@ -23,3 +23,39 @@ pandemic/assembly
 /pandemic-lib/nbproject/private/
 pandemic-lib/build
 pandemic-lib/dist
+
+*.apk
+*.ap_
+*.aar
+*.dex
+
+*.class
+
+# Generated files
+bin/
+gen/
+
+# Gradle files
+.gradle/
+/*/.gradle/
+build/
+/*/build/
+
+local.properties
+/*/local.properties
+
+proguard/
+/*/proguard/
+
+# Log Files
+*.log
+
+# idea
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
