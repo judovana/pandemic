@@ -55,7 +55,7 @@ public class Board extends Observable {
     }
 
     private void drawBoard() {
-        currentBoard = BitmapImage.newBitmapImage(mainBoardImage.getWidth(), mainBoardImage.getHeight(), BitmapImage.getTYPE_4BYTE_ABGR());
+        currentBoard = BitmapImage.newBitmapImage(mainBoardImage.getWidth(), mainBoardImage.getHeight());
         currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
         cures.draw(currentBoard.createGraphics());
         cities.drawStations(currentBoard.createGraphics());

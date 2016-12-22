@@ -56,7 +56,7 @@ public class Card {
      * @return rendered background
      */
     public BitmapImage getForeground() {
-        BitmapImage b = BitmapImage.newBitmapImage(getBackground().getWidth(), getBackground().getHeight(), BitmapImage.getTYPE_INT_ARGB());
+        BitmapImage b = BitmapImage.newBitmapImage(getBackground().getWidth(), getBackground().getHeight());
         GraphicsCanvas g2d = b.createGraphics();
         g2d.setColor(city.getColor());
         int column = b.getWidth() / 6;
