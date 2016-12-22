@@ -222,7 +222,7 @@ public class Board extends Observable {
         if (selected instanceof Card.InfectionCard) {
             infDeck.used((Card.InfectionCard) selected);
             if (!cures.isFixed(((Card.InfectionCard) selected).getCity().getColor())) {
-                ((Card.InfectionCard) selected).getCity().infect(((Card.InfectionCard) selected).getCity().getColor(), new ArrayList<>());
+                ((Card.InfectionCard) selected).getCity().infect(((Card.InfectionCard) selected).getCity().getColor(), new ArrayList<City>());
             }
             selected = null;
             drawBoard();
