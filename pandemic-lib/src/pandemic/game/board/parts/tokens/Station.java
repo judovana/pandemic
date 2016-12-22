@@ -16,7 +16,7 @@ import j2a.Point;
 public class Station extends Token {
     //Overriding the constructor by hardcoding the color
     public Station(Point point) {
-        super(point, Color.getCYAN());
+        super(point, j2a.Factory.Color.getCYAN());
     }
 
     @Override

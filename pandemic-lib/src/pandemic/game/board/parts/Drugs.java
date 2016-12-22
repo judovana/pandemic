@@ -59,7 +59,7 @@ public class Drugs {
                                 int y = Integer.valueOf(coords[1]);
                                 //converting the color to the real color object
                                 Color c = City.stringToColor(parts[0]);
-                                centers.put(c, new DrugTokens(Point.newPoint(x, y), c, false));
+                                centers.put(c, new DrugTokens(j2a.Factory.Point.newPoint(x, y), c, false));
                             }
                         }
                         this.self = this;

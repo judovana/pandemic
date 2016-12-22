@@ -55,7 +55,7 @@ public class Board extends Observable {
     }
 
     private void drawBoard() {
-        currentBoard = BitmapImage.newBitmapImage(mainBoardImage.getWidth(), mainBoardImage.getHeight());
+        currentBoard = j2a.Factory.BitmapImage.newBitmapImage(mainBoardImage.getWidth(), mainBoardImage.getHeight());
         currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
         cures.draw(currentBoard.createGraphics());
         cities.drawStations(currentBoard.createGraphics());
@@ -80,7 +80,7 @@ public class Board extends Observable {
     }
     //loading the picture from path in the jar
     private void loadResources() throws IOException {
-        mainBoardImage = BitmapImage.read(this.getClass().getResourceAsStream("/pandemic/data/images/board.jpg"));
+        mainBoardImage = j2a.Factory.BitmapImage.read(this.getClass().getResourceAsStream("/pandemic/data/images/board.jpg"));
     }
     /**
      * {@inheritDoc }
@@ -128,11 +128,11 @@ public class Board extends Observable {
                 return;
             }
             //Condition for moving with the city cards
-            if (card.getCity().equals(cities.getCityByCoord(Point.newPoint(x, y)))
+            if (card.getCity().equals(cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y)))
                     || card.getCity().equals(roles.getCurrentPlayer().getCity())) {
                 deck.returnCard(card);
                 selected = null;
-                roles.getCurrentPlayer().flyToTheCity(cities.getCityByCoord(Point.newPoint(x, y)));
+                roles.getCurrentPlayer().flyToTheCity(cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y)));
                 drawBoard();
             }
             return;
@@ -161,7 +161,7 @@ public class Board extends Observable {
             return;
         }
         //decide what to do when the city is selected
-        City found = cities.getCityByCoord(Point.newPoint(x, y));
+        City found = cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y));
         if (found != null) {
             System.out.println(found.getName());
             if (selected == found && roles.getCurrentPlayer().getCity().isNigbouring(found)) {

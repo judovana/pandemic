@@ -65,14 +65,14 @@ public class Outbreaks {
                     continue;
                 }
                 String[] parts = s.split(",");
-                centers.add(Point.newPoint(Integer.valueOf(parts[0]), Integer.valueOf(parts[1])));
+                centers.add(j2a.Factory.Point.newPoint(Integer.valueOf(parts[0]), Integer.valueOf(parts[1])));
 
             }
         }
     }
 
     public void draw(GraphicsCanvas g) {
-        g.setColor(Color.newColor(count * 30, 125, 125, 125));
+        g.setColor(j2a.Factory.Color.newColor(count * 30, 125, 125, 125));
         g.fillOval(centers.get(count).getX() - radius, centers.get(count).getY() - radius, radius * 2, radius * 2);
     }
 }

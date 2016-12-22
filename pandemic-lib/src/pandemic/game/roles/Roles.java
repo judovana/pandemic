@@ -102,7 +102,7 @@ public class Roles {
                 if (home >= roles.size()) {
                     break;
                 }
-                roles.get(home).setHome(Point.newPoint(x, y));
+                roles.get(home).setHome(j2a.Factory.Point.newPoint(x, y));
 
             }
         }

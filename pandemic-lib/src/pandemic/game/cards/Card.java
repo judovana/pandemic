@@ -56,7 +56,7 @@ public class Card {
      * @return rendered background
      */
     public BitmapImage getForeground() {
-        BitmapImage b = BitmapImage.newBitmapImage(getBackground().getWidth(), getBackground().getHeight());
+        BitmapImage b = j2a.Factory.BitmapImage.newBitmapImage(getBackground().getWidth(), getBackground().getHeight());
         GraphicsCanvas g2d = b.createGraphics();
         g2d.setColor(city.getColor());
         int column = b.getWidth() / 6;
@@ -66,10 +66,10 @@ public class Card {
         /*+"  " YAH! box is newer wide enough!*/
         int w = g2d.getFontMetrics().stringWidth(city.getName() + "  ");
         
-        g2d.setColor(Color.getWHITE());
+        g2d.setColor(j2a.Factory.Color.getWHITE());
         g2d.fillRect((b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2 - g2d.getFontMetrics().getHeight(), w, (int) (g2d.getFontMetrics().getHeight() * 1.5));
-        g2d.setColor(Color.getBLACK());
-        g2d.setFont(g2d.getFont().deriveFont(Font.getBOLD()));
+        g2d.setColor(j2a.Factory.Color.getBLACK());
+        g2d.setFont(g2d.getFont().deriveFont(j2a.Factory.Font.getBOLD()));
         g2d.drawString(city.getName(), (b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2);
         return b;
     }
@@ -79,7 +79,7 @@ public class Card {
     }
     
     public void setCoords(int x, int y) {
-        setCoords(Point.newPoint(x, y));
+        setCoords(j2a.Factory.Point.newPoint(x, y));
     }
 
     public void setCoords(Point p) {

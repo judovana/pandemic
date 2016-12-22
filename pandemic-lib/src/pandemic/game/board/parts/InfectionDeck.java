@@ -31,12 +31,12 @@ public class InfectionDeck extends Deck {
 
     @Override
     Point getCorner() {
-        return Point.newPoint(714, 47);
+        return j2a.Factory.Point.newPoint(714, 47);
     }
 
     @Override
     Point getDiscarCorner() {
-        return Point.newPoint(909, 47);
+        return j2a.Factory.Point.newPoint(909, 47);
     }
 
     public Card returnUsedCards() {

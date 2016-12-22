@@ -76,7 +76,7 @@ public class InfecetionRate {
                 int value = Integer.valueOf(parts[0]);
                 int x = Integer.valueOf(parts[1]);
                 int y = Integer.valueOf(parts[2]);
-                values.add(new Value(Point.newPoint(x, y), value));
+                values.add(new Value(j2a.Factory.Point.newPoint(x, y), value));
             }
         }
     }
@@ -98,7 +98,7 @@ public class InfecetionRate {
      * @param g graphics to draw to
      */
     public void draw(GraphicsCanvas g) {
-        g.setColor(Color.newColor(120 + (count * 15), 125, 125, 125));
+        g.setColor(j2a.Factory.Color.newColor(120 + (count * 15), 125, 125, 125));
         g.fillOval(values.get(count).center.getX() - radius, values.get(count).center.getY() - radius, radius * 2, radius * 2);
     }
 

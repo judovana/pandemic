@@ -47,18 +47,18 @@ public class Deck {
     Deck(String bg, Cities c) {
         this.cities = c;
         try {
-            backgroud = BitmapImage.read(this.getClass().getResourceAsStream(bg));
+            backgroud = j2a.Factory.BitmapImage.read(this.getClass().getResourceAsStream(bg));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
 
     Point getCorner() {
-        return Point.newPoint(714, 615);
+        return j2a.Factory.Point.newPoint(714, 615);
     }
 
     Point getDiscarCorner() {
-        return Point.newPoint(874, 615);
+        return j2a.Factory.Point.newPoint(874, 615);
     }
     /**
      * removes cards to discard corner

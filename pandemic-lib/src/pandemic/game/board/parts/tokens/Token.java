@@ -30,7 +30,7 @@ public class Token {
     public void draw(GraphicsCanvas g2d) {
         g2d.setColor(color);
         g2d.fillRect(point.getX(), point.getY(), getRadius(), getRadius());
-        Color c2 = Color.newColor(255 - color.getRed(),
+        Color c2 = j2a.Factory.Color.newColor(255 - color.getRed(),
                 255 - color.getGreen(),
                 255 - color.getBlue());
         g2d.setColor(c2);
