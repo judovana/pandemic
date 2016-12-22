@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package pandemic.game.cards;
-import j2a.Color;
-import j2a.Font;
 import j2a.GraphicsCanvas;
 import j2a.BitmapImage;
 import j2a.Point;
@@ -69,7 +67,7 @@ public class Card {
         g2d.setColor(j2a.Factory.Color.getWHITE());
         g2d.fillRect((b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2 - g2d.getFontMetrics().getHeight(), w, (int) (g2d.getFontMetrics().getHeight() * 1.5));
         g2d.setColor(j2a.Factory.Color.getBLACK());
-        g2d.setFont(g2d.getFont().deriveFont(j2a.Factory.Font.getBOLD()));
+        g2d.setFont(g2d.getFont().getBold());
         g2d.drawString(city.getName(), (b.getWidth() - w) / 2, (b.getHeight() - g2d.getFontMetrics().getHeight()) / 2);
         return b;
     }
