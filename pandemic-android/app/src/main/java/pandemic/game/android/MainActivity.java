@@ -29,11 +29,29 @@ public class MainActivity extends Activity {
         c5.setText(Roles.knownRoles[4]);
         c6.setText(Roles.knownRoles[5]);
         c7.setText(Roles.knownRoles[6]);
+        final Button b = (Button) findViewById(R.id.startButton) ;
+        if (GameActivity.board != null){
+            c1.setEnabled(false);
+            c2.setEnabled(false);
+            c3.setEnabled(false);
+            c4.setEnabled(false);
+            c5.setEnabled(false);
+            c6.setEnabled(false);
+            c7.setEnabled(false);
+            b.setText("Continue");
 
-        Button b = (Button) findViewById(R.id.startButton) ;
+        }
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    c1.setEnabled(false);
+                    c2.setEnabled(false);
+                    c3.setEnabled(false);
+                    c4.setEnabled(false);
+                    c5.setEnabled(false);
+                    c6.setEnabled(false);
+                    c7.setEnabled(false);
+                    b.setText("Continue");
                 Intent myIntent = new Intent(MainActivity.this, GameActivity.class);
                 myIntent.putExtra(Roles.knownRoles[0], c1.isChecked());
                 myIntent.putExtra(Roles.knownRoles[1], c2.isChecked());

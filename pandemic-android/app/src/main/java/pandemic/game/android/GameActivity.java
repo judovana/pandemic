@@ -25,7 +25,8 @@ import pandemic.game.roles.Roles;
 public class GameActivity extends Activity implements Observer {
 
     ImageView drawPane;
-    Board board;
+    //the intent is recreat during each 90rotation. this is saving state
+    static Board board;
     int lastX;
     int lastY;
     int lastAct;
@@ -48,8 +49,8 @@ public class GameActivity extends Activity implements Observer {
         drawPane.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                lastX= (int)event.getX();
-                lastY= (int)event.getY();
+                lastX = (int) event.getX();
+                lastY = (int) event.getY();
                 board.move(
                         real(lastX, drawPane.getWidth(), board.getOrigWidth()),
                         real(lastY, drawPane.getHeight(), board.getOrigHeight()));
@@ -75,10 +76,10 @@ public class GameActivity extends Activity implements Observer {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try{
+                        try {
                             Thread.sleep(250);
-                            clicks=0;
-                        }catch(Exception ex){
+                            clicks = 0;
+                        } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                     }
@@ -100,7 +101,7 @@ public class GameActivity extends Activity implements Observer {
                                 real(lastX, drawPane.getWidth(), board.getOrigWidth()),
                                 real(lastY, drawPane.getHeight(), board.getOrigHeight()));
                     }
-                }else{
+                } else {
                     //lonng touch with the movement hack is not working on all devices. supporting double click for second action.
                     board.second(
                             real(lastX, drawPane.getWidth(), board.getOrigWidth()),
@@ -121,8 +122,8 @@ public class GameActivity extends Activity implements Observer {
                     case MotionEvent.ACTION_UP:
                         System.out.println("up");
                         break;
-                    }
-                if (lastAct!=MotionEvent.ACTION_MOVE) {
+                }
+                if (lastAct != MotionEvent.ACTION_MOVE) {
                     board.second(
                             real(lastX, drawPane.getWidth(), board.getOrigWidth()),
                             real(lastY, drawPane.getHeight(), board.getOrigHeight()));
@@ -131,37 +132,37 @@ public class GameActivity extends Activity implements Observer {
                 return false;
             }
         });
-        //board = new Board(new Roles(args), new OtherActionsProvider() {
         try {
-            Roles roles = null;
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                roles = new Roles(new String[]{});
-            } else {
-                List<String> foundRoles =new ArrayList<String>(7);
-                for(String s: Roles.knownRoles){
-                    boolean is  = extras.getBoolean(s);
-                    if (is){
-                        foundRoles.add(s);
+            if (board == null) {
+                Roles roles = null;
+                Bundle extras = getIntent().getExtras();
+                if (extras == null) {
+                    roles = new Roles(new String[]{});
+                } else {
+                    List<String> foundRoles = new ArrayList<String>(7);
+                    for (String s : Roles.knownRoles) {
+                        boolean is = extras.getBoolean(s);
+                        if (is) {
+                            foundRoles.add(s);
+                        }
                     }
+                    roles = new Roles(foundRoles.toArray(new String[foundRoles.size()]));
                 }
-                roles = new Roles(foundRoles.toArray(new String[foundRoles.size()]));
+                board = new Board(roles, new OtherActionsProvider() {
+
+                    @Override
+                    public void provide(Roles r, Deck d) {
+                        Intent register = new Intent(GameActivity.this, OtherActions.class);
+                        OtherActions.roles = r;
+                        OtherActions.deck = d;
+                        OtherActions.game = GameActivity.this;
+                        GameActivity.this.startActivity(register);
+                    }
+                });
             }
-            board = new Board(roles, new OtherActionsProvider() {
-
-                @Override
-                public void provide(Roles r, Deck d) {
-                    Intent register=new Intent(GameActivity.this, OtherActions.class);
-                    OtherActions.roles=r;
-                    OtherActions.deck=d;
-                    OtherActions.game=GameActivity.this;
-                    GameActivity.this.startActivity(register);
-                }
-            });
-
             board.addObserver(GameActivity.this);
             board.notifyObservers();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
             // set title
             alertDialogBuilder.setTitle("Error");
