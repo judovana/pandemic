@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 
 
@@ -21,12 +23,91 @@ public class GameActivity extends Activity implements Observer {
 
     ImageView drawPane;
     Board board;
+    int lastX;
+    int lastY;
+    int lastAct;
+    //functions for recalculate coordinations
+
+    private int real(int coord, int current, int orig) {
+        return (int) real((double) coord, (double) current, (double) orig);
+    }
+
+    private double real(double coord, double current, double orig) {
+        return (orig / current) * coord;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         drawPane = (ImageView) findViewById(R.id.imageView);
+        drawPane.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                lastX= (int)event.getX();
+                lastY= (int)event.getY();
+                board.move(
+                        real(lastX, drawPane.getWidth(), board.getOrigWidth()),
+                        real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                lastAct = event.getAction();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        System.out.println("down");
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        System.out.println("move");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        System.out.println("up");
+                        break;
+                }
+                return false;
+            }
+        });
+        drawPane.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (lastAct) {
+                    case MotionEvent.ACTION_DOWN:
+                        System.out.println("down");
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        System.out.println("move");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        System.out.println("up");
+                        break;
+                }
+                if (lastAct!=MotionEvent.ACTION_MOVE) {
+                    board.mainClick(
+                            real(lastX, drawPane.getWidth(), board.getOrigWidth()),
+                            real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                }
+            }
+        });
+        drawPane.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                switch (lastAct) {
+                    case MotionEvent.ACTION_DOWN:
+                        System.out.println("down");
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        System.out.println("move");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        System.out.println("up");
+                        break;
+                    }
+                if (lastAct!=MotionEvent.ACTION_MOVE) {
+                    board.second(
+                            real(lastX, drawPane.getWidth(), board.getOrigWidth()),
+                            real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                    return true;
+                }
+                return false;
+            }
+        });
         //board = new Board(new Roles(args), new OtherActionsProvider() {
         try {
             board = new Board(new Roles(new String[]{"scientist"}), new OtherActionsProvider() {
