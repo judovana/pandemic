@@ -56,7 +56,7 @@ public class Board extends Observable {
         this.notifyObservers();
     }
 
-    private void drawBoard() {
+    public void drawBoard() {
         currentBoard = j2a.Factory.BitmapImage.newBitmapImage(mainBoardImage.getWidth(), mainBoardImage.getHeight());
         currentBoard.createGraphics().drawImage(mainBoardImage, 0, 0, null);
         cures.draw(currentBoard.createGraphics());
