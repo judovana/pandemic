@@ -2,6 +2,7 @@ package pandemic.game.android;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -130,7 +131,11 @@ public class GameActivity extends Activity implements Observer {
 
                 @Override
                 public void provide(Roles r, Deck d) {
-                    //new OtherActions(r, d);
+                    Intent register=new Intent(GameActivity.this, OtherActions.class);
+                    OtherActions.roles=r;
+                    OtherActions.deck=d;
+                    OtherActions.game=GameActivity.this;
+                    GameActivity.this.startActivity(register);
                 }
             });
 
