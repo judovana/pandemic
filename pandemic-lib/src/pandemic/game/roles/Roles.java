@@ -21,8 +21,11 @@ import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 import pandemic.game.cards.PlayerCard;
+import pandemic.game.roles.implementations.ContingencyPlanner;
 import pandemic.game.roles.implementations.Dispatcher;
 import pandemic.game.roles.implementations.Medic;
+import pandemic.game.roles.implementations.OperationExpert;
+import pandemic.game.roles.implementations.QuarantineSpecialist;
 import pandemic.game.roles.implementations.Researcher;
 import pandemic.game.roles.implementations.Scientist;
 
@@ -39,7 +42,10 @@ public class Roles {
         "medic",
         "scientist",
         "researcher",
-        "dispatcher"
+        "dispatcher",
+        "hygienist",
+        "analytic",
+        "operator"
     };
     /**
      * List of all existing roles
@@ -55,6 +61,9 @@ public class Roles {
         rolesInstances.put(knownRoles[1], new Scientist());
         rolesInstances.put(knownRoles[2], new Researcher());
         rolesInstances.put(knownRoles[3], new Dispatcher());
+        rolesInstances.put(knownRoles[4], new QuarantineSpecialist());
+        rolesInstances.put(knownRoles[5], new ContingencyPlanner());
+        rolesInstances.put(knownRoles[6], new OperationExpert());
     }
 
     ;
