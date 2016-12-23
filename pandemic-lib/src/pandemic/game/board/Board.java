@@ -42,7 +42,7 @@ public class Board extends Observable {
     private final OtherActionsProvider oa;
 
     public Board(Roles roles, OtherActionsProvider oa) throws IOException {
-        this.oa=oa;
+        this.oa = oa;
         this.roles = roles;
         cities = new Cities();
         outbreaks = new Outbreaks();
@@ -74,10 +74,12 @@ public class Board extends Observable {
 
         roles.drawPlayersHands(currentBoard.createGraphics());
 
+        String selctedCardName = "";
         if (selected instanceof Card) {
             Card cc = ((Card) selected);
+            selctedCardName = " -> " + cc.getCity().getName() + "[" + cc.getClass().getSimpleName() + "]";
             cc.drawPlaced(currentBoard.createGraphics());
-            if (cc.getFreeCoords()!=null){
+            if (cc.getFreeCoords() != null) {
                 GraphicsCanvas gc = currentBoard.createGraphics();
                 gc.setColor(Factory.Color.getCYAN());
                 gc.drawRect(cc.getFreeCoords().getX(), cc.getFreeCoords().getY(), cc.getWidth(), cc.getHeight());
@@ -85,13 +87,17 @@ public class Board extends Observable {
         }
         GraphicsCanvas cg = currentBoard.createGraphics();
         cg.setColor(Factory.Color.getWHITE());
-        cg.drawString(roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")", getOrigWidth() / 2 - 40, 20);
+        String ss = roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")"+selctedCardName;
+        int ssw = cg.getFontMetrics().stringWidth(ss);
+        cg.drawString(ss, getOrigWidth() / 2 - ssw/2, 20);
         notifyObservers();
     }
+
     //loading the picture from path in the jar
     private void loadResources() throws IOException {
         mainBoardImage = j2a.Factory.BitmapImage.read(this.getClass().getResourceAsStream("/pandemic/data/images/board.jpg"));
     }
+
     /**
      * {@inheritDoc }
      */
@@ -219,7 +225,7 @@ public class Board extends Observable {
      * Clicking the right button allows to drop infection cards and do the
      * infecting or take cards to players hands
      *
-     * @param real  coordinate recalculated to the size of an image
+     * @param real coordinate recalculated to the size of an image
      * @param real0 coordinate recalculated to the size of an image
      */
     public void second(int real, int real0) {
