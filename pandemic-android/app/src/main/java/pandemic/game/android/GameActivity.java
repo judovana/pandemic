@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -110,7 +112,21 @@ public class GameActivity extends Activity implements Observer {
         });
         //board = new Board(new Roles(args), new OtherActionsProvider() {
         try {
-            board = new Board(new Roles(new String[]{"scientist"}), new OtherActionsProvider() {
+            Roles roles = null;
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                roles = new Roles(new String[]{});
+            } else {
+                List<String> foundRoles =new ArrayList<String>(7);
+                for(String s: Roles.knownRoles){
+                    boolean is  = extras.getBoolean(s);
+                    if (is){
+                        foundRoles.add(s);
+                    }
+                }
+                roles = new Roles(foundRoles.toArray(new String[foundRoles.size()]));
+            }
+            board = new Board(roles, new OtherActionsProvider() {
 
                 @Override
                 public void provide(Roles r, Deck d) {
@@ -120,7 +136,7 @@ public class GameActivity extends Activity implements Observer {
 
             board.addObserver(GameActivity.this);
             board.notifyObservers();
-        }catch (IOException ex){
+        }catch (Exception ex){
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
             // set title
             alertDialogBuilder.setTitle("Error");

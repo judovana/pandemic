@@ -65,4 +65,31 @@
         android:id="@+id/startButton"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox5"
+        android:layout_below="@+id/checkBox4"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/checkBox4" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox6"
+        android:layout_below="@+id/checkBox5"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/checkBox5" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox7"
+        android:layout_below="@+id/checkBox6"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/checkBox6" />
 </RelativeLayout>
