@@ -29,6 +29,7 @@ public class GameActivity extends Activity implements Observer {
     int lastX;
     int lastY;
     int lastAct;
+    int clicks;
     //functions for recalculate coordinations
 
     private int real(int coord, int current, int orig) {
@@ -70,6 +71,18 @@ public class GameActivity extends Activity implements Observer {
         drawPane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clicks++;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            Thread.sleep(250);
+                            clicks=0;
+                        }catch(Exception ex){
+                            ex.printStackTrace();
+                        }
+                    }
+                }).start();
                 switch (lastAct) {
                     case MotionEvent.ACTION_DOWN:
                         System.out.println("down");
@@ -81,8 +94,15 @@ public class GameActivity extends Activity implements Observer {
                         System.out.println("up");
                         break;
                 }
-                if (lastAct!=MotionEvent.ACTION_MOVE) {
-                    board.mainClick(
+                if (clicks < 2) {
+                    if (lastAct != MotionEvent.ACTION_MOVE) {
+                        board.mainClick(
+                                real(lastX, drawPane.getWidth(), board.getOrigWidth()),
+                                real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                    }
+                }else{
+                    //lonng touch with the movement hack is not working on all devices. supporting double click for second action.
+                    board.second(
                             real(lastX, drawPane.getWidth(), board.getOrigWidth()),
                             real(lastY, drawPane.getHeight(), board.getOrigHeight()));
                 }
