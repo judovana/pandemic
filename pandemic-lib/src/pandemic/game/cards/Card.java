@@ -96,7 +96,19 @@ public class Card {
         return (x > freeCoords.getX()
                 && x < freeCoords.getX() + getBackground().getWidth()
                 && y > freeCoords.getY()
-                && y < freeCoords.getX() + getBackground().getHeight());
+                && y < freeCoords.getY() + getBackground().getHeight());
+    }
+
+    public Point getFreeCoords() {
+        return freeCoords;
+    }
+    
+    public int getWidth(){
+        return bg.getWidth();
+    }
+    
+    public int getHeight(){
+        return bg.getHeight();
     }
     
     public City getCity() {

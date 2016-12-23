@@ -6,6 +6,8 @@
 package pandemic.game.board;
 
 import j2a.BitmapImage;
+import j2a.Factory;
+import j2a.GraphicsCanvas;
 import j2a.Point;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,9 +75,17 @@ public class Board extends Observable {
         roles.drawPlayersHands(currentBoard.createGraphics());
 
         if (selected instanceof Card) {
-            ((Card) selected).drawPlaced(currentBoard.createGraphics());
+            Card cc = ((Card) selected);
+            cc.drawPlaced(currentBoard.createGraphics());
+            if (cc.getFreeCoords()!=null){
+                GraphicsCanvas gc = currentBoard.createGraphics();
+                gc.setColor(Factory.Color.getCYAN());
+                gc.drawRect(cc.getFreeCoords().getX(), cc.getFreeCoords().getY(), cc.getWidth(), cc.getHeight());
+            }
         }
-        currentBoard.createGraphics().drawString(roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")", getOrigWidth() / 2 - 40, 20);
+        GraphicsCanvas cg = currentBoard.createGraphics();
+        cg.setColor(Factory.Color.getWHITE());
+        cg.drawString(roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")", getOrigWidth() / 2 - 40, 20);
         notifyObservers();
     }
     //loading the picture from path in the jar
