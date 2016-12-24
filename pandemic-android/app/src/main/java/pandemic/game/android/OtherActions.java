@@ -46,18 +46,79 @@ public class OtherActions extends Activity {
             }
         });
 
+
+        ViewGroup.LayoutParams VparamsMW1 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams VparamsWW1 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams LparamsWW2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams LparamsMW2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        LinearLayout line = new LinearLayout(this);
+        line.setOrientation(LinearLayout.HORIZONTAL);
+        line.setLayoutParams(VparamsMW1);
+
+
         TextView t = new TextView(this);
         t.setText(roles.getCurrentPlayer().getName());
-        ViewGroup.LayoutParams LLParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        t.setLayoutParams(LLParams);
-        main.addView(t);
+        t.setLayoutParams(LparamsWW2);
+        line.addView(t);
+
+        Button b = new Button(this);
+        b.setText("Build station");
+        t.setLayoutParams(LparamsWW2);
+        line.addView(b);
+
+        b = new Button(this);
+        b.setText("Cure disease");
+        t.setLayoutParams(LparamsWW2);
+        line.addView(b);
+
+        b = new Button(this);
+        b.setText("Invent Cure");
+        t.setLayoutParams(LparamsWW2);
+        line.addView(b);
+
+
+        b = new Button(this);
+        b.setText("Drop cards");
+        t.setLayoutParams(LparamsWW2);
+        line.addView(b);
+
+        main.addView(line);
+
         for (Role r : roles.getPlayersInCity(roles.getCurrentPlayer().getCity())){
             if (r != roles.getCurrentPlayer()) {
+                line = new LinearLayout(this);
+                line.setOrientation(LinearLayout.HORIZONTAL);
+                line.setLayoutParams(VparamsMW1);
+
+                b = new Button(this);
+                b.setText("*******");
+                b.setLayoutParams(LparamsWW2);
+                b.setEnabled(false);
+                line.addView(b);
+
                 t = new TextView(this);
                 t.setText(r.getName());
-                LLParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                t.setLayoutParams(LLParams);
-                main.addView(t);
+                t.setLayoutParams(LparamsWW2);
+                line.addView(t);
+
+                b = new Button(this);
+                b.setText("Give to "+ roles.getCurrentPlayer().getName());
+                t.setLayoutParams(LparamsWW2);
+                line.addView(b);
+
+                b = new Button(this);
+                b.setText("Take from "+ roles.getCurrentPlayer().getName());
+                t.setLayoutParams(LparamsWW2);
+                line.addView(b);
+
+                b = new Button(this);
+                b.setText("Drop cards");
+                t.setLayoutParams(LparamsWW2);
+                line.addView(b);
+
+
+                main.addView(line);
             }
 
         }
