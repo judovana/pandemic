@@ -19,6 +19,7 @@ public class ManualActivity extends Activity {
 
         ScrollView view = (ScrollView) findViewById(R.id.scrollView);
         LinearLayout lay= (LinearLayout ) findViewById(R.id.linerLayput);
+        lay.setOrientation(LinearLayout.VERTICAL);
 
         for(int i = 1; i <= 8; i++){
             Bitmap imgs = BitmapFactory.decodeStream(ManualActivity.class.getResourceAsStream("/pandemic/data/manual/0"+i+".jpg"));

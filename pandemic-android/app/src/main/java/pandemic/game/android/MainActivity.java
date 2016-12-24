@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -84,7 +85,8 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 try {
                     InputStream is = MainActivity.this.getClass().getResourceAsStream("/pandemic/data/manual.pdf");
-                    File file = new File(getCacheDir(), "manual.pdf");
+                    File somePath = Environment.getExternalStorageDirectory();
+                    File file = new File(somePath, "pandemic-manual.pdf");
                     FileOutputStream fos = new FileOutputStream(file);
                     byte[] buffer = new byte[1024];
                     int len;
