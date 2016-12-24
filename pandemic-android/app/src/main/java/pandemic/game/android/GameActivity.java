@@ -163,6 +163,7 @@ public class GameActivity extends Activity implements Observer {
             board.addObserver(GameActivity.this);
             board.notifyObservers();
         } catch (Exception ex) {
+            ex.printStackTrace();
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
             // set title
             alertDialogBuilder.setTitle("Error");

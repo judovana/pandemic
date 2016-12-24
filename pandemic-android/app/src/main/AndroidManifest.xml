@@ -20,7 +20,8 @@
             android:theme="@style/NoActionBar">
             >
         </activity>
-        <activity android:name=".OtherActions"></activity>
+        <activity android:name=".OtherActions" />
+        <activity android:name=".ManualActivity"></activity>
     </application>
 
 </manifest>

@@ -39,6 +39,5 @@ dependencies {
 //    })
     compile fileTree(include: ['*.jar'], dir: '../../../pandemic/pandemic-lib/dist')
     compile(name: 'j2a-android-debug', ext: 'aar')
-    compile 'com.android.support:appcompat-v7:19.1.0'
     testCompile 'junit:junit:4.12'
 }

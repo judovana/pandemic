@@ -92,4 +92,36 @@
         android:layout_below="@+id/checkBox6"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/checkBox6" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/startButton"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
+
+        <Button
+            android:text="pdf (external)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="images (internal)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <TextView
+        android:text="Manual:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
