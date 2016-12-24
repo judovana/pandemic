@@ -1,16 +1,27 @@
 package pandemic.game.android;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
+import pandemic.game.cards.Card;
+import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
 
@@ -19,6 +30,29 @@ public class OtherActions extends Activity {
     public static Roles roles;
     public static Deck deck;
     public static GameActivity game;
+
+
+    private class CardListAdapter extends ArrayAdapter<PlayerCard>{
+
+        final private List<PlayerCard> oo;
+
+        public CardListAdapter(Context context,int resource, List<PlayerCard> objects) {
+            super(context, resource, objects);
+            this.oo=objects;
+        }
+
+        int selected=-1;
+        public View getView(int position, View convertView, ViewGroup parent) {
+            CheckBox ta = new CheckBox(OtherActions.this);
+            ViewGroup.LayoutParams l = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            ta.setLayoutParams(l);
+            ta.setText(oo.get(position).getCity().getName());
+            ta.setBackgroundColor((Integer)(oo.get(position).getCity().getColor().getOriginal()));
+            ta.setTextColor(getContrastColor((Integer)(oo.get(position).getCity().getColor().getOriginal())));
+            return ta;
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +111,11 @@ public class OtherActions extends Activity {
         t.setLayoutParams(LparamsWW2);
         line.addView(b);
 
+        ListView cards = new ListView(this);
+        cards.setAdapter(new CardListAdapter(this, android.R.layout.simple_list_item_1, roles.getCurrentPlayer().getCardsInHand()));
+        cards.setLayoutParams(LparamsWW2);
+        setListViewHeightBasedOnChildren(cards);
+        line.addView(cards);
 
         b = new Button(this);
         b.setText("Drop cards");
@@ -112,6 +151,13 @@ public class OtherActions extends Activity {
                 t.setLayoutParams(LparamsWW2);
                 line.addView(b);
 
+
+                cards = new ListView(this);
+                cards.setAdapter(new CardListAdapter(this, android.R.layout.simple_list_item_1, r.getCardsInHand()));
+                cards.setLayoutParams(LparamsWW2);
+                setListViewHeightBasedOnChildren(cards);
+                line.addView(cards);
+
                 b = new Button(this);
                 b.setText("Drop cards");
                 t.setLayoutParams(LparamsWW2);
@@ -124,4 +170,33 @@ public class OtherActions extends Activity {
         }
 
     }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    public static int getContrastColor(int color) {
+        int r = 255-Color.red(color);
+        int g = 255-Color.green(color);
+        int b = 255-Color.blue(color);
+        return Color.rgb(r,g,b);
+    }
+
 }
