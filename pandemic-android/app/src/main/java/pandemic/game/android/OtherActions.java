@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
+import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
 
 public class OtherActions extends Activity {
@@ -24,6 +28,12 @@ public class OtherActions extends Activity {
         //getSupportActionBar().setTitle("Hello world App");
 
         Button nextPlayer = (Button) findViewById(R.id.nextPlayer);
+        ScrollView mainScroll= (ScrollView) findViewById(R.id.mainScroll);
+        mainScroll.removeAllViews();
+        LinearLayout main = new LinearLayout(this);
+        main.setOrientation(LinearLayout.VERTICAL);
+        mainScroll.addView(main);
+
         nextPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,6 +45,22 @@ public class OtherActions extends Activity {
                 OtherActions.this.finish();
             }
         });
+
+        TextView t = new TextView(this);
+        t.setText(roles.getCurrentPlayer().getName());
+        ViewGroup.LayoutParams LLParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        t.setLayoutParams(LLParams);
+        main.addView(t);
+        for (Role r : roles.getPlayersInCity(roles.getCurrentPlayer().getCity())){
+            if (r != roles.getCurrentPlayer()) {
+                t = new TextView(this);
+                t.setText(r.getName());
+                LLParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                t.setLayoutParams(LLParams);
+                main.addView(t);
+            }
+
+        }
 
     }
 }
