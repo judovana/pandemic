@@ -82,12 +82,14 @@ public class OtherActions extends Activity {
 
     }
 
-    private class PlayerView extends LinearLayout {
+    private abstract class PlayerView extends LinearLayout {
 
         protected final Role thisPlayer;
         //android is to dummy so we need to duplicate variable here
         protected final Context mContext;
         protected List<CheckboxWithCard> checks;
+        protected LinearLayout cards;
+        protected Button drop;
 
         public PlayerView(Role thisPlayer, Context parent) {
             super(parent);
@@ -120,7 +122,7 @@ public class OtherActions extends Activity {
         }
 
         protected void addCards() {
-            LinearLayout cards = new LinearLayout(mContext);
+            cards = new LinearLayout(mContext);
             cards.setOrientation(LinearLayout.VERTICAL);
             cards.setLayoutParams(LparamsWW2);
             checks = init(cards, thisPlayer.getCardsInHand());
@@ -152,13 +154,32 @@ public class OtherActions extends Activity {
             }
         }
 
+        public abstract void resetListeners();
+
+        protected OnClickListener createDropListener() {
+            return new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<PlayerCard> l = getSelectedCards();
+                    for (PlayerCard c : l) {
+                        thisPlayer.discardCard(c);
+                        deck.returnCard(c);
+                        drop.setEnabled(false);
+                    }
+                    cards.removeAllViews();
+                    checks=init(cards, thisPlayer.getCardsInHand());
+                    resetListeners();
+
+                }
+            };
+        }
     }
 
     private class OtherPlayerView extends PlayerView {
         protected final Role currentPlayer;
         private final Button giveto;
         private final Button taketo;
-        private final Button drop;
+        private CurrentPlayerView cpv;
 
         public OtherPlayerView(Role thisPlayer, Role currentPlayer, Context parent) {
             super(thisPlayer, parent);
@@ -173,9 +194,16 @@ public class OtherActions extends Activity {
             addCards();
             drop = addDropCardsButon();
             drop.setEnabled(false);
+            drop.setOnClickListener(createDropListener());
+        }
+
+        @Override
+        public void resetListeners() {
+            setListener(cpv);
         }
 
         public void setListener(CurrentPlayerView cpv) {
+            this.cpv=cpv;
             setCheckListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -196,14 +224,21 @@ public class OtherActions extends Activity {
         public void setTake(boolean b) {
             taketo.setEnabled(b);
         }
+
     }
 
     private class CurrentPlayerView extends PlayerView {
 
-        private final Button drop;
         private final Button invent;
+        private List<OtherPlayerView> others;
+
+        @Override
+        public void resetListeners() {
+            setListener(others);
+        }
 
         public void setListener(final List<OtherPlayerView> others) {
+            this.others=others;
             setCheckListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -324,6 +359,7 @@ public class OtherActions extends Activity {
             addCards();
             drop = addDropCardsButon();
             drop.setEnabled(false);
+            drop.setOnClickListener(createDropListener());
 
         }
     }
