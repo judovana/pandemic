@@ -97,15 +97,25 @@ public class GameActivity extends Activity implements Observer {
                 }
                 if (clicks < 2) {
                     if (lastAct != MotionEvent.ACTION_MOVE) {
-                        board.mainClick(
-                                real(lastX, drawPane.getWidth(), board.getOrigWidth()),
-                                real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                        try {
+                            board.mainClick(
+                                    real(lastX, drawPane.getWidth(), board.getOrigWidth()),
+                                    real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                        }catch (Exception ex){
+                            //null city can strike
+                            ex.printStackTrace();
+                        }
                     }
                 } else {
                     //lonng touch with the movement hack is not working on all devices. supporting double click for second action.
-                    board.second(
-                            real(lastX, drawPane.getWidth(), board.getOrigWidth()),
-                            real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                    try {
+                        board.second(
+                                real(lastX, drawPane.getWidth(), board.getOrigWidth()),
+                                real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                    }catch (Exception ex){
+                    //null city can strike
+                    ex.printStackTrace();
+                }
                 }
             }
         });
@@ -124,9 +134,14 @@ public class GameActivity extends Activity implements Observer {
                         break;
                 }
                 if (lastAct != MotionEvent.ACTION_MOVE) {
-                    board.second(
-                            real(lastX, drawPane.getWidth(), board.getOrigWidth()),
-                            real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                    try {
+                        board.second(
+                                real(lastX, drawPane.getWidth(), board.getOrigWidth()),
+                                real(lastY, drawPane.getHeight(), board.getOrigHeight()));
+                    }catch (Exception ex){
+                        //null city can strike
+                        ex.printStackTrace();
+                    }
                     return true;
                 }
                 return false;
