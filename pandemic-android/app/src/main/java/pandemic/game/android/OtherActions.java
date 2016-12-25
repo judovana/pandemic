@@ -7,15 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pandemic.game.board.parts.Deck;
@@ -30,6 +28,8 @@ public class OtherActions extends Activity {
     public static Deck deck;
     public static GameActivity game;
 
+    private static final ViewGroup.LayoutParams VparamsMW1 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private static final LinearLayout.LayoutParams LparamsWW2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class OtherActions extends Activity {
         //getSupportActionBar().setTitle("Hello world App");
 
         Button nextPlayer = (Button) findViewById(R.id.nextPlayer);
-        ScrollView mainScroll= (ScrollView) findViewById(R.id.mainScroll);
+        ScrollView mainScroll = (ScrollView) findViewById(R.id.mainScroll);
         mainScroll.removeAllViews();
         LinearLayout main = new LinearLayout(this);
         main.setOrientation(LinearLayout.VERTICAL);
@@ -58,115 +58,133 @@ public class OtherActions extends Activity {
         });
 
 
-        ViewGroup.LayoutParams VparamsMW1 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ViewGroup.LayoutParams VparamsWW1 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        LinearLayout.LayoutParams LparamsWW2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        LinearLayout.LayoutParams LparamsMW2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        CurrentPlayerView cp = new CurrentPlayerView(roles.getCurrentPlayer(), this);
+        main.addView(cp);
 
-        LinearLayout line = new LinearLayout(this);
-        line.setOrientation(LinearLayout.HORIZONTAL);
-        line.setLayoutParams(VparamsMW1);
-
-
-        TextView t = new TextView(this);
-        t.setText(roles.getCurrentPlayer().getName());
-        t.setLayoutParams(LparamsWW2);
-        line.addView(t);
-
-        Button b = new Button(this);
-        b.setText("Build station");
-        t.setLayoutParams(LparamsWW2);
-        line.addView(b);
-
-        b = new Button(this);
-        b.setText("Cure disease");
-        t.setLayoutParams(LparamsWW2);
-        line.addView(b);
-
-        b = new Button(this);
-        b.setText("Invent Cure");
-        t.setLayoutParams(LparamsWW2);
-        line.addView(b);
-
-        LinearLayout cards = new LinearLayout(this);
-        cards.setOrientation(LinearLayout.VERTICAL);
-        cards.setLayoutParams(LparamsWW2);
-        init(cards, roles.getCurrentPlayer().getCardsInHand());
-        line.addView(cards);
-
-        b = new Button(this);
-        b.setText("Drop cards");
-        t.setLayoutParams(LparamsWW2);
-        line.addView(b);
-
-        main.addView(line);
-
-        for (Role r : roles.getPlayersInCity(roles.getCurrentPlayer().getCity())){
+        for (Role r : roles.getPlayersInCity(roles.getCurrentPlayer().getCity())) {
             if (r != roles.getCurrentPlayer()) {
-                line = new LinearLayout(this);
-                line.setOrientation(LinearLayout.HORIZONTAL);
-                line.setLayoutParams(VparamsMW1);
-
-                b = new Button(this);
-                b.setText("*******");
-                b.setLayoutParams(LparamsWW2);
-                b.setEnabled(false);
-                line.addView(b);
-
-                t = new TextView(this);
-                t.setText(r.getName());
-                t.setLayoutParams(LparamsWW2);
-                line.addView(t);
-
-                b = new Button(this);
-                b.setText("Give to "+ roles.getCurrentPlayer().getName());
-                t.setLayoutParams(LparamsWW2);
-                line.addView(b);
-
-                b = new Button(this);
-                b.setText("Take from "+ roles.getCurrentPlayer().getName());
-                t.setLayoutParams(LparamsWW2);
-                line.addView(b);
-
-
-                cards = new LinearLayout(this);
-                cards.setOrientation(LinearLayout.VERTICAL);
-                cards.setLayoutParams(LparamsWW2);
-                init(cards, r.getCardsInHand());
-                line.addView(cards);
-
-                b = new Button(this);
-                b.setText("Drop cards");
-                t.setLayoutParams(LparamsWW2);
-                line.addView(b);
-
-
-                main.addView(line);
+                OtherPlayerView op = new OtherPlayerView(r, roles.getCurrentPlayer(),this);
+                main.addView(op);
             }
 
         }
 
     }
 
-    private void init(LinearLayout cards, List<PlayerCard> cardsInHand) {
-        for(PlayerCard c:cardsInHand){
-                    CheckBox ta = new CheckBox(OtherActions.this);
-                    ViewGroup.LayoutParams l = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    ta.setLayoutParams(l);
-                    ta.setText(c.getCity().getName());
-                    ta.setBackgroundColor((Integer)(c.getCity().getColor().getOriginal()));
-                    ta.setTextColor(getContrastColor((Integer)(c.getCity().getColor().getOriginal())));
-                    cards.addView(ta);
-                }
+    private class PlayerView extends LinearLayout {
 
-            };
+        protected final Role thisPlayer;
+        //android is to dummy so we need to duplicate variable here
+        protected final Context mContext;
+        protected List<CheckboxWithCard> checks;
+
+        public PlayerView(Role thisPlayer, Context parent) {
+            super(parent);
+            this.mContext = parent;
+            this.thisPlayer = thisPlayer;
+            this.setOrientation(LinearLayout.HORIZONTAL);
+            this.setLayoutParams(VparamsMW1);
+        }
+
+        protected TextView setName() {
+            TextView t = new TextView(mContext);
+            t.setText(thisPlayer.getName());
+            t.setLayoutParams(LparamsWW2);
+            this.addView(t);
+            return t;
+        }
+
+        protected Button addDropCardsButon() {
+            return addButon("Drop cards");
+        }
+        protected Button addButon(String title) {
+            Button b = new Button(mContext);
+            b.setText(title);
+            b.setLayoutParams(LparamsWW2);
+            this.addView(b);
+            return b;
+        }
+
+        protected void addCards() {
+            LinearLayout cards = new LinearLayout(mContext);
+            cards.setOrientation(LinearLayout.VERTICAL);
+            cards.setLayoutParams(LparamsWW2);
+            checks = init(cards, thisPlayer.getCardsInHand());
+            this.addView(cards);
+        }
+
+    }
+
+    private class CurrentPlayerView extends PlayerView {
+
+        public CurrentPlayerView(Role thisPlayer, Context parent) {
+            super(thisPlayer, parent);
+            setName();
+            addButon("Build station");
+            addButon("Cure disease");
+            addButon("Invent Cure");
+            addCards();
+            addDropCardsButon();
+
+        }
+    }
+
+    private class OtherPlayerView extends PlayerView {
+        protected final Role currentPlayer;
+
+        public OtherPlayerView(Role thisPlayer, Role currentPlayer, Context parent) {
+            super(thisPlayer, parent);
+            this.currentPlayer = currentPlayer;
+            Button tab = addButon("*******");
+            setName();
+            tab.setEnabled(false);
+            addButon("Give to " + currentPlayer.getName());
+            addButon("Take from " + currentPlayer.getName());
+            addCards();
+            addDropCardsButon();
+        }
+    }
+
+    private static class CheckboxWithCard extends CheckBox {
+
+        private static final ViewGroup.LayoutParams l = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        public final PlayerCard card;
+
+        CheckboxWithCard(Context c, PlayerCard pc) {
+            super(c);
+            this.card = pc;
+            this.setLayoutParams(l);
+            this.setText(pc.getCity().getName());
+            this.setBackgroundColor((Integer) (pc.getCity().getColor().getOriginal()));
+            this.setTextColor(getContrastColor((Integer) (pc.getCity().getColor().getOriginal())));
+        }
+
+        public PlayerCard getCard() {
+            return card;
+        }
+
+    }
+
+    private List<CheckboxWithCard> init(LinearLayout cards, List<PlayerCard> cardsInHand) {
+        List<CheckboxWithCard> result = new ArrayList<CheckboxWithCard>(cardsInHand.size());
+
+        for (PlayerCard c : cardsInHand) {
+            CheckboxWithCard ta = new CheckboxWithCard(OtherActions.this, c);
+            result.add(ta);
+            cards.addView(ta);
+        }
+        return result;
+
+    }
+
+    ;
 
 
     public static int getContrastColor(int color) {
-        int r = 255-Color.red(color);
-        int g = 255-Color.green(color);
-        int b = 255-Color.blue(color);
-        return Color.rgb(r,g,b);
+        int r = 255 - Color.red(color);
+        int g = 255 - Color.green(color);
+        int b = 255 - Color.blue(color);
+        return Color.rgb(r, g, b);
     }
 
 }
