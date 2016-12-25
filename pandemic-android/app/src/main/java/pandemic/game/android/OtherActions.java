@@ -14,10 +14,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pandemic.game.board.parts.Deck;
+import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.InfecetionRate;
+import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
@@ -27,6 +31,8 @@ public class OtherActions extends Activity {
     public static Roles roles;
     public static Deck deck;
     public static GameActivity game;
+
+    private final String CD = "Cure disease";
 
     private static final ViewGroup.LayoutParams VparamsMW1 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     private static final LinearLayout.LayoutParams LparamsWW2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -95,7 +101,9 @@ public class OtherActions extends Activity {
         }
 
         protected Button addDropCardsButon() {
-            return addButon("Drop cards");
+            Button b = addButon("Drop card(s)");
+            b.setEnabled(false);
+            return b;
         }
         protected Button addButon(String title) {
             Button b = new Button(mContext);
@@ -117,11 +125,95 @@ public class OtherActions extends Activity {
 
     private class CurrentPlayerView extends PlayerView {
 
-        public CurrentPlayerView(Role thisPlayer, Context parent) {
+        public CurrentPlayerView(final Role thisPlayer, Context parent) {
             super(thisPlayer, parent);
             setName();
-            addButon("Build station");
-            addButon("Cure disease");
+            final Button bs = addButon("Build station");
+            if (thisPlayer.getCity().haveStation()){
+                bs.setEnabled(false);
+            }else{
+                bs.setEnabled(true);
+            }
+            bs.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    thisPlayer.getCity().setStation();
+                    bs.setEnabled(false);
+                }
+            });
+            final Button cureDisease=addButon(CD);
+            tuneCureButton(roles, cureDisease);
+            cureDisease.setOnClickListener(
+                    new OnClickListener() {
+
+                        @Override
+                        public void onClick(View e) {
+                            final List<Cubes> cubes = roles.getCurrentPlayer().getCity().getCubes();
+                            Set<j2a.Color> colors = new HashSet<j2a.Color>();
+                            for (Cubes cube : cubes) {
+                                colors.add(cube.getColor());
+                            }
+                            if (colors.size() == 1) {
+                                j2a.Color cc =  cubes.get(0).getColor();
+                                if (Drugs.self.isCured(cc)) {
+                                    int inLength = cubes.size();
+                                    for (int i = 0; i < inLength; i++) {
+                                        cubes.remove(0);
+                                    }
+                                    Drugs.self.checkFixed(cc);
+                                    tuneCureButton(roles, cureDisease);
+                                } else {
+                                    cubes.remove(0);
+                                    Drugs.self.checkFixed(cc);
+                                    tuneCureButton(roles, cureDisease);
+                                }
+                            } else {
+                                //needs activity
+                                /*
+                                JPopupMenu jpp = new JPopupMenu();
+                                for (j2a.Color color : colors) {
+
+                                    int localCount = 0;
+                                    for (Cubes cube : cubes) {
+                                        if (cube.getColor().equals(color)) {
+                                            localCount++;
+
+                                        }
+                                    }
+
+                                    JMenuItem jpps = new JMenuItem("_-_-_-_ ( " + localCount + " ) _-_-_-_");
+                                    jpps.addActionListener(new ActionListener() {
+
+                                        @Override
+                                        public void actionPerformed(ActionEvent e) {
+                                            Color targetColor = ((JMenuItem) e.getSource()).getBackground();
+                                            for (int i = 0; i < cubes.size(); i++) {
+                                                Cubes cube = cubes.get(i);
+                                                if (cube.getColor().equals(new j2a.java.Color(targetColor))) {
+                                                    cubes.remove(i);
+                                                    i--;
+                                                    if (Drugs.self.isCured(new j2a.java.Color(targetColor))) {
+                                                        continue;
+                                                    } else {
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            Drugs.self.checkFixed(new j2a.java.Color(targetColor));
+                                            tuneCureButton(roles, cureDisease);
+                                        }
+                                    });
+                                    jpps.setBackground((Color) color.getOriginal());
+                                    jpp.add(jpps);
+                                }
+                                JButton jb = (JButton) e.getSource();
+                                jpp.show(jb, 0, 0);
+                                */
+                            }
+                        }
+                    }
+            );
+
             addButon("Invent Cure");
             addCards();
             addDropCardsButon();
@@ -187,4 +279,20 @@ public class OtherActions extends Activity {
         return Color.rgb(r, g, b);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        game.board.drawBoard();
+    }
+
+    public final void tuneCureButton(final Roles roles, final Button cureDisease) {
+        if (roles.getCurrentPlayer().getCity().getCubes().size() <= 0) {
+            cureDisease.setEnabled(false);
+            cureDisease.setText(CD + " (" + roles.getCurrentPlayer().getCity().getCubes().size() + ")");
+        } else {
+            cureDisease.setEnabled(true);
+            cureDisease.setText(CD + " (" + roles.getCurrentPlayer().getCity().getCubes().size() + ")");
+        }
+    }
 }
