@@ -18,14 +18,19 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
-    <ScrollView
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/nextPlayer"
-        android:id="@+id/mainScroll">
+        android:layout_height="match_parent">
 
-    </ScrollView>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_above="@+id/nextPlayer"
+            android:id="@+id/mainScroll">
+
+        </ScrollView>
+    </HorizontalScrollView>
 
 </RelativeLayout>
