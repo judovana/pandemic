@@ -20,7 +20,6 @@ import java.util.List;
 
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.InfecetionRate;
-import pandemic.game.cards.Card;
 import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
@@ -31,28 +30,6 @@ public class OtherActions extends Activity {
     public static Deck deck;
     public static GameActivity game;
 
-
-    private class CardListAdapter extends ArrayAdapter<PlayerCard>{
-
-        final private List<PlayerCard> oo;
-
-        public CardListAdapter(Context context,int resource, List<PlayerCard> objects) {
-            super(context, resource, objects);
-            this.oo=objects;
-        }
-
-        int selected=-1;
-        public View getView(int position, View convertView, ViewGroup parent) {
-            CheckBox ta = new CheckBox(OtherActions.this);
-            ViewGroup.LayoutParams l = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            ta.setLayoutParams(l);
-            ta.setText(oo.get(position).getCity().getName());
-            ta.setBackgroundColor((Integer)(oo.get(position).getCity().getColor().getOriginal()));
-            ta.setTextColor(getContrastColor((Integer)(oo.get(position).getCity().getColor().getOriginal())));
-            return ta;
-        }
-
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +88,10 @@ public class OtherActions extends Activity {
         t.setLayoutParams(LparamsWW2);
         line.addView(b);
 
-        ListView cards = new ListView(this);
-        cards.setAdapter(new CardListAdapter(this, android.R.layout.simple_list_item_1, roles.getCurrentPlayer().getCardsInHand()));
+        LinearLayout cards = new LinearLayout(this);
+        cards.setOrientation(LinearLayout.VERTICAL);
         cards.setLayoutParams(LparamsWW2);
-        setListViewHeightBasedOnChildren(cards);
+        init(cards, roles.getCurrentPlayer().getCardsInHand());
         line.addView(cards);
 
         b = new Button(this);
@@ -152,10 +129,10 @@ public class OtherActions extends Activity {
                 line.addView(b);
 
 
-                cards = new ListView(this);
-                cards.setAdapter(new CardListAdapter(this, android.R.layout.simple_list_item_1, r.getCardsInHand()));
+                cards = new LinearLayout(this);
+                cards.setOrientation(LinearLayout.VERTICAL);
                 cards.setLayoutParams(LparamsWW2);
-                setListViewHeightBasedOnChildren(cards);
+                init(cards, r.getCardsInHand());
                 line.addView(cards);
 
                 b = new Button(this);
@@ -171,26 +148,19 @@ public class OtherActions extends Activity {
 
     }
 
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
+    private void init(LinearLayout cards, List<PlayerCard> cardsInHand) {
+        for(PlayerCard c:cardsInHand){
+                    CheckBox ta = new CheckBox(OtherActions.this);
+                    ViewGroup.LayoutParams l = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    ta.setLayoutParams(l);
+                    ta.setText(c.getCity().getName());
+                    ta.setBackgroundColor((Integer)(c.getCity().getColor().getOriginal()));
+                    ta.setTextColor(getContrastColor((Integer)(c.getCity().getColor().getOriginal())));
+                    cards.addView(ta);
+                }
 
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += listItem.getMeasuredHeight();
-        }
+            };
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
 
     public static int getContrastColor(int color) {
         int r = 255-Color.red(color);
