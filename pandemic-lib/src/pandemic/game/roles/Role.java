@@ -79,7 +79,8 @@ public abstract class Role {
      * @return the card from the hand or null if no card found on given coordinates for this player
      */
     Card selectHand(int x, int y) {
-        for (Card c : cardsInHand) {
+        for(int i = cardsInHand.size()-1; i>=0; i--){
+            Card c = cardsInHand.get(i);
             if (c.isFreeClicked(x, y)) {
                 cardsInHand.remove(c);
                 return c;
