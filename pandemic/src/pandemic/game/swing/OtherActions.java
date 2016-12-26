@@ -38,12 +38,12 @@ import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
 
 /**
- *Dialog is representing the interactions between players
+ * Dialog is representing the interactions between players
+ *
  * @author pipa
  */
 public class OtherActions extends JDialog {
-    
-    
+
     public static final int CARDS_TO_CURE = 5;
     private final String CD = "Cure disease";
     private final List<OtherPlayerGuiWrapper> others = new ArrayList<>(); //
@@ -120,18 +120,32 @@ public class OtherActions extends JDialog {
         final JButton cureDisease = new JButton(CD);
 
         drop.setEnabled(false);
-        if (roles.getCurrentPlayer().getCity().haveStation()) {
-            station.setEnabled(false);
-        } else {
-            station.addActionListener(new ActionListener() {
+        station.setEnabled(false);
+        station.addActionListener(new ActionListener() {
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (mainList.getSelectedValuesList().size() != 1) {
+                    throw new RuntimeException("only one can be selected");
+                }
+                Card c = mainList.getSelectedValue();
+                if (c.getCity().equals(roles.getCurrentPlayer().getCity())) {
                     roles.getCurrentPlayer().getCity().setStation();
                     station.setEnabled(false);
+                    drop.setEnabled(false);
+                    roles.getCurrentPlayer().discardCard(c);
+                    playerCards.returnCard(c);
+                    for (OtherPlayerGuiWrapper other : others) {
+                        other.takeFrom.setEnabled(false);
+                        other.dropCard.setEnabled(false);
+                    }
+                    OtherActions.this.repaint();
+                } else {
+                    throw new RuntimeException("only current city may be selected");
                 }
-            });
-        }
+            }
+        });
+
         drop.addActionListener(new ActionListener() {
 
             @Override
@@ -171,7 +185,11 @@ public class OtherActions extends JDialog {
                 } else {
                     cure.setEnabled(false);
                 }
+                station.setEnabled(false);
                 if (mainList.getSelectedIndices().length == 1) {
+                    if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())){
+                        station.setEnabled(true);
+                    }
                     if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())) {
                         for (OtherPlayerGuiWrapper other : others) {
                             other.canTake();
@@ -195,7 +213,7 @@ public class OtherActions extends JDialog {
                             colors.add(cube.getColor());
                         }
                         if (colors.size() == 1) {
-                            j2a.Color cc =  cubes.get(0).getColor();
+                            j2a.Color cc = cubes.get(0).getColor();
                             if (Drugs.self.isCured(cc)) {
                                 int inLength = cubes.size();
                                 for (int i = 0; i < inLength; i++) {
@@ -321,8 +339,9 @@ public class OtherActions extends JDialog {
         this.pack();
         this.setVisible(true);
     }
+
     /**
-     * 
+     *
      */
     private class OtherPlayerGuiWrapper {
 
