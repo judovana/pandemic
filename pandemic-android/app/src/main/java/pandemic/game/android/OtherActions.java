@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -308,10 +311,8 @@ public class OtherActions extends Activity {
                                     tuneCureButton(roles, cureDisease);
                                 }
                             } else {
-                                //needs activity
-                                /*
-                                JPopupMenu jpp = new JPopupMenu();
-                                for (j2a.Color color : colors) {
+                                PopupMenu jpp = new PopupMenu(OtherActions.this, cureDisease);
+                                for (final j2a.Color color : colors) {
 
                                     int localCount = 0;
                                     for (Cubes cube : cubes) {
@@ -321,34 +322,32 @@ public class OtherActions extends Activity {
                                         }
                                     }
 
-                                    JMenuItem jpps = new JMenuItem("_-_-_-_ ( " + localCount + " ) _-_-_-_");
-                                    jpps.addActionListener(new ActionListener() {
+                                    String hexColor = String.format("#%06X", (0xFFFFFF & (Integer)color.getOriginal()));
+                                    MenuItem jpps = jpp.getMenu().add(Html.fromHtml("<font color='"+hexColor+"'>"+"_-_-_-_ ( " + localCount + " ) _-_-_-_"+"</font>"));
+                                    jpps.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                                         @Override
-                                        public void actionPerformed(ActionEvent e) {
-                                            Color targetColor = ((JMenuItem) e.getSource()).getBackground();
+                                        public boolean onMenuItemClick(MenuItem e) {
+                                            int targetColor =  (Integer)color.getOriginal();
                                             for (int i = 0; i < cubes.size(); i++) {
                                                 Cubes cube = cubes.get(i);
-                                                if (cube.getColor().equals(new j2a.java.Color(targetColor))) {
+                                                if (cube.getColor().equals(new j2a.android.Color(targetColor))) {
                                                     cubes.remove(i);
                                                     i--;
-                                                    if (Drugs.self.isCured(new j2a.java.Color(targetColor))) {
+                                                    if (Drugs.self.isCured(new j2a.android.Color(targetColor))) {
                                                         continue;
                                                     } else {
                                                         break;
                                                     }
                                                 }
                                             }
-                                            Drugs.self.checkFixed(new j2a.java.Color(targetColor));
+                                            Drugs.self.checkFixed(new j2a.android.Color(targetColor));
                                             tuneCureButton(roles, cureDisease);
+                                            return true;
                                         }
                                     });
-                                    jpps.setBackground((Color) color.getOriginal());
-                                    jpp.add(jpps);
                                 }
-                                JButton jb = (JButton) e.getSource();
-                                jpp.show(jb, 0, 0);
-                                */
+                                jpp.show();
                             }
                         }
                     }
