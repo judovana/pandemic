@@ -133,6 +133,7 @@ public class OtherActions extends JDialog {
                     roles.getCurrentPlayer().getCity().setStation();
                     station.setEnabled(false);
                     drop.setEnabled(false);
+                    cure.setEnabled(false);
                     roles.getCurrentPlayer().discardCard(c);
                     playerCards.returnCard(c);
                     for (OtherPlayerGuiWrapper other : others) {
