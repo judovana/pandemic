@@ -245,7 +245,7 @@ public class OtherActions extends Activity {
             setCheckListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (getSelectedCards().size() == 5 && getSelectedColors().size() == 1) {
+                    if (getSelectedCards().size() == 5 && getSelectedColors().size() == 1 && thisPlayer.getCity().haveStation()) {
                         invent.setEnabled(true);
                     } else {
                         invent.setEnabled(false);
@@ -354,6 +354,31 @@ public class OtherActions extends Activity {
             );
 
             invent = addButon("Invent Cure");
+            invent.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    {
+                        if (!thisPlayer.getCity().haveStation()) {
+                            return;
+                        }
+                        List<PlayerCard> l = getSelectedCards();
+                        j2a.Color c = l.get(0).getCity().getColor();
+                        for (PlayerCard l1 : l) {
+                            if (!l1.getCity().getColor().equals(c)) {
+                                return;
+                            }
+                        }
+                        for (PlayerCard l1 : l) {
+                            roles.getCurrentPlayer().getCardsInHand().remove(l1);
+                            deck.returnCard(l1);
+                        }
+                        Drugs.self.cure(c);
+                        cards.removeAllViews();
+                        checks=init(cards, thisPlayer.getCardsInHand());
+                        resetListeners();
+                    }
+                }
+            });
             invent.setEnabled(false);
             addCards();
             drop = addDropCardsButon();
