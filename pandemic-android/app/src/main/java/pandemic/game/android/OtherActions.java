@@ -282,6 +282,7 @@ public class OtherActions extends Activity {
     private class CurrentPlayerView extends PlayerView {
 
         private final Button invent;
+        final Button bs;
         private List<OtherPlayerView> others;
 
         @Override
@@ -304,7 +305,9 @@ public class OtherActions extends Activity {
                     } else {
                         drop.setEnabled(false);
                     }
+                    bs.setEnabled(false);
                     if (getSelectedCards().size() == 1 && getSelectedCards().get(0).getCity().equals(thisPlayer.getCity())) {
+                        bs.setEnabled(true);
                         for (OtherPlayerView oo : others) {
                             oo.setTake(true);
                         }
@@ -320,17 +323,32 @@ public class OtherActions extends Activity {
         public CurrentPlayerView(final Role thisPlayer, Context parent) {
             super(thisPlayer, parent);
             setName();
-            final Button bs = addButon("Build station");
-            if (thisPlayer.getCity().haveStation()) {
-                bs.setEnabled(false);
-            } else {
-                bs.setEnabled(true);
-            }
+            bs = addButon("Build station");
+            bs.setEnabled(false);
             bs.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    thisPlayer.getCity().setStation();
-                    bs.setEnabled(false);
+                    if (getSelectedCards().size() != 1) {
+                        throw new RuntimeException("only one can be selected");
+                    }
+                    PlayerCard c = getSelectedCards().get(0);
+                    if (c.getCity().equals(roles.getCurrentPlayer().getCity())) {
+                        roles.getCurrentPlayer().getCity().setStation();
+                        bs.setEnabled(false);
+                        drop.setEnabled(false);
+                        invent.setEnabled(false);
+                        roles.getCurrentPlayer().discardCard(c);
+                        deck.returnCard(c);
+                        for (OtherPlayerView other : others) {
+                            other.taketo.setEnabled(false);
+                            other.drop.setEnabled(false);
+                        }
+                        cards.removeAllViews();
+                        checks=init(cards, thisPlayer.getCardsInHand());
+                        resetListeners();
+                    } else {
+                        throw new RuntimeException("only current city may be selected");
+                    }
                 }
             });
             final Button cureDisease = addButon(CD);
