@@ -77,7 +77,7 @@ public class OtherActions extends Activity {
                 OtherPlayerView op = new OtherPlayerView(r, roles.getCurrentPlayer(), this);
                 main.addView(op);
                 others.add(op);
-                op.setListener(cp);
+                op.setListener(cp, others);
             }
 
         }
@@ -183,6 +183,7 @@ public class OtherActions extends Activity {
         private final Button giveto;
         private final Button taketo;
         private CurrentPlayerView cpv;
+        private List<OtherPlayerView> opvs;
 
         public OtherPlayerView(Role thisPlayer, Role currentPlayer, Context parent) {
             super(thisPlayer, parent);
@@ -202,11 +203,12 @@ public class OtherActions extends Activity {
 
         @Override
         public void resetListeners() {
-            setListener(cpv);
+            setListener(cpv, opvs);
         }
 
-        public void setListener(CurrentPlayerView cpv) {
-            this.cpv=cpv;
+        public void setListener(CurrentPlayerView ccpv, List<OtherPlayerView> others ) {
+            this.cpv=ccpv;
+            this.opvs=others;
             setCheckListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -220,6 +222,53 @@ public class OtherActions extends Activity {
                     } else {
                         drop.setEnabled(false);
                     }
+                }
+            });
+            taketo.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (cpv.getSelectedCards().size() != 1) {
+                        throw new RuntimeException("only one can be selected");
+                    }
+                    PlayerCard c = cpv.getSelectedCards().get(0);
+                    currentPlayer.getCardsInHand().remove((PlayerCard) c);
+                    thisPlayer.getCardsInHand().add((PlayerCard) c);
+                    c.setCoords(thisPlayer.getHome());
+                    for (OtherPlayerView other : opvs) {
+                        other.taketo.setEnabled(false);
+                        other.drop.setEnabled(false);
+                    }
+                    cards.removeAllViews();
+                    checks=init(cards, thisPlayer.getCardsInHand());
+                    resetListeners();
+
+                    cpv.cards.removeAllViews();
+                    cpv.checks=init(cpv.cards, cpv.thisPlayer.getCardsInHand());
+                    cpv.resetListeners();
+                }
+            });
+
+            giveto.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getSelectedCards().size() != 1) {
+                        throw new RuntimeException("only one can be selected");
+                    }
+                    PlayerCard c = getSelectedCards().get(0);
+                    thisPlayer.getCardsInHand().remove((PlayerCard) c);
+                    currentPlayer.getCardsInHand().add((PlayerCard) c);
+                    c.setCoords(currentPlayer.getHome());
+                    for (OtherPlayerView other : opvs) {
+                        other.taketo.setEnabled(false);
+                        other.drop.setEnabled(false);
+                    }
+                    cards.removeAllViews();
+                    checks=init(cards, thisPlayer.getCardsInHand());
+                    resetListeners();
+
+                    cpv.cards.removeAllViews();
+                    cpv.checks=init(cpv.cards, cpv.thisPlayer.getCardsInHand());
+                    cpv.resetListeners();
                 }
             });
         }
