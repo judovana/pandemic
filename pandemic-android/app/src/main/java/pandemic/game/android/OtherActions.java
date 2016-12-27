@@ -94,6 +94,10 @@ public class OtherActions extends Activity {
         protected LinearLayout cards;
         protected Button drop;
 
+        public void diableAll(){
+            drop.setEnabled(false);
+        }
+
         public PlayerView(Role thisPlayer, Context parent) {
             super(parent);
             this.mContext = parent;
@@ -167,14 +171,19 @@ public class OtherActions extends Activity {
                     for (PlayerCard c : l) {
                         thisPlayer.discardCard(c);
                         deck.returnCard(c);
-                        drop.setEnabled(false);
+                        diableAll();
                     }
-                    cards.removeAllViews();
-                    checks=init(cards, thisPlayer.getCardsInHand());
-                    resetListeners();
+                    resetCheckBoxes();
 
                 }
             };
+        }
+
+        public void resetCheckBoxes(){
+            cards.removeAllViews();
+            checks=init(cards, thisPlayer.getCardsInHand());
+            resetListeners();
+
         }
     }
 
@@ -185,20 +194,24 @@ public class OtherActions extends Activity {
         private CurrentPlayerView cpv;
         private List<OtherPlayerView> opvs;
 
+        public void diableAll(){
+            super.diableAll();
+            giveto.setEnabled(false);
+            taketo.setEnabled(false);
+        }
+
         public OtherPlayerView(Role thisPlayer, Role currentPlayer, Context parent) {
             super(thisPlayer, parent);
             this.currentPlayer = currentPlayer;
             //Button tab = addButon("*******");
-            setName();
             //tab.setEnabled(false);
+            setName();
             giveto = addButon("Give to " + currentPlayer.getName());
             taketo = addButon("Take from " + currentPlayer.getName());
-            giveto.setEnabled(false);
-            taketo.setEnabled(false);
             addCards();
             drop = addDropCardsButon();
-            drop.setEnabled(false);
             drop.setOnClickListener(createDropListener());
+            diableAll();
         }
 
         @Override
@@ -235,16 +248,11 @@ public class OtherActions extends Activity {
                     thisPlayer.getCardsInHand().add((PlayerCard) c);
                     c.setCoords(thisPlayer.getHome());
                     for (OtherPlayerView other : opvs) {
-                        other.taketo.setEnabled(false);
-                        other.drop.setEnabled(false);
+                        other.diableAll();
                     }
-                    cards.removeAllViews();
-                    checks=init(cards, thisPlayer.getCardsInHand());
-                    resetListeners();
-
-                    cpv.cards.removeAllViews();
-                    cpv.checks=init(cpv.cards, cpv.thisPlayer.getCardsInHand());
-                    cpv.resetListeners();
+                    resetCheckBoxes();
+                    cpv.resetCheckBoxes();
+                    cpv.diableAll();
                 }
             });
 
@@ -259,16 +267,11 @@ public class OtherActions extends Activity {
                     currentPlayer.getCardsInHand().add((PlayerCard) c);
                     c.setCoords(currentPlayer.getHome());
                     for (OtherPlayerView other : opvs) {
-                        other.taketo.setEnabled(false);
-                        other.drop.setEnabled(false);
+                        other.diableAll();
                     }
-                    cards.removeAllViews();
-                    checks=init(cards, thisPlayer.getCardsInHand());
-                    resetListeners();
-
-                    cpv.cards.removeAllViews();
-                    cpv.checks=init(cpv.cards, cpv.thisPlayer.getCardsInHand());
-                    cpv.resetListeners();
+                    resetCheckBoxes();
+                    cpv.resetCheckBoxes();
+                    cpv.diableAll();
                 }
             });
         }
@@ -288,6 +291,12 @@ public class OtherActions extends Activity {
         @Override
         public void resetListeners() {
             setListener(others);
+        }
+
+        public void diableAll(){
+            super.diableAll();
+            bs.setEnabled(false);
+            invent.setEnabled(false);
         }
 
         public void setListener(final List<OtherPlayerView> others) {
@@ -340,12 +349,9 @@ public class OtherActions extends Activity {
                         roles.getCurrentPlayer().discardCard(c);
                         deck.returnCard(c);
                         for (OtherPlayerView other : others) {
-                            other.taketo.setEnabled(false);
-                            other.drop.setEnabled(false);
+                            other.diableAll();
                         }
-                        cards.removeAllViews();
-                        checks=init(cards, thisPlayer.getCardsInHand());
-                        resetListeners();
+                        resetCheckBoxes();
                     } else {
                         throw new RuntimeException("only current city may be selected");
                     }
@@ -440,17 +446,14 @@ public class OtherActions extends Activity {
                             deck.returnCard(l1);
                         }
                         Drugs.self.cure(c);
-                        cards.removeAllViews();
-                        checks=init(cards, thisPlayer.getCardsInHand());
-                        resetListeners();
+                        resetCheckBoxes();
                     }
                 }
             });
-            invent.setEnabled(false);
             addCards();
             drop = addDropCardsButon();
-            drop.setEnabled(false);
             drop.setOnClickListener(createDropListener());
+            diableAll();
 
         }
     }
