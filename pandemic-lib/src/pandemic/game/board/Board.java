@@ -8,7 +8,6 @@ package pandemic.game.board;
 import j2a.BitmapImage;
 import j2a.Factory;
 import j2a.GraphicsCanvas;
-import j2a.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -87,9 +86,9 @@ public class Board extends Observable {
         }
         GraphicsCanvas cg = currentBoard.createGraphics();
         cg.setColor(Factory.Color.getWHITE());
-        String ss = roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")"+selctedCardName;
+        String ss = roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")" + selctedCardName;
         int ssw = cg.getFontMetrics().stringWidth(ss);
-        cg.drawString(ss, getOrigWidth() / 2 - ssw/2, 20);
+        cg.drawString(ss, getOrigWidth() / 2 - ssw / 2, 20);
         notifyObservers();
     }
 
@@ -144,14 +143,19 @@ public class Board extends Observable {
                 return;
             }
             //Condition for moving with the city cards
-            if (card.getCity().equals(cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y)))
-                    || card.getCity().equals(roles.getCurrentPlayer().getCity())) {
-                deck.returnCard(card);
-                selected = null;
-                roles.getCurrentPlayer().flyToTheCity(cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y)));
-                drawBoard();
+            City clickedCity = cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y));
+            if (clickedCity != null) {
+                if (card.getCity().equals(clickedCity)
+                        || card.getCity().equals(roles.getCurrentPlayer().getCity())) {
+                    deck.returnCard(card);
+                    selected = null;
+                    roles.getCurrentPlayer().flyToTheCity(cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y)));
+                    drawBoard();
+                }
+                return;
+            } else {
+                return;
             }
-            return;
         }
         //selecting players card and drawing them on the board
         Card c = roles.selectPlayersHands(x, y);
