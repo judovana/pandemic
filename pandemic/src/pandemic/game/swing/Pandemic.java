@@ -51,7 +51,7 @@ public class Pandemic implements Observer {
             public void provide(Roles r, Deck d) {
                 new OtherActions(r, d);
             }
-        });
+        }, false, 4);
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
