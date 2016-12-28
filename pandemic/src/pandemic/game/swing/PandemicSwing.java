@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import pandemic.game.roles.Roles;
 
 /**
@@ -92,11 +95,16 @@ public class PandemicSwing extends javax.swing.JFrame {
         );
 
         this.add(s);
+        this.add(new JCheckBox("Random beggining"));
+        this.add(new JLabel("Instead of placing 3,2,and 1 cube to 3,3,3 cities, random number of cubes is placed randomly"));
+        this.add(new JLabel("Random beggining is ok for quick game wihtout or with low number of epidemy cards"));
+        this.add(new JLabel("Number of epidemy cards:"));
+        this.add(new JSpinner(new SpinnerNumberModel(4, 0, 100, 1)));
+        this.add(new JLabel("2-4 are easy game, 4-5 is hard game, 6+is very hard.  Less then 2, you can easily run of time!"));
 
         pack();
 
-        this.setLocationRelativeTo(
-                null);
+        this.setLocationRelativeTo(null);
     }
 
     /**
