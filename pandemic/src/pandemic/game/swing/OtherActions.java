@@ -33,7 +33,6 @@ import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.Card;
-import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
 
@@ -130,12 +129,10 @@ public class OtherActions extends JDialog {
                 }
                 Card c = mainList.getSelectedValue();
                 if (c.getCity().equals(roles.getCurrentPlayer().getCity())) {
-                    roles.getCurrentPlayer().getCity().setStation();
                     station.setEnabled(false);
                     drop.setEnabled(false);
                     cure.setEnabled(false);
-                    roles.getCurrentPlayer().discardCard(c);
-                    playerCards.returnCard(c);
+                    roles.getCurrentPlayer().buildStation(c,playerCards);
                     for (OtherPlayerGuiWrapper other : others) {
                         other.takeFrom.setEnabled(false);
                         other.dropCard.setEnabled(false);
@@ -188,7 +185,7 @@ public class OtherActions extends JDialog {
                 }
                 station.setEnabled(false);
                 if (mainList.getSelectedIndices().length == 1) {
-                    if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())){
+                    if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())) {
                         station.setEnabled(true);
                     }
                     if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())) {
@@ -214,6 +211,7 @@ public class OtherActions extends JDialog {
                             colors.add(cube.getColor());
                         }
                         if (colors.size() == 1) {
+                            roles.getCurrentPlayer().setActionCounter();
                             j2a.Color cc = cubes.get(0).getColor();
                             if (Drugs.self.isCured(cc)) {
                                 int inLength = cubes.size();
@@ -245,6 +243,7 @@ public class OtherActions extends JDialog {
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
                                         Color targetColor = ((JMenuItem) e.getSource()).getBackground();
+                                        roles.getCurrentPlayer().setActionCounter();
                                         for (int i = 0; i < cubes.size(); i++) {
                                             Cubes cube = cubes.get(i);
                                             if (cube.getColor().equals(new j2a.java.Color(targetColor))) {
@@ -294,6 +293,7 @@ public class OtherActions extends JDialog {
                             playerCards.returnCard(l1);
                         }
                         mainList.setSelectedIndices(new int[0]);
+                        roles.getCurrentPlayer().setActionCounter();
                         Drugs.self.cure(c);
                         OtherActions.this.repaint();
                     }
@@ -362,9 +362,7 @@ public class OtherActions extends JDialog {
                         throw new RuntimeException("only one can be selected");
                     }
                     Card c = mainList.getSelectedValue();
-                    main.getCardsInHand().remove((PlayerCard) c);
-                    role.getCardsInHand().add((PlayerCard) c);
-                    c.setCoords(role.getHome());
+                    main.giveTo(c, role);
                     ((CardsModel) mainList.getModel()).update();
                     ((CardsModel) cardList.getModel()).update();
                     cardList.setSelectedIndices(new int[0]);
@@ -396,9 +394,7 @@ public class OtherActions extends JDialog {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Card c = cardList.getSelectedValue();
-                    role.getCardsInHand().remove((PlayerCard) c);
-                    main.getCardsInHand().add((PlayerCard) c);
-                    c.setCoords(main.getHome());
+                    main.takeFrom(c, role);
                     ((CardsModel) mainList.getModel()).update();
                     ((CardsModel) cardList.getModel()).update();
                     cardList.setSelectedIndices(new int[0]);

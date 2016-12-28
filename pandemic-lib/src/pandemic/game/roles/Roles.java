@@ -118,10 +118,12 @@ public class Roles {
     }
 
     public Role setNextPlayer() {
+        getCurrentPlayer().resetActionCounter();
         currentPlayer++;
         if (currentPlayer >= roles.size()) {
             currentPlayer = 0;
         }
+        getCurrentPlayer().resetActionCounter();
         return getCurrentPlayer();
     }
 
@@ -147,6 +149,7 @@ public class Roles {
         for (Role role : roles) {
             //moving all players to the default city (Atlanta)
             role.flyToTheCity(cities.getCityByName("atlanta"));
+            role.resetActionCounter();
             for (int i = 0; i < cards; i++) {
                 Card c = deck.getCard();
                 Point p = role.getHome();
