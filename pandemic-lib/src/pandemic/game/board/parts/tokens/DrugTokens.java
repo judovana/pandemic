@@ -44,4 +44,10 @@ public class DrugTokens extends Token {
         return fixed;
     }
 
+    public Point getPoint() {
+        return point;
+    }
+    
+    
+
 }

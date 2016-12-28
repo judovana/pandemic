@@ -32,7 +32,7 @@ public class Drugs {
     public static Drugs self;
 
     public Drugs() throws IOException {
-        
+
         try (BufferedReader br
                 //comfortable wrapper around reader allowing work with whole lines(see readline bellow)
                 = new BufferedReader(
@@ -69,8 +69,10 @@ public class Drugs {
         cured.add(centers.get(c));
         checkFixed(c);
     }
+
     /**
      * checking the disease is cured - checking all cities
+     *
      * @param c the color of the disease in the city
      */
     public void checkFixed(Color c) {
@@ -83,6 +85,19 @@ public class Drugs {
         for (DrugTokens c : cured) {
             c.draw(g);
         }
+        g.setColor(j2a.Factory.Color.getCYAN());
+        for (Color c : new Color[]{
+            j2a.Factory.Color.getYELLOW(),
+            j2a.Factory.Color.getRED(),
+            j2a.Factory.Color.getBLUE(),
+            j2a.Factory.Color.getBLACK()}) {
+            DrugTokens dt = centers.get(c);
+            int t = 24 - Cities.self.countColor(c);
+            if (t != 24) {
+                g.drawString("" + (t), dt.getPoint().getX(), dt.getPoint().getY());
+            }
+
+        }
     }
 
     public boolean isCured(Color c) {
@@ -93,10 +108,12 @@ public class Drugs {
         }
         return false;
     }
+
     /**
      * checkong if the disease was cured in the past
+     *
      * @param c color of the disease
-     * @return 
+     * @return
      */
     public boolean isFixed(Color c) {
         for (DrugTokens cured1 : cured) {
