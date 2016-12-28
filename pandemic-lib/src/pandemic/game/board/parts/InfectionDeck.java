@@ -6,6 +6,7 @@
 package pandemic.game.board.parts;
 
 import j2a.Point;
+import java.util.ArrayList;
 import java.util.Collections;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
@@ -16,8 +17,10 @@ import pandemic.game.cards.Card;
  * @author Pípa
  */
 public class InfectionDeck extends Deck {
+
     /**
      * Loading the background and draws single cards
+     *
      * @param c list of all citie from which cards are generated
      */
     public InfectionDeck(Cities c) {
@@ -40,13 +43,31 @@ public class InfectionDeck extends Deck {
     }
 
     public Card returnUsedCards() {
+        Collections.shuffle(usedCards);
+        cards.addAll(usedCards);
+        usedCards.removeAll(cards);
         return null;
     }
+
     /**
      * Giving the used infection cards back to infection cards
-     * @param infectionCard 
+     *
+     * @param infectionCard
      */
     public void used(Card.InfectionCard infectionCard) {
         usedCards.add(infectionCard);
+    }
+
+    public void playEpidmey(Cities cities) {
+        Card newDisease = getBottomCard();
+        if (newDisease != null) {
+            //fill up to pandemy
+            System.out.println("epidemy: " + newDisease.getCity().getCubes().size());
+            while (!newDisease.getCity().infect(newDisease.getCity().getColor(), new ArrayList<City>())) {
+                System.out.println("epidemy: " + newDisease.getCity().getCubes().size());
+            };
+            returnCard(newDisease);
+        }
+        returnUsedCards();
     }
 }

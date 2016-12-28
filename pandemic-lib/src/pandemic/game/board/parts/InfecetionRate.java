@@ -85,10 +85,6 @@ public class InfecetionRate {
         count++;
     }
 
-    ///fixme method for fake gameplay only, putting the infection rate to the random value
-    public void chaos() {
-        count = new Random().nextInt(values.size() - 1);
-    }
 
     public int getInfectionRate() {
         return values.get(count).value;

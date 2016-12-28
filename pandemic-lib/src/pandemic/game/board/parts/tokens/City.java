@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import pandemic.game.board.parts.Outbreaks;
 
 /**
@@ -58,16 +57,6 @@ public class City {
         this.center = center;
         this.name = name;
         this.color = color;
-
-        //FIXME adapt to real play
-        Random r = new Random();
-        if (new Random().nextBoolean()) {
-            int count = r.nextInt(3) + 1;
-            for (int i = 0; i < count; i++) {
-                cubes.add(new Cubes(randomize(i, center), color));
-            }
-        }
-        // end of testing impl of  diseases
     }
 
     public String getName() {
@@ -118,7 +107,10 @@ public class City {
         }
     }
 
-    private Point randomize(int i, Point center) {
+    /*
+    Random order was abandoned. This is making line
+    */
+     Point randomize(int i, Point center) {
         int x = center.getX() + (radius * i) / 2;
         int y = center.getY() + (radius * i) / 2;
         return j2a.Factory.Point.newPoint(x, y);

@@ -40,13 +40,15 @@ public class Board extends Observable {
     private final Drugs cures;
     private final OtherActionsProvider oa;
 
-    public Board(Roles roles, OtherActionsProvider oa) throws IOException {
+    public Board(Roles roles, OtherActionsProvider oa, boolean randomize, int epidemyCards) throws IOException {
         this.oa = oa;
         this.roles = roles;
         cities = new Cities();
         outbreaks = new Outbreaks();
         deck = new Deck(cities);
         infDeck = new InfectionDeck(cities);
+        cities.initialDiseases(randomize?null:infDeck);
+        deck.insertEpidemies(epidemyCards);
         infectionRate = new InfecetionRate();
         cures = new Drugs();
         roles.initPlayers(cities, deck);
@@ -76,7 +78,7 @@ public class Board extends Observable {
         String selctedCardName = "";
         if (selected instanceof Card) {
             Card cc = ((Card) selected);
-            selctedCardName = " -> " + cc.getCity().getName() + "[" + cc.getClass().getSimpleName() + "]";
+            selctedCardName = " -> " + cc.toString();
             cc.drawPlaced(currentBoard.createGraphics());
             if (cc.getFreeCoords() != null) {
                 GraphicsCanvas gc = currentBoard.createGraphics();
@@ -86,7 +88,7 @@ public class Board extends Observable {
         }
         GraphicsCanvas cg = currentBoard.createGraphics();
         cg.setColor(Factory.Color.getWHITE());
-        String ss = roles.getCurrentPlayer().getTitle()+selctedCardName;
+        String ss = roles.getCurrentPlayer().getTitle() + selctedCardName;
         int ssw = cg.getFontMetrics().stringWidth(ss);
         cg.drawString(ss, getOrigWidth() / 2 - ssw / 2, 20);
         notifyObservers();
@@ -235,7 +237,13 @@ public class Board extends Observable {
     public void second(int real, int real0) {
         System.out.println("right!");
         if (selected instanceof PlayerCard) {
-            roles.getCurrentPlayer().setCardToHand((PlayerCard) selected);
+            if (selected instanceof PlayerCard.Epidemy) {
+                deck.returnCard((Card) selected);
+                infectionRate.addInfectionRate();
+               infDeck.playEpidmey(cities);
+            } else {
+                roles.getCurrentPlayer().setCardToHand((PlayerCard) selected);
+            }
             selected = null;
             drawBoard();
         }

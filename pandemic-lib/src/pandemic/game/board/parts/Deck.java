@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
@@ -26,8 +27,8 @@ public class Deck {
     //TODO
     //not only regular card city/color are implemented.
     //missing are events and infections from plyers' deck (this Deck)
-    protected List<Card> cards = new ArrayList<>(48);
-    protected List<Card> usedCards = new ArrayList<>(48);
+    protected List<Card> cards = new ArrayList<>(58);//48+some epidemies
+    protected List<Card> usedCards = new ArrayList<>(58);
     protected final BitmapImage backgroud;
     protected final Cities cities;
 
@@ -38,9 +39,22 @@ public class Deck {
             cards.add(card);
         }
         Collections.shuffle(cards);
+
     }
+
+    public void insertEpidemies(int count) {
+        Random r = new Random();
+        int mod = cards.size()/count;
+        for (int i = 0; i < count; i++) {
+        cards.add(i*mod+r.nextInt(mod),new PlayerCard.Epidemy(backgroud, null));    
+        
+        }
+        
+    }
+
     /**
      * Loading the background and remembering the cities
+     *
      * @param bg path to the back ground image
      * @param c list of all cities that are generated
      */
@@ -60,8 +74,10 @@ public class Deck {
     Point getDiscarCorner() {
         return j2a.Factory.Point.newPoint(874, 615);
     }
+
     /**
      * removes cards to discard corner
+     *
      * @return the top card from the deck
      */
     public Card getCard() {
@@ -69,10 +85,17 @@ public class Deck {
         return c;
     }
 
-    public void shuffle() {
+    public Card getBottomCard() {
+        if (cards.isEmpty()) {
+            return null;
+        }
+        Card c = cards.remove(0);
+        return c;
     }
+
     /**
      * Drawing the used cards and not used cards
+     *
      * @param g graphic to draw to
      */
     public void draw(GraphicsCanvas g) {
@@ -85,8 +108,10 @@ public class Deck {
             g.drawImage(c.getBackground(), getCorner().getX() + i / 2, getCorner().getY() + i / 2, null);
         }
     }
+
     /**
      * When clicking to the area of player card, the card on the top is selected
+     *
      * @param x coordinate recalculeted to the size of an image
      * @param y coordinate recalculeted to the size of an image
      * @return if the click on the deck it gives a card else it returns null

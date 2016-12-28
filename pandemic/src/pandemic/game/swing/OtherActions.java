@@ -331,8 +331,6 @@ public class OtherActions extends JDialog {
                     ) {
                         OtherActions.this.setVisible(false);
                         roles.setNextPlayer();
-                        //TODO remove this chaos methodsonce proper gamepaly is in place
-                        InfecetionRate.self.chaos();
                         OtherActions.this.dispose();
 
                     }

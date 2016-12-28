@@ -29,7 +29,7 @@ public class Card {
     
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " for " + city.getName();
+        return this.getCity().getName() + "[" + this.getClass().getSimpleName() + "]";
     }
     
     protected final City city;

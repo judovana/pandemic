@@ -17,7 +17,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
+import pandemic.game.board.parts.Deck;
+import pandemic.game.cards.Card;
 
 /**
  *
@@ -41,7 +44,31 @@ public class Cities {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        this.self = this;
+        Cities.self = this;
+    }
+
+    public void initialDiseases(Deck deck) {
+        if (deck == null) {
+            Random r = new Random();
+            for (City city : cities) {
+                if (new Random().nextBoolean()) {
+                    int count = r.nextInt(3) + 1;
+                    for (int i = 0; i < count; i++) {
+                        city.getCubes().add(new Cubes(city.randomize(i, city.getCenter()), city.getColor()));
+                    }
+                }
+
+            }
+        } else {
+            for (int x = 0; x < 9; x++) {
+                Card c = deck.getCard();
+                int count = x % 3 + 1;
+                for (int i=0;i<count;i++ ){
+                    c.getCity().infect(c.getCity().getColor(), new ArrayList<City>());
+                }
+                deck.returnCard(c);
+            }
+        }
     }
 
     public City getCityByName(String name) {
@@ -136,6 +163,7 @@ public class Cities {
             city.drawStation(g2d);
         }
     }
+
     //
     public int countColor(Color c) {
         int i = 0;
