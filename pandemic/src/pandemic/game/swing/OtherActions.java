@@ -47,6 +47,7 @@ public class OtherActions extends JDialog {
     private final String CD = "Cure disease";
     private final List<OtherPlayerGuiWrapper> others = new ArrayList<>(); //
     private final Deck deck;
+    private final Roles roles;
 
     private static class CardsList extends JList<Card> {
 
@@ -107,6 +108,8 @@ public class OtherActions extends JDialog {
     public OtherActions(final Roles roles, final Deck playerCards) {
         super((Dialog) null, true);
         this.deck = playerCards;
+        this.roles=roles;
+        OtherActions.this.repaint();
         List<Role> allInCity = roles.getPlayersInCity(roles.getCurrentPlayer().getCity());
         this.setLayout(new GridLayout(0, 6));
 
@@ -371,6 +374,7 @@ public class OtherActions extends JDialog {
                         other.takeFrom.setEnabled(false);
                         other.dropCard.setEnabled(false);
                     }
+                    OtherActions.this.repaint();
                 }
             });
             cardList = new CardsList(new CardsModel(role));
@@ -403,6 +407,7 @@ public class OtherActions extends JDialog {
                         other.giveTo.setEnabled(false);
                         other.dropCard.setEnabled(false);
                     }
+                    OtherActions.this.repaint();
                 }
             });
             cardList.addListSelectionListener(new ListSelectionListener() {
@@ -444,6 +449,15 @@ public class OtherActions extends JDialog {
             cureDisease.setEnabled(true);
             cureDisease.setText(CD + " (" + roles.getCurrentPlayer().getCity().getCubes().size() + ")");
         }
+        OtherActions.this.repaint();
     }
+
+    @Override
+    public void repaint() {
+        super.repaint();
+        this.setTitle(roles.getCurrentPlayer().getTitle());
+    }
+    
+    
 
 }

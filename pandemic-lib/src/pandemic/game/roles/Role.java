@@ -149,4 +149,8 @@ public abstract class Role {
         this.setActionCounter();
     }
 
+    public String getTitle() {
+        return getName() + " (" + getCity().getName() + ")" + " - "+getActionCounter();
+    }
+
 }
