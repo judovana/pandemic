@@ -62,6 +62,7 @@ public class InfectionDeck extends Deck {
         Card newDisease = getBottomCard();
         if (newDisease != null) {
             //fill up to pandemy
+            System.out.println(newDisease.getCity().getName());
             System.out.println("epidemy: " + newDisease.getCity().getCubes().size());
             while (!newDisease.getCity().infect(newDisease.getCity().getColor(), new ArrayList<City>())) {
                 System.out.println("epidemy: " + newDisease.getCity().getCubes().size());
