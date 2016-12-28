@@ -85,7 +85,6 @@ public class Drugs {
         for (DrugTokens c : cured) {
             c.draw(g);
         }
-        g.setColor(j2a.Factory.Color.getCYAN());
         for (Color c : new Color[]{
             j2a.Factory.Color.getYELLOW(),
             j2a.Factory.Color.getRED(),
@@ -94,6 +93,10 @@ public class Drugs {
             DrugTokens dt = centers.get(c);
             int t = 24 - Cities.self.countColor(c);
             if (t != 24) {
+                g.setColor(j2a.Factory.Color.getCYAN());
+                if (t<0){
+                    g.setColor(j2a.Factory.Color.getRED());
+                }
                 g.drawString("" + (t), dt.getPoint().getX(), dt.getPoint().getY());
             }
 
