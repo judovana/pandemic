@@ -86,7 +86,7 @@ public class Board extends Observable {
         }
         GraphicsCanvas cg = currentBoard.createGraphics();
         cg.setColor(Factory.Color.getWHITE());
-        String ss = roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")" + selctedCardName;
+        String ss = roles.getCurrentPlayer().getName() + " (" + roles.getCurrentPlayer().getCity().getName() + ")" + " - "+roles.getCurrentPlayer().getActionCounter()+selctedCardName;
         int ssw = cg.getFontMetrics().stringWidth(ss);
         cg.drawString(ss, getOrigWidth() / 2 - ssw / 2, 20);
         notifyObservers();
