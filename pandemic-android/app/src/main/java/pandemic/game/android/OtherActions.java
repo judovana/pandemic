@@ -466,9 +466,13 @@ public class OtherActions extends Activity {
             super(c);
             this.card = pc;
             this.setLayoutParams(l);
-            this.setText(pc.getCity().getName());
-            this.setBackgroundColor((Integer) (pc.getCity().getColor().getOriginal()));
-            this.setTextColor(getContrastColor((Integer) (pc.getCity().getColor().getOriginal())));
+            if (pc.getCity() != null) {
+                this.setText(pc.getCity().getName());
+                this.setBackgroundColor((Integer) (pc.getCity().getColor().getOriginal()));
+                this.setTextColor(getContrastColor((Integer) (pc.getCity().getColor().getOriginal())));
+            }else{
+                this.setText("null city");
+            }
         }
 
         public PlayerCard getCard() {
