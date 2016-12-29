@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,6 +23,24 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final CheckBox random = (CheckBox) findViewById(R.id.randomBeggining);
+        final TextView epidemyCards = (TextView) findViewById(R.id.epidemyCounter);
+        final Button plus = (Button) findViewById(R.id.buttonPlus);
+        final Button minus = (Button) findViewById(R.id.butonMinus);
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                epidemyCards.setText("" + (Integer.valueOf(epidemyCards.getText().toString()) + 1));
+            }
+        });
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                epidemyCards.setText("" + (Integer.valueOf(epidemyCards.getText().toString()) - 1));
+            }
+        });
+
+
         final CheckBox c1 = (CheckBox) findViewById(R.id.checkBox1);
         final CheckBox c2 = (CheckBox) findViewById(R.id.checkBox2);
         final CheckBox c3 = (CheckBox) findViewById(R.id.checkBox3);
@@ -69,17 +88,19 @@ public class MainActivity extends Activity {
                 myIntent.putExtra(Roles.knownRoles[4], c5.isChecked());
                 myIntent.putExtra(Roles.knownRoles[5], c6.isChecked());
                 myIntent.putExtra(Roles.knownRoles[6], c7.isChecked());
+                myIntent.putExtra("random", random.isChecked());
+                myIntent.putExtra("epidemies", Integer.valueOf(epidemyCards.getText().toString()));
                 MainActivity.this.startActivity(myIntent);
 
             }
         });
         b3.setOnClickListener(new View.OnClickListener() {
-                                  @Override
-                                  public void onClick(View v) {
-                                      Intent myIntent = new Intent(MainActivity.this, ManualActivity.class);
-                                      MainActivity.this.startActivity(myIntent);
-                                  }
-                              });
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, ManualActivity.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

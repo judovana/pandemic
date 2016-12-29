@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import j2a.BitmapImage;
+import j2a.android.BitmapImage;
 import pandemic.game.board.Board;
 import pandemic.game.board.OtherActionsProvider;
 import pandemic.game.board.parts.Deck;
@@ -173,7 +173,7 @@ public class GameActivity extends Activity implements Observer {
                         OtherActions.game = GameActivity.this;
                         GameActivity.this.startActivity(register);
                     }
-                });
+                },extras.getBoolean("random"),extras.getInt("epidemies"));
             }
             board.addObserver(GameActivity.this);
             board.notifyObservers();

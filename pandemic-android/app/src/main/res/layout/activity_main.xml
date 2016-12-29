@@ -10,54 +10,180 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="pandemic.game.android.MainActivity">
 
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/checkBox1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:checked="true" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/linearLayout">
 
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/checkBox2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/checkBox3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+            <CheckBox
+                android:text="CheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/checkBox1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:checked="true" />
 
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/checkBox4"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+            <CheckBox
+                android:text="CheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/checkBox1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/checkBox2"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <CheckBox
+                android:text="CheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/checkBox2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/checkBox3"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <CheckBox
+                android:text="CheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/checkBox3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/checkBox4"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <CheckBox
+                android:text="CheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox5"
+                android:layout_below="@+id/checkBox4"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/checkBox4" />
+
+            <CheckBox
+                android:text="CheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox6"
+                android:layout_below="@+id/checkBox5"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/checkBox5" />
+
+            <CheckBox
+                android:text="CheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox7"
+                android:layout_below="@+id/checkBox6"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/checkBox6" />
+
+            <TextView
+                android:text="----------------------"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/textView"
+                android:layout_alignParentEnd="true" />
+
+            <CheckBox
+                android:text="Random beggining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/randomBeggining"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:text="Instead of placing 3,2,and 1 cube to 3,3,3 cities, random number of cubes is placed randomly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/randomBeggining"
+                android:layout_alignParentStart="true"
+                android:id="@+id/textView3" />
+
+            <TextView
+                android:text="Random beggining is ok for quick game wihtout or with low number of epidemy cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView3"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:id="@+id/textView4" />
+
+            <TextView
+                android:text="Number of epidemy cards:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/butonMinus"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:text="4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/epidemyCounter"
+                    android:layout_weight="1"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonPlus"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <TextView
+                android:text="2-4 are easy game, 4-5 is hard game, 6+is very hard.  Less then 2, you can easily run of time!"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6" />
+
+            <TextView
+                android:text="Manual:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_above="@+id/linearLayout"
+                android:layout_alignParentStart="true"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:text="Start!"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -66,40 +192,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox5"
-        android:layout_below="@+id/checkBox4"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/checkBox4" />
-
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox6"
-        android:layout_below="@+id/checkBox5"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/checkBox5" />
-
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox7"
-        android:layout_below="@+id/checkBox6"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/checkBox6" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/startButton"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        >
 
         <Button
             android:text="pdf (external)"
@@ -115,13 +215,5 @@
             android:id="@+id/button3"
             android:layout_weight="1" />
     </LinearLayout>
-
-    <TextView
-        android:text="Manual:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -2,7 +2,6 @@ package pandemic.game.android;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -24,7 +23,6 @@ import java.util.Set;
 
 import pandemic.game.board.parts.Deck;
 import pandemic.game.board.parts.Drugs;
-import pandemic.game.board.parts.InfecetionRate;
 import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Role;
@@ -45,8 +43,7 @@ public class OtherActions extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_actions);
-        getActionBar().setTitle("Other actions");
-        //getSupportActionBar().setTitle("Hello world App");
+        this.setTitle(roles.getCurrentPlayer().getTitle());
 
         Button nextPlayer = (Button) findViewById(R.id.nextPlayer);
         ScrollView mainScroll = (ScrollView) findViewById(R.id.mainScroll);
@@ -60,8 +57,6 @@ public class OtherActions extends Activity {
             public void onClick(View v) {
                 //OtherActions.this.setVisible(false);
                 roles.setNextPlayer();
-                //TODO remove this chaos methodsonce proper gamepaly is in place
-                InfecetionRate.self.chaos();
                 game.board.drawBoard();
                 OtherActions.this.finish();
             }
@@ -244,9 +239,8 @@ public class OtherActions extends Activity {
                         throw new RuntimeException("only one can be selected");
                     }
                     PlayerCard c = cpv.getSelectedCards().get(0);
-                    currentPlayer.getCardsInHand().remove((PlayerCard) c);
-                    thisPlayer.getCardsInHand().add((PlayerCard) c);
-                    c.setCoords(thisPlayer.getHome());
+                    currentPlayer.giveTo(c,thisPlayer);
+                    OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                     for (OtherPlayerView other : opvs) {
                         other.diableAll();
                     }
@@ -263,9 +257,8 @@ public class OtherActions extends Activity {
                         throw new RuntimeException("only one can be selected");
                     }
                     PlayerCard c = getSelectedCards().get(0);
-                    thisPlayer.getCardsInHand().remove((PlayerCard) c);
-                    currentPlayer.getCardsInHand().add((PlayerCard) c);
-                    c.setCoords(currentPlayer.getHome());
+                    currentPlayer.takeFrom(c,thisPlayer);
+                    OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                     for (OtherPlayerView other : opvs) {
                         other.diableAll();
                     }
@@ -342,12 +335,11 @@ public class OtherActions extends Activity {
                     }
                     PlayerCard c = getSelectedCards().get(0);
                     if (c.getCity().equals(roles.getCurrentPlayer().getCity())) {
-                        roles.getCurrentPlayer().getCity().setStation();
                         bs.setEnabled(false);
                         drop.setEnabled(false);
                         invent.setEnabled(false);
-                        roles.getCurrentPlayer().discardCard(c);
-                        deck.returnCard(c);
+                        roles.getCurrentPlayer().buildStation(c,deck);
+                        OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                         for (OtherPlayerView other : others) {
                             other.diableAll();
                         }
@@ -370,6 +362,8 @@ public class OtherActions extends Activity {
                                 colors.add(cube.getColor());
                             }
                             if (colors.size() == 1) {
+                                roles.getCurrentPlayer().setActionCounter();
+                                OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                                 j2a.Color cc = cubes.get(0).getColor();
                                 if (Drugs.self.isCured(cc)) {
                                     int inLength = cubes.size();
@@ -402,6 +396,8 @@ public class OtherActions extends Activity {
                                         @Override
                                         public boolean onMenuItemClick(MenuItem e) {
                                             int targetColor =  (Integer)color.getOriginal();
+                                            roles.getCurrentPlayer().setActionCounter();
+                                            OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                                             for (int i = 0; i < cubes.size(); i++) {
                                                 Cubes cube = cubes.get(i);
                                                 if (cube.getColor().equals(new j2a.android.Color(targetColor))) {
@@ -445,6 +441,8 @@ public class OtherActions extends Activity {
                             roles.getCurrentPlayer().getCardsInHand().remove(l1);
                             deck.returnCard(l1);
                         }
+                        roles.getCurrentPlayer().setActionCounter();
+                        OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                         Drugs.self.cure(c);
                         resetCheckBoxes();
                     }
@@ -516,5 +514,8 @@ public class OtherActions extends Activity {
             cureDisease.setEnabled(true);
             cureDisease.setText(CD + " (" + roles.getCurrentPlayer().getCity().getCubes().size() + ")");
         }
+        this.setTitle(roles.getCurrentPlayer().getTitle());
     }
+
+
 }
