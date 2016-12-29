@@ -45,13 +45,31 @@ public class Pandemic implements Observer {
         if (args.length == 0) {
             throw new RuntimeException("At least one player is expected!");
         }
-        board = new Board(new Roles(args), new OtherActionsProvider() {
+        int ns = countNumbers(args);
+        int bs = countBooleans(args);
+        boolean randomize=false;
+        int epidemy=4;
+        String[] args2 = new String[args.length-ns-bs];
+        int i2=0;
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+            if (isBool(arg)){
+                randomize=Boolean.valueOf(arg);
+            }else if (isInt(arg)){
+                epidemy=Integer.valueOf(arg);
+            }else{
+                args2[i]=arg;
+                i2++;
+            }
+            
+        }
+        board = new Board(new Roles(args2), new OtherActionsProvider() {
 
             @Override
             public void provide(Roles r, Deck d) {
                 new OtherActions(r, d);
             }
-        }, false, 4);
+        }, randomize, epidemy);
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
@@ -81,6 +99,39 @@ public class Pandemic implements Observer {
             drawPane.setCurrentImage((BufferedImage) (((BitmapImage)o1).getOrigianl()));
             frame.repaint();
         }
+    }
+
+    private int countNumbers(String[] args) {
+        int r = 0;
+        for (String arg : args) {
+            if (isInt(arg)){
+                r++;
+            }
+        }
+        return r;
+    }
+
+    private int countBooleans(String[] args) {
+        int r = 0;
+        for (String arg : args) {
+            if (isBool(arg)){
+                r++;
+            }
+        }
+        return r;
+    }
+
+    public boolean isBool(String arg) {
+        return (arg.toLowerCase().equals("true") || arg.toLowerCase().equals("false"));
+    }
+    public boolean isInt(String arg) {
+        try{
+            Integer.valueOf(arg);
+            return true;
+        }catch(Exception ex){
+            
+        }
+        return false;
     }
 
     private class DrawingPanel extends JPanel {
