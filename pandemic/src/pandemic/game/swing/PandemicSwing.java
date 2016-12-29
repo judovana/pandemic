@@ -25,6 +25,8 @@ import pandemic.game.roles.Roles;
  * @author Pípa
  */
 public class PandemicSwing extends javax.swing.JFrame {
+    private JCheckBox randomize;
+    private JSpinner epidemies;
 
     /**
      * Creates new form PandemicSwing
@@ -46,21 +48,21 @@ public class PandemicSwing extends javax.swing.JFrame {
             boxes.add(j);
             this.add(j);
         }
+        boxes.get(0).setSelected(true);
         JButton s = new JButton("Start game");
 
         s.addActionListener(
                 new ActionListener() {
 
                     @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
+                    public void actionPerformed(ActionEvent e) {
                         int l = 0;
                         for (JCheckBox box : boxes) {
                             if (box.isSelected()) {
                                 l++;
                             }
                         }
-                        String[] lArgs = new String[l];
+                        String[] lArgs = new String[l+2];
                         l = 0;
                         for (JCheckBox box : boxes) {
                             if (box.isSelected()) {
@@ -68,6 +70,9 @@ public class PandemicSwing extends javax.swing.JFrame {
                                 l++;
                             }
                         }
+                        lArgs[l] = String.valueOf(randomize.isSelected());
+                        l++;
+                        lArgs[l] = String.valueOf(epidemies.getModel().getValue());
                         try {
                             if (mainArgs.length == 0) {
                                 Pandemic.main(lArgs);
@@ -95,11 +100,13 @@ public class PandemicSwing extends javax.swing.JFrame {
         );
 
         this.add(s);
-        this.add(new JCheckBox("Random beggining"));
+        randomize = new JCheckBox("Random beggining");
+        this.add(randomize);
         this.add(new JLabel("Instead of placing 3,2,and 1 cube to 3,3,3 cities, random number of cubes is placed randomly"));
         this.add(new JLabel("Random beggining is ok for quick game wihtout or with low number of epidemy cards"));
         this.add(new JLabel("Number of epidemy cards:"));
-        this.add(new JSpinner(new SpinnerNumberModel(4, 0, 100, 1)));
+        epidemies = new JSpinner(new SpinnerNumberModel(4, 0, 100, 1));
+        this.add(epidemies);
         this.add(new JLabel("2-4 are easy game, 4-5 is hard game, 6+is very hard.  Less then 2, you can easily run of time!"));
 
         pack();
