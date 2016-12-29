@@ -47,11 +47,11 @@ public class Board extends Observable {
         outbreaks = new Outbreaks();
         deck = new Deck(cities);
         infDeck = new InfectionDeck(cities);
-        cities.initialDiseases(randomize?null:infDeck);
-        deck.insertEpidemies(epidemyCards);
+        cities.initialDiseases(randomize ? null : infDeck);
         infectionRate = new InfecetionRate();
         cures = new Drugs();
         roles.initPlayers(cities, deck);
+        deck.insertEpidemies(epidemyCards);
         loadResources();
         drawBoard();
         this.notifyObservers();
@@ -240,7 +240,7 @@ public class Board extends Observable {
             if (selected instanceof PlayerCard.Epidemy) {
                 deck.returnCard((Card) selected);
                 infectionRate.addInfectionRate();
-               infDeck.playEpidmey(cities);
+                infDeck.playEpidmey(cities);
             } else {
                 roles.getCurrentPlayer().setCardToHand((PlayerCard) selected);
             }
