@@ -46,11 +46,11 @@ public class Board extends Observable {
         cities = new Cities();
         outbreaks = new Outbreaks();
         deck = new Deck(cities);
+        roles.initPlayers(cities, deck);
         infDeck = new InfectionDeck(cities);
         cities.initialDiseases(randomize ? null : infDeck);
         infectionRate = new InfecetionRate();
         cures = new Drugs();
-        roles.initPlayers(cities, deck);
         deck.insertEpidemies(epidemyCards);
         loadResources();
         drawBoard();

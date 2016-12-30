@@ -67,6 +67,8 @@ public class Roles {
     }
 
     ;
+    //singleton parody
+    public static Roles self;
     /**
      * Creates new instance of roles and checks the game conditions (min max number of players and availability of players)
      * @param args names of the roles as deliverd from the command line
@@ -90,6 +92,7 @@ public class Roles {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+        this.self=this;
     }
     //loading the coordinates of players homes
     private void initHomes() throws IOException {
@@ -194,6 +197,18 @@ public class Roles {
             return 4;
         }
         return 5;
+    }
+
+    public List<City> getForbiddenCities() {
+        List<City> r = new ArrayList<City>();
+        for (Role role : roles) {
+            if (role instanceof QuarantineSpecialist){
+                r.add(role.getCity());
+                r.addAll(role.getCity().getNeighbors());
+            }
+            
+        }
+        return r;
     }
 
    

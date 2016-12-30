@@ -46,7 +46,7 @@ public class PandemicSwing extends javax.swing.JFrame {
         final List<JCheckBox> boxes = new ArrayList<>(q.size());
         for (String q1 : q) {
             JCheckBox j = new JCheckBox(q1);
-            if (q1.equals(Roles.knownRoles[1])){
+            if (q1.equals(Roles.knownRoles[1]) || q1.equals(Roles.knownRoles[4])){
                 j.setFont(j.getFont().deriveFont(Font.BOLD));
             } else {
                 j.setFont(j.getFont().deriveFont(Font.PLAIN));

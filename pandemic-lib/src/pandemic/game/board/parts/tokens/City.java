@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import pandemic.game.board.parts.Outbreaks;
+import pandemic.game.roles.Roles;
 
 /**
  *
@@ -137,6 +138,9 @@ public class City {
     }
 
     public boolean infect(Color c, List<City> processed) {
+        if(!canInfect()){
+            return false;
+        }
         int sameColors = 0;
         for (Cubes cube : cubes) {
             if (cube.getColor().equals(c)) {
@@ -173,6 +177,16 @@ public class City {
             }
         }
         return i;
+    }
+
+    private boolean canInfect() {
+        List<City> cant = Roles.self.getForbiddenCities();
+        for (City c : cant) {
+            if (c.equals(this)){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
