@@ -43,7 +43,6 @@ import pandemic.game.roles.Roles;
  */
 public class OtherActions extends JDialog {
 
-    public static final int CARDS_TO_CURE = 5;
     private final String CD = "Cure disease";
     private final List<OtherPlayerGuiWrapper> others = new ArrayList<>(); //
     private final Deck deck;
@@ -173,7 +172,7 @@ public class OtherActions extends JDialog {
                 } else {
                     drop.setEnabled(false);
                 }
-                if (mainList.getSelectedIndices().length == CARDS_TO_CURE && roles.getCurrentPlayer().getCity().haveStation()) {
+                if (mainList.getSelectedIndices().length == roles.cardsToCure() && roles.getCurrentPlayer().getCity().haveStation()) {
                     List<Card> l = mainList.getSelectedValuesList();
                     j2a.Color c = l.get(0).getCity().getColor();
                     for (Card l1 : l) {

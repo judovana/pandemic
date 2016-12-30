@@ -189,4 +189,12 @@ public class Roles {
         return r;
     }
 
+    public int cardsToCure() {
+        if (getCurrentPlayer() instanceof Scientist){
+            return 4;
+        }
+        return 5;
+    }
+
+   
 }

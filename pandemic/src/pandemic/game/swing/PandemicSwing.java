@@ -5,6 +5,7 @@
  */
 package pandemic.game.swing;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -45,6 +46,11 @@ public class PandemicSwing extends javax.swing.JFrame {
         final List<JCheckBox> boxes = new ArrayList<>(q.size());
         for (String q1 : q) {
             JCheckBox j = new JCheckBox(q1);
+            if (q1.equals(Roles.knownRoles[1])){
+                j.setFont(j.getFont().deriveFont(Font.BOLD));
+            } else {
+                j.setFont(j.getFont().deriveFont(Font.PLAIN));
+            }
             boxes.add(j);
             this.add(j);
         }

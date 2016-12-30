@@ -297,7 +297,7 @@ public class OtherActions extends Activity {
             setCheckListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (getSelectedCards().size() == 5 && getSelectedColors().size() == 1 && thisPlayer.getCity().haveStation()) {
+                    if (getSelectedCards().size() == roles.cardsToCure() && getSelectedColors().size() == 1 && thisPlayer.getCity().haveStation()) {
                         invent.setEnabled(true);
                     } else {
                         invent.setEnabled(false);
