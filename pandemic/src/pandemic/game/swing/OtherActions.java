@@ -215,7 +215,7 @@ public class OtherActions extends JDialog {
                         if (colors.size() == 1) {
                             roles.getCurrentPlayer().setActionCounter();
                             j2a.Color cc = cubes.get(0).getColor();
-                            if (Drugs.self.isCured(cc)) {
+                            if (Drugs.self.isCuredForCubesRemoval(cc)) {
                                 int inLength = cubes.size();
                                 for (int i = 0; i < inLength; i++) {
                                     cubes.remove(0);
@@ -251,7 +251,7 @@ public class OtherActions extends JDialog {
                                             if (cube.getColor().equals(new j2a.java.Color(targetColor))) {
                                                 cubes.remove(i);
                                                 i--;
-                                                if (Drugs.self.isCured(new j2a.java.Color(targetColor))) {
+                                                if (Drugs.self.isCuredForCubesRemoval(new j2a.java.Color(targetColor))) {
                                                     continue;
                                                 } else {
                                                     break;

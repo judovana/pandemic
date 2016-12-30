@@ -365,7 +365,7 @@ public class OtherActions extends Activity {
                                 roles.getCurrentPlayer().setActionCounter();
                                 OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                                 j2a.Color cc = cubes.get(0).getColor();
-                                if (Drugs.self.isCured(cc)) {
+                                if (Drugs.self.isCuredForCubesRemoval(cc)) {
                                     int inLength = cubes.size();
                                     for (int i = 0; i < inLength; i++) {
                                         cubes.remove(0);
@@ -403,7 +403,7 @@ public class OtherActions extends Activity {
                                                 if (cube.getColor().equals(new j2a.android.Color(targetColor))) {
                                                     cubes.remove(i);
                                                     i--;
-                                                    if (Drugs.self.isCured(new j2a.android.Color(targetColor))) {
+                                                    if (Drugs.self.isCuredForCubesRemoval(new j2a.android.Color(targetColor))) {
                                                         continue;
                                                     } else {
                                                         break;

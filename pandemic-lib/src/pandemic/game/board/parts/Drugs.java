@@ -19,6 +19,8 @@ import java.util.Set;
 import pandemic.game.board.parts.tokens.Cities;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.board.parts.tokens.DrugTokens;
+import pandemic.game.roles.Roles;
+import pandemic.game.roles.implementations.Medic;
 
 /**
  *
@@ -103,6 +105,13 @@ public class Drugs {
         }
     }
 
+    public boolean isCuredForCubesRemoval(Color c) {
+        if (Roles.self.getCurrentPlayer() instanceof Medic){
+            return true;
+        }
+        return isCured(c);
+        
+    }
     public boolean isCured(Color c) {
         for (DrugTokens cured1 : cured) {
             if (cured1.getColor().equals(c)) {

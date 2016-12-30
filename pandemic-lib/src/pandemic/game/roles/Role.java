@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import pandemic.game.board.parts.Deck;
+import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 import pandemic.game.cards.PlayerCard;
+import pandemic.game.roles.implementations.Medic;
 
 /**
  *
@@ -41,6 +43,14 @@ public abstract class Role {
     public void flyToTheCity(City city) {
         if (city == null) {
             throw new RuntimeException("Moving to nullcity!");
+        }
+        if (this instanceof Medic){
+            for(int i = 0; i< city.getCubes().size(); i++){
+                if (Drugs.self.isCured(city.getCubes().get(i).getColor())){
+                    city.getCubes().remove(i);
+                    i--;
+                }
+            }
         }
         setActionCounter();
         System.out.println(this.getName() + " moved to " + city.getName());
