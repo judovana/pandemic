@@ -44,12 +44,12 @@ public class Deck {
 
     public void insertEpidemies(int count) {
         Random r = new Random();
-        int mod = cards.size()/count;
+        int mod = cards.size() / count;
         for (int i = 0; i < count; i++) {
-        cards.add(i*mod+r.nextInt(mod),new PlayerCard.Epidemy(backgroud, null));    
-        
+            cards.add(i * mod + r.nextInt(mod), new PlayerCard.Epidemy(backgroud, null));
+
         }
-        
+
     }
 
     /**
@@ -91,6 +91,21 @@ public class Deck {
         }
         Card c = cards.remove(0);
         return c;
+    }
+
+    public City getBottomCardCity() {
+        Card c = getBottomCardInfo();
+        if (c != null) {
+            return c.getCity();
+        }
+        return null;
+    }
+
+    public Card getBottomCardInfo() {
+        if (cards.isEmpty()) {
+            return null;
+        }
+        return cards.get(0);
     }
 
     /**

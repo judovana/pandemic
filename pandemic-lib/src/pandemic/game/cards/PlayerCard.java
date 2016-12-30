@@ -29,6 +29,12 @@ public class PlayerCard extends Card {
 
     public static class Epidemy extends PlayerCard {
 
+        public void stealCity(Card c) {
+            if (c != null) {
+                this.city = c.getCity();
+            }
+        }
+
         public Epidemy(BitmapImage bg, City fg) {
             super(bg, fg);
         }
@@ -39,14 +45,17 @@ public class PlayerCard extends Card {
             GraphicsCanvas g2d = b.createGraphics();
             g2d.setColor(Factory.Color.getBLACK());
             g2d.drawRect(0, 0, b.getWidth() - 1, b.getHeight() - 1);
-            if (city == null){
+            if (city == null) {
                 g2d.setColor(Factory.Color.getCYAN());
             } else {
-                g2d.setColor(city.getColor());    
+                g2d.setColor(city.getColor());
             }
-            for (int i = 0; i < getBackground().getWidth()/6; i++) {
-                g2d.drawLine(0+i, 0, getBackground().getWidth()-i, getBackground().getHeight());
-                g2d.drawLine(getBackground().getWidth()-i, 0, 0+i, getBackground().getHeight());
+            for (int i = 0; i < getBackground().getWidth() / 6; i++) {
+                g2d.drawLine(0 + i, 0, getBackground().getWidth() - i, getBackground().getHeight());
+                g2d.drawLine(getBackground().getWidth() - i, 0, 0 + i, getBackground().getHeight());
+            }
+            if (city != null) {
+                drawCityName(g2d);
             }
             return b;
         }

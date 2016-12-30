@@ -178,6 +178,9 @@ public class Board extends Observable {
         c = deck.clicked(x, y);
         if (c != null) {
             selected = c;
+            if (selected instanceof  PlayerCard.Epidemy){
+                ((PlayerCard.Epidemy)(selected)).stealCity(infDeck.getBottomCardInfo());
+            }
             System.out.println(selected);
             drawBoard();
             return;
