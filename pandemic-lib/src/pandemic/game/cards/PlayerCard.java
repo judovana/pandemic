@@ -39,9 +39,15 @@ public class PlayerCard extends Card {
             GraphicsCanvas g2d = b.createGraphics();
             g2d.setColor(Factory.Color.getBLACK());
             g2d.drawRect(0, 0, b.getWidth() - 1, b.getHeight() - 1);
-            g2d.setColor(Factory.Color.getCYAN());
-            g2d.drawLine(0, 0, getBackground().getWidth(), getBackground().getHeight());
-            g2d.drawLine(getBackground().getWidth(), 0, 0, getBackground().getHeight());
+            if (city == null){
+                g2d.setColor(Factory.Color.getCYAN());
+            } else {
+                g2d.setColor(city.getColor());    
+            }
+            for (int i = 0; i < getBackground().getWidth()/6; i++) {
+                g2d.drawLine(0+i, 0, getBackground().getWidth()-i, getBackground().getHeight());
+                g2d.drawLine(getBackground().getWidth()-i, 0, 0+i, getBackground().getHeight());
+            }
             return b;
         }
 
