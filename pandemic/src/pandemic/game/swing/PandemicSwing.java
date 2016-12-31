@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -119,7 +120,43 @@ public class PandemicSwing extends javax.swing.JFrame {
         epidemies = new JSpinner(new SpinnerNumberModel(4, 0, 100, 1));
         this.add(epidemies);
         this.add(new JLabel("2-4 are easy game, 4-5 is hard game, 6+is very hard.  Less then 2, you can easily run of time!"));
+        JButton manE1 = new JButton("Manual EN images (internal) - F1");
+        JButton manE2 = new JButton("Manual EN pdf (external) - F2");
+        JButton manC1 = new JButton("Manual CZ images (internal) - F3");
+        JButton manC2 = new JButton("Manual CZ pdf (external) - F4");
+        
+        manE1.addActionListener(new ActionListener() {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Manual.dispatch(KeyEvent.VK_F1);
+            }
+        });
+        manE2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Manual.dispatch(KeyEvent.VK_F2);
+            }
+        });
+        manC1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Manual.dispatch(KeyEvent.VK_F3);
+            }
+        });
+        manC2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Manual.dispatch(KeyEvent.VK_F4);
+            }
+        });
+        this.add(manE1);
+        this.add(manE2);
+        this.add(manC1);
+        this.add(manC2);
         pack();
 
         this.setLocationRelativeTo(null);

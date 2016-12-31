@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import pandemic.game.board.Board;
 import pandemic.game.roles.Roles;
 
 public class MainActivity extends Activity {
@@ -56,8 +57,10 @@ public class MainActivity extends Activity {
         c6.setText(Roles.knownRoles[5]);
         c7.setText(Roles.knownRoles[6]);
         final Button b = (Button) findViewById(R.id.startButton);
-        final Button b2 = (Button) findViewById(R.id.button2);
-        final Button b3 = (Button) findViewById(R.id.button3);
+        final Button bEn1 = (Button) findViewById(R.id.buttonEN1);
+        final Button bEn2 = (Button) findViewById(R.id.buttonEN2);
+        final Button bCz1 = (Button) findViewById(R.id.buttonCZ1);
+        final Button bCz2 = (Button) findViewById(R.id.buttonCZ2);
         if (GameActivity.board != null) {
             c1.setEnabled(false);
             c2.setEnabled(false);
@@ -94,46 +97,59 @@ public class MainActivity extends Activity {
 
             }
         });
-        b3.setOnClickListener(new View.OnClickListener() {
+        bEn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, ManualActivity.class);
+                ManualActivity.type = Board.MANUAL;
                 MainActivity.this.startActivity(myIntent);
             }
         });
-        b2.setOnClickListener(new View.OnClickListener() {
+        bCz2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    InputStream is = MainActivity.this.getClass().getResourceAsStream("/pandemic/data/manual.pdf");
-                    File somePath = Environment.getExternalStorageDirectory();
-                    File file = new File(somePath, "pandemic-manual.pdf");
-                    FileOutputStream fos = new FileOutputStream(file);
-                    byte[] buffer = new byte[1024];
-                    int len;
-                    while ((len = is.read(buffer)) != -1) {
-                        fos.write(buffer, 0, len);
-                    }
-                    Uri path = Uri.fromFile(file);
-                    Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
-                    pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    pdfOpenintent.setDataAndType(path, "application/pdf");
-                    startActivity(pdfOpenintent);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                    // set title
-                    alertDialogBuilder.setTitle("Error");
-                    alertDialogBuilder.setCancelable(true);
-                    // set dialog message
-                    alertDialogBuilder
-                            .setMessage(ex.getMessage());
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-                }
+                Intent myIntent = new Intent(MainActivity.this, ManualActivity.class);
+                ManualActivity.type = Board.MANUALCZ;
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+        bEn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tryPdf(Board.MANUAL);
+            }
+        });
+        bCz1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tryPdf(Board.MANUALCZ);
             }
         });
     }
 
+    public  void tryPdf(String s) {
+        try {
+
+            File somePath = Environment.getExternalStorageDirectory();
+            File file = new File(somePath, Board.MANUALPDF);
+            Board.exportManual(file, s);
+            Uri path = Uri.fromFile(file);
+            Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
+            pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            pdfOpenintent.setDataAndType(path, "application/pdf");
+            startActivity(pdfOpenintent);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            // set title
+            alertDialogBuilder.setTitle("Error");
+            alertDialogBuilder.setCancelable(true);
+            // set dialog message
+            alertDialogBuilder
+                    .setMessage(ex.getMessage());
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+    }
 }

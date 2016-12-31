@@ -10,6 +10,8 @@ import android.widget.ScrollView;
 
 public class ManualActivity extends Activity {
 
+    public static String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +24,7 @@ public class ManualActivity extends Activity {
         lay.setOrientation(LinearLayout.VERTICAL);
 
         for(int i = 1; i <= 8; i++){
-            Bitmap imgs = BitmapFactory.decodeStream(ManualActivity.class.getResourceAsStream("/pandemic/data/manual/0"+i+".jpg"));
+            Bitmap imgs = BitmapFactory.decodeStream(ManualActivity.class.getResourceAsStream("/pandemic/data/"+type+"/0"+i+".jpg"));
             ImageView imview = new ImageView(this);
             imview.setImageBitmap(imgs);
             lay.addView(imview);

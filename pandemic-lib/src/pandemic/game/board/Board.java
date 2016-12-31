@@ -8,7 +8,10 @@ package pandemic.game.board;
 import j2a.BitmapImage;
 import j2a.Factory;
 import j2a.GraphicsCanvas;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Observable;
 import pandemic.game.board.parts.Drugs;
@@ -178,8 +181,8 @@ public class Board extends Observable {
         c = deck.clicked(x, y);
         if (c != null) {
             selected = c;
-            if (selected instanceof  PlayerCard.Epidemy){
-                ((PlayerCard.Epidemy)(selected)).stealCity(infDeck.getBottomCardInfo());
+            if (selected instanceof PlayerCard.Epidemy) {
+                ((PlayerCard.Epidemy) (selected)).stealCity(infDeck.getBottomCardInfo());
             }
             System.out.println(selected);
             drawBoard();
@@ -257,6 +260,28 @@ public class Board extends Observable {
             }
             selected = null;
             drawBoard();
+        }
+    }
+
+    public static final String MANUAL = "manual";
+    public static final String MANUALCZ = "manual-cz";
+    public static final String MANUALPDF = "pandemic-manual.pdf";
+
+    public static void exportManualEn(File to) throws IOException {
+        exportManual(to, MANUAL);
+    }
+
+    public static void exportManualCz(File to) throws IOException {
+        exportManual(to, MANUALCZ);
+    }
+
+    public static void exportManual(File to, String type) throws IOException {
+        InputStream is = Board.class.getResourceAsStream("/pandemic/data/" + type + ".pdf");
+        FileOutputStream fos = new FileOutputStream(to);
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = is.read(buffer)) != -1) {
+            fos.write(buffer, 0, len);
         }
     }
 

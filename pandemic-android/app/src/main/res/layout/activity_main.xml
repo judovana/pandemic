@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:layout_above="@+id/linearLayout">
+        android:layout_above="@+id/linearLayoutEN">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -202,21 +202,45 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/startButton"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayoutCZ"
         >
 
         <Button
             android:text="pdf (external)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
+            android:id="@+id/buttonEN1"
             android:layout_weight="1" />
 
         <Button
             android:text="images (internal)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
+            android:id="@+id/buttonEN2"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayoutCZ"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayoutEN"
+        >
+
+        <Button
+            android:text="pdf (externí)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonCZ1"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="obrazy (interní)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonCZ2"
             android:layout_weight="1" />
     </LinearLayout>
 
