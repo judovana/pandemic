@@ -140,8 +140,11 @@ public abstract class Role {
 
     public void buildStation(Card c, Deck playerCards) {
         getCity().setStation();
-        discardCard(c);
-        playerCards.returnCard(c);
+        if (c!=null) {
+            //OperationsExpert
+            discardCard(c);
+            playerCards.returnCard(c);
+        }
         setActionCounter();
     }
 

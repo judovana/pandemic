@@ -35,6 +35,7 @@ import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.Card;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
+import pandemic.game.roles.implementations.OperationExpert;
 
 /**
  * Dialog is representing the interactions between players
@@ -47,6 +48,14 @@ public class OtherActions extends JDialog {
     private final List<OtherPlayerGuiWrapper> others = new ArrayList<>(); //
     private final Deck deck;
     private final Roles roles;
+
+    private void enableOE(JButton station) {
+        if (roles.getCurrentPlayer() instanceof OperationExpert && !roles.getCurrentPlayer().getCity().haveStation()) {
+            station.setEnabled(true);
+        } else {
+            station.setEnabled(false);
+        }
+    }
 
     private static class CardsList extends JList<Card> {
 
@@ -107,7 +116,7 @@ public class OtherActions extends JDialog {
     public OtherActions(final Roles roles, final Deck playerCards) {
         super((Dialog) null, true);
         this.deck = playerCards;
-        this.roles=roles;
+        this.roles = roles;
         OtherActions.this.repaint();
         List<Role> allInCity = roles.getPlayersInCity(roles.getCurrentPlayer().getCity());
         this.setLayout(new GridLayout(0, 6));
@@ -121,20 +130,25 @@ public class OtherActions extends JDialog {
         final JButton cureDisease = new JButton(CD);
 
         drop.setEnabled(false);
-        station.setEnabled(false);
+        enableOE(station);
         station.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (roles.getCurrentPlayer() instanceof OperationExpert) {
+                    roles.getCurrentPlayer().buildStation(null, null);
+                    enableOE(station);
+                    return;
+                }
                 if (mainList.getSelectedValuesList().size() != 1) {
                     throw new RuntimeException("only one can be selected");
                 }
                 Card c = mainList.getSelectedValue();
                 if (c.getCity().equals(roles.getCurrentPlayer().getCity())) {
-                    station.setEnabled(false);
+                    enableOE(station);
                     drop.setEnabled(false);
                     cure.setEnabled(false);
-                    roles.getCurrentPlayer().buildStation(c,playerCards);
+                    roles.getCurrentPlayer().buildStation(c, playerCards);
                     for (OtherPlayerGuiWrapper other : others) {
                         other.takeFrom.setEnabled(false);
                         other.dropCard.setEnabled(false);
@@ -185,10 +199,12 @@ public class OtherActions extends JDialog {
                 } else {
                     cure.setEnabled(false);
                 }
-                station.setEnabled(false);
+                enableOE(station);
                 if (mainList.getSelectedIndices().length == 1) {
                     if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())) {
-                        station.setEnabled(true);
+                        if (!roles.getCurrentPlayer().getCity().haveStation()) {
+                            station.setEnabled(true);
+                        }
                     }
                     if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())) {
                         for (OtherPlayerGuiWrapper other : others) {
@@ -454,7 +470,5 @@ public class OtherActions extends JDialog {
         super.repaint();
         this.setTitle(roles.getCurrentPlayer().getTitle());
     }
-    
-    
 
 }

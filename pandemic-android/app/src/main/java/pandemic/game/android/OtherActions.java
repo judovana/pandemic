@@ -27,6 +27,7 @@ import pandemic.game.board.parts.tokens.Cubes;
 import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
+import pandemic.game.roles.implementations.OperationExpert;
 
 public class OtherActions extends Activity {
 
@@ -38,6 +39,14 @@ public class OtherActions extends Activity {
 
     private static final ViewGroup.LayoutParams VparamsMW1 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     private static final LinearLayout.LayoutParams LparamsWW2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+    private void enableOE(Button station) {
+        if (roles.getCurrentPlayer() instanceof OperationExpert && !roles.getCurrentPlayer().getCity().haveStation()) {
+            station.setEnabled(true);
+        } else {
+            station.setEnabled(false);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,7 +297,7 @@ public class OtherActions extends Activity {
 
         public void diableAll(){
             super.diableAll();
-            bs.setEnabled(false);
+            enableOE(bs);
             invent.setEnabled(false);
         }
 
@@ -307,9 +316,11 @@ public class OtherActions extends Activity {
                     } else {
                         drop.setEnabled(false);
                     }
-                    bs.setEnabled(false);
+                    enableOE(bs);
                     if (getSelectedCards().size() == 1 && getSelectedCards().get(0).getCity().equals(thisPlayer.getCity())) {
-                        bs.setEnabled(true);
+                        if (!roles.getCurrentPlayer().getCity().haveStation()) {
+                            bs.setEnabled(true);
+                        }
                         for (OtherPlayerView oo : others) {
                             oo.setTake(true);
                         }
@@ -326,10 +337,15 @@ public class OtherActions extends Activity {
             super(thisPlayer, parent);
             setName();
             bs = addButon("Build station");
-            bs.setEnabled(false);
+            enableOE(bs);
             bs.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (roles.getCurrentPlayer() instanceof OperationExpert) {
+                        roles.getCurrentPlayer().buildStation(null, null);
+                        enableOE(bs);
+                        return;
+                    }
                     if (getSelectedCards().size() != 1) {
                         throw new RuntimeException("only one can be selected");
                     }
