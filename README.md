@@ -1,11 +1,12 @@
 # pandemic
 Little bit modified game based on Mat Leacock's pandemic
 
- * characters do not have special abilities
- * initial diseases are random
- * no special cards
+ * only some characters  have special abilities
+ * initial diseases can be random.
+  * regular startup supported
+ * no events cards
  * unlimited bases
- * random infection rate per turn
+ * setup-able number of epidemic cards
  * players-controlled actions and win/lose conditions ("undo" button)
 
 ..However fully playable!
