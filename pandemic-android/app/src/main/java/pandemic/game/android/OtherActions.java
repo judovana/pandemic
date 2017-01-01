@@ -344,6 +344,7 @@ public class OtherActions extends Activity {
                     if (roles.getCurrentPlayer() instanceof OperationExpert) {
                         roles.getCurrentPlayer().buildStation(null, null);
                         enableOE(bs);
+                        OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                         return;
                     }
                     if (getSelectedCards().size() != 1) {

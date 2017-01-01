@@ -138,6 +138,7 @@ public class OtherActions extends JDialog {
                 if (roles.getCurrentPlayer() instanceof OperationExpert) {
                     roles.getCurrentPlayer().buildStation(null, null);
                     enableOE(station);
+                    repaint();
                     return;
                 }
                 if (mainList.getSelectedValuesList().size() != 1) {
