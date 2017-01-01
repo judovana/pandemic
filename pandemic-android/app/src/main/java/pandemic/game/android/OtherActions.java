@@ -28,6 +28,7 @@ import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
 import pandemic.game.roles.implementations.OperationExpert;
+import pandemic.game.roles.implementations.Researcher;
 
 public class OtherActions extends Activity {
 
@@ -229,7 +230,7 @@ public class OtherActions extends Activity {
             setCheckListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (getSelectedCards().size() == 1 && getSelectedCards().get(0).getCity().equals(thisPlayer.getCity())) {
+                    if (getSelectedCards().size() == 1 && (getSelectedCards().get(0).getCity().equals(thisPlayer.getCity()) || thisPlayer instanceof Researcher)) {
                         giveto.setEnabled(true);
                     } else {
                         giveto.setEnabled(false);
@@ -321,6 +322,8 @@ public class OtherActions extends Activity {
                         if (!roles.getCurrentPlayer().getCity().haveStation()) {
                             bs.setEnabled(true);
                         }
+                    }
+                    if (getSelectedCards().size() == 1 && (getSelectedCards().get(0).getCity().equals(thisPlayer.getCity()) || thisPlayer instanceof  Researcher)) {
                         for (OtherPlayerView oo : others) {
                             oo.setTake(true);
                         }

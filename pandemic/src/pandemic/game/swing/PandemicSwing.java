@@ -22,11 +22,14 @@ import javax.swing.SpinnerNumberModel;
 import pandemic.game.roles.Roles;
 
 /**
- *This is the main entrance point for application without need to specify the players on a commandline.
- * This show swing window where players are selected in checkboxes
+ * This is the main entrance point for application without need to specify the
+ * players on a commandline. This show swing window where players are selected
+ * in checkboxes
+ *
  * @author Pípa
  */
 public class PandemicSwing extends javax.swing.JFrame {
+
     private JCheckBox randomize;
     private JSpinner epidemies;
 
@@ -49,12 +52,13 @@ public class PandemicSwing extends javax.swing.JFrame {
             JCheckBox j = new JCheckBox(q1);
             if (q1.equals(Roles.knownRoles[1])
                     || q1.equals(Roles.knownRoles[4])
-                    || q1.equals(Roles.knownRoles[0])){
+                    || q1.equals(Roles.knownRoles[0])) {
                 j.setFont(j.getFont().deriveFont(Font.BOLD));
             } else {
                 j.setFont(j.getFont().deriveFont(Font.PLAIN));
             }
-            if (q1.equals(Roles.knownRoles[6])){
+            if (q1.equals(Roles.knownRoles[6])
+                    || q1.equals(Roles.knownRoles[2])) {
                 j.setFont(j.getFont().deriveFont(Font.ITALIC));
             }
             boxes.add(j);
@@ -74,7 +78,7 @@ public class PandemicSwing extends javax.swing.JFrame {
                                 l++;
                             }
                         }
-                        String[] lArgs = new String[l+2];
+                        String[] lArgs = new String[l + 2];
                         l = 0;
                         for (JCheckBox box : boxes) {
                             if (box.isSelected()) {
@@ -124,7 +128,7 @@ public class PandemicSwing extends javax.swing.JFrame {
         JButton manE2 = new JButton("Manual EN pdf (external) - F2");
         JButton manC1 = new JButton("Manual CZ images (internal) - F3");
         JButton manC2 = new JButton("Manual CZ pdf (external) - F4");
-        
+
         manE1.addActionListener(new ActionListener() {
 
             @Override

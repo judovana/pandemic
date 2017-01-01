@@ -36,6 +36,7 @@ import pandemic.game.cards.Card;
 import pandemic.game.roles.Role;
 import pandemic.game.roles.Roles;
 import pandemic.game.roles.implementations.OperationExpert;
+import pandemic.game.roles.implementations.Researcher;
 
 /**
  * Dialog is representing the interactions between players
@@ -207,7 +208,7 @@ public class OtherActions extends JDialog {
                             station.setEnabled(true);
                         }
                     }
-                    if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity())) {
+                    if (mainList.getSelectedValue().getCity().equals(roles.getCurrentPlayer().getCity()) || roles.getCurrentPlayer() instanceof Researcher) {
                         for (OtherPlayerGuiWrapper other : others) {
                             other.canTake();
                         }
@@ -431,7 +432,7 @@ public class OtherActions extends JDialog {
                     giveTo.setEnabled(false);
                     dropCard.setEnabled(false);
                     if (cardList.getSelectedIndices().length == 1) {
-                        if (cardList.getSelectedValue().getCity().equals(main.getCity())) {
+                        if (cardList.getSelectedValue().getCity().equals(main.getCity()) || role instanceof Researcher) {
                             giveTo.setEnabled(true);
                         }
                     }
