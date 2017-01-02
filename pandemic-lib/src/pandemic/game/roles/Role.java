@@ -5,6 +5,8 @@
  */
 package pandemic.game.roles;
 
+import j2a.Color;
+import j2a.Factory;
 import j2a.GraphicsCanvas;
 import j2a.Point;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import pandemic.game.board.parts.Drugs;
 import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 import pandemic.game.cards.PlayerCard;
+import pandemic.game.roles.implementations.ContingencyPlanner;
 import pandemic.game.roles.implementations.Medic;
 
 /**
@@ -44,9 +47,9 @@ public abstract class Role {
         if (city == null) {
             throw new RuntimeException("Moving to nullcity!");
         }
-        if (this instanceof Medic){
-            for(int i = 0; i< city.getCubes().size(); i++){
-                if (Drugs.self.isCured(city.getCubes().get(i).getColor())){
+        if (this instanceof Medic) {
+            for (int i = 0; i < city.getCubes().size(); i++) {
+                if (Drugs.self.isCured(city.getCubes().get(i).getColor())) {
                     city.getCubes().remove(i);
                     i--;
                 }
@@ -140,7 +143,7 @@ public abstract class Role {
 
     public void buildStation(Card c, Deck playerCards) {
         getCity().setStation();
-        if (c!=null) {
+        if (c != null) {
             //OperationsExpert
             discardCard(c);
             playerCards.returnCard(c);
@@ -163,7 +166,18 @@ public abstract class Role {
     }
 
     public String getTitle() {
-        return getName() + " (" + getCity().getName() + ")" + " - "+getActionCounter();
+        return getName() + " (" + getCity().getName() + ")" + " - " + getActionCounter();
+    }
+
+    public Color getWarningColorOnCardsInHandButton() {
+        int max = 7;
+        if (this instanceof ContingencyPlanner) {
+            max = 8;
+        }
+        if (cardsInHand.size() > max) {
+            return Factory.Color.getRED();
+        }
+        return null;
     }
 
 }

@@ -58,7 +58,8 @@ public class PandemicSwing extends javax.swing.JFrame {
                 j.setFont(j.getFont().deriveFont(Font.PLAIN));
             }
             if (q1.equals(Roles.knownRoles[6])
-                    || q1.equals(Roles.knownRoles[2])) {
+                    || q1.equals(Roles.knownRoles[2])
+                    || q1.equals(Roles.knownRoles[5])) {
                 j.setFont(j.getFont().deriveFont(Font.ITALIC));
             }
             boxes.add(j);
