@@ -63,10 +63,14 @@ public class InfectionDeck extends Deck {
         if (newDisease != null) {
             //fill up to pandemy
             System.out.println(newDisease.getCity().getName());
-            System.out.println("epidemy: " + newDisease.getCity().getCubes().size());
-            while (!newDisease.getCity().infect(newDisease.getCity().getColor(), new ArrayList<City>())) {
+            if (Drugs.self.isFixed(newDisease.getCity().getColor())) {
+                System.out.println("epidemy skipped - already extincted ");
+            } else {
                 System.out.println("epidemy: " + newDisease.getCity().getCubes().size());
-            };
+                while (!newDisease.getCity().infect(newDisease.getCity().getColor(), new ArrayList<City>())) {
+                    System.out.println("epidemy: " + newDisease.getCity().getCubes().size());
+                };
+            }
             returnCard(newDisease);
         }
         returnUsedCards();
