@@ -2,7 +2,7 @@ package pandemic.game.android;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
@@ -17,8 +17,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import pandemic.game.board.parts.Deck;
@@ -35,6 +37,9 @@ public class OtherActions extends Activity {
     public static Roles roles;
     public static Deck deck;
     public static GameActivity game;
+
+    private CurrentPlayerView xcp;
+    private List<OtherPlayerView> xothers;
 
     private final String CD = "Cure disease";
 
@@ -74,9 +79,11 @@ public class OtherActions extends Activity {
 
 
         CurrentPlayerView cp = new CurrentPlayerView(roles.getCurrentPlayer(), this);
+        xcp = cp;
         main.addView(cp);
 
         List<OtherPlayerView> others = new ArrayList<OtherPlayerView>(7);
+        xothers = others;
         for (Role r : roles.getPlayersInCity(roles.getCurrentPlayer().getCity())) {
             if (r != roles.getCurrentPlayer()) {
                 OtherPlayerView op = new OtherPlayerView(r, roles.getCurrentPlayer(), this);
@@ -99,8 +106,16 @@ public class OtherActions extends Activity {
         protected LinearLayout cards;
         protected Button drop;
 
-        public void diableAll(){
+        public void diableAll() {
             drop.setEnabled(false);
+            colorAllDrops(this);
+            if (xothers != null) {
+                for (OtherPlayerView a: xothers){
+                    if (a!=this) {
+                        a.diableAll();
+                    }
+                }
+            }
         }
 
         public PlayerView(Role thisPlayer, Context parent) {
@@ -184,9 +199,9 @@ public class OtherActions extends Activity {
             };
         }
 
-        public void resetCheckBoxes(){
+        public void resetCheckBoxes() {
             cards.removeAllViews();
-            checks=init(cards, thisPlayer.getCardsInHand());
+            checks = init(cards, thisPlayer.getCardsInHand());
             resetListeners();
 
         }
@@ -199,7 +214,7 @@ public class OtherActions extends Activity {
         private CurrentPlayerView cpv;
         private List<OtherPlayerView> opvs;
 
-        public void diableAll(){
+        public void diableAll() {
             super.diableAll();
             giveto.setEnabled(false);
             taketo.setEnabled(false);
@@ -224,9 +239,9 @@ public class OtherActions extends Activity {
             setListener(cpv, opvs);
         }
 
-        public void setListener(CurrentPlayerView ccpv, List<OtherPlayerView> others ) {
-            this.cpv=ccpv;
-            this.opvs=others;
+        public void setListener(CurrentPlayerView ccpv, List<OtherPlayerView> others) {
+            this.cpv = ccpv;
+            this.opvs = others;
             setCheckListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -237,8 +252,10 @@ public class OtherActions extends Activity {
                     }
                     if (getSelectedCards().size() >= 1) {
                         drop.setEnabled(true);
+                        colorAllDrops(OtherPlayerView.this);
                     } else {
                         drop.setEnabled(false);
+                        colorAllDrops(OtherPlayerView.this);
                     }
                 }
             });
@@ -249,7 +266,7 @@ public class OtherActions extends Activity {
                         throw new RuntimeException("only one can be selected");
                     }
                     PlayerCard c = cpv.getSelectedCards().get(0);
-                    currentPlayer.giveTo(c,thisPlayer);
+                    currentPlayer.giveTo(c, thisPlayer);
                     OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                     for (OtherPlayerView other : opvs) {
                         other.diableAll();
@@ -267,7 +284,7 @@ public class OtherActions extends Activity {
                         throw new RuntimeException("only one can be selected");
                     }
                     PlayerCard c = getSelectedCards().get(0);
-                    currentPlayer.takeFrom(c,thisPlayer);
+                    currentPlayer.takeFrom(c, thisPlayer);
                     OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                     for (OtherPlayerView other : opvs) {
                         other.diableAll();
@@ -296,14 +313,14 @@ public class OtherActions extends Activity {
             setListener(others);
         }
 
-        public void diableAll(){
+        public void diableAll() {
             super.diableAll();
             enableOE(bs);
             invent.setEnabled(false);
         }
 
         public void setListener(final List<OtherPlayerView> others) {
-            this.others=others;
+            this.others = others;
             setCheckListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -314,8 +331,10 @@ public class OtherActions extends Activity {
                     }
                     if (getSelectedCards().size() >= 1) {
                         drop.setEnabled(true);
+                        colorAllDrops(CurrentPlayerView.this);
                     } else {
                         drop.setEnabled(false);
+                        colorAllDrops(CurrentPlayerView.this);
                     }
                     enableOE(bs);
                     if (getSelectedCards().size() == 1 && getSelectedCards().get(0).getCity().equals(thisPlayer.getCity())) {
@@ -323,7 +342,7 @@ public class OtherActions extends Activity {
                             bs.setEnabled(true);
                         }
                     }
-                    if (getSelectedCards().size() == 1 && (getSelectedCards().get(0).getCity().equals(thisPlayer.getCity()) || thisPlayer instanceof  Researcher)) {
+                    if (getSelectedCards().size() == 1 && (getSelectedCards().get(0).getCity().equals(thisPlayer.getCity()) || thisPlayer instanceof Researcher)) {
                         for (OtherPlayerView oo : others) {
                             oo.setTake(true);
                         }
@@ -358,7 +377,8 @@ public class OtherActions extends Activity {
                         bs.setEnabled(false);
                         drop.setEnabled(false);
                         invent.setEnabled(false);
-                        roles.getCurrentPlayer().buildStation(c,deck);
+                        roles.getCurrentPlayer().buildStation(c, deck);
+                        colorAllDrops(CurrentPlayerView.this);
                         OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                         for (OtherPlayerView other : others) {
                             other.diableAll();
@@ -409,13 +429,13 @@ public class OtherActions extends Activity {
                                         }
                                     }
 
-                                    String hexColor = String.format("#%06X", (0xFFFFFF & (Integer)color.getOriginal()));
-                                    MenuItem jpps = jpp.getMenu().add(Html.fromHtml("<font color='"+hexColor+"'>"+"_-_-_-_ ( " + localCount + " ) _-_-_-_"+"</font>"));
+                                    String hexColor = String.format("#%06X", (0xFFFFFF & (Integer) color.getOriginal()));
+                                    MenuItem jpps = jpp.getMenu().add(Html.fromHtml("<font color='" + hexColor + "'>" + "_-_-_-_ ( " + localCount + " ) _-_-_-_" + "</font>"));
                                     jpps.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                                         @Override
                                         public boolean onMenuItemClick(MenuItem e) {
-                                            int targetColor =  (Integer)color.getOriginal();
+                                            int targetColor = (Integer) color.getOriginal();
                                             roles.getCurrentPlayer().setActionCounter();
                                             OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                                             for (int i = 0; i < cubes.size(); i++) {
@@ -465,6 +485,7 @@ public class OtherActions extends Activity {
                         OtherActions.this.setTitle(roles.getCurrentPlayer().getTitle());
                         Drugs.self.cure(c);
                         resetCheckBoxes();
+                        colorAllDrops(CurrentPlayerView.this);
                     }
                 }
             });
@@ -490,7 +511,7 @@ public class OtherActions extends Activity {
                 this.setText(pc.getCity().getName());
                 this.setBackgroundColor((Integer) (pc.getCity().getColor().getOriginal()));
                 this.setTextColor(getContrastColor((Integer) (pc.getCity().getColor().getOriginal())));
-            }else{
+            } else {
                 this.setText("null city");
             }
         }
@@ -517,10 +538,10 @@ public class OtherActions extends Activity {
 
 
     public static int getContrastColor(int color) {
-        int r = 255 - Color.red(color);
-        int g = 255 - Color.green(color);
-        int b = 255 - Color.blue(color);
-        return Color.rgb(r, g, b);
+        int r = 255 - android.graphics.Color.red(color);
+        int g = 255 - android.graphics.Color.green(color);
+        int b = 255 - android.graphics.Color.blue(color);
+        return android.graphics.Color.rgb(r, g, b);
     }
 
 
@@ -539,6 +560,40 @@ public class OtherActions extends Activity {
             cureDisease.setText(CD + " (" + roles.getCurrentPlayer().getCity().getCubes().size() + ")");
         }
         this.setTitle(roles.getCurrentPlayer().getTitle());
+    }
+
+    private final Map<Button, Drawable> dropBackup = new HashMap<Button, Drawable>();
+
+    private void colorAllDrops(PlayerView pv) {
+        colorDropCardsSingle(pv);
+        if (xcp != null) {
+            colorDropCardsSingle(xcp);
+        }
+        if (xothers != null) {
+            colorDropCards(xothers);
+        }
+    }
+
+    private void colorDropCards(List<OtherPlayerView> pss) {
+        for (PlayerView other : pss) {
+            colorDropCardsSingle(other);
+        }
+    }
+
+    private void colorDropCardsSingle(PlayerView pv) {
+        j2a.Color color = pv.thisPlayer.getWarningColorOnCardsInHandButton();
+        Button b = pv.drop;
+        if (b == null) {
+            return;
+        }
+        if (dropBackup.get(b) == null) {
+            dropBackup.put(b, b.getBackground());
+        }
+        if (color != null) {
+            b.setBackgroundColor((Integer) (color.getOriginal()));
+        } else {
+            b.setBackground(dropBackup.get(b));
+        }
     }
 
 
