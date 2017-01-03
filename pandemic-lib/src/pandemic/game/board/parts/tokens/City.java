@@ -110,8 +110,8 @@ public class City {
 
     /*
     Random order was abandoned. This is making line
-    */
-     Point randomize(int i, Point center) {
+     */
+    Point randomize(int i, Point center) {
         int x = center.getX() + (radius * i) / 2;
         int y = center.getY() + (radius * i) / 2;
         return j2a.Factory.Point.newPoint(x, y);
@@ -138,7 +138,7 @@ public class City {
     }
 
     public boolean infect(Color c, List<City> processed) {
-        if(!canInfect()){
+        if (!canInfect()) {
             return false;
         }
         int sameColors = 0;
@@ -164,8 +164,10 @@ public class City {
         }
         return true;
     }
+
     /**
      * return the number of cubes of given color in this city
+     *
      * @param c desired color
      * @return number of cubes
      */
@@ -182,11 +184,15 @@ public class City {
     private boolean canInfect() {
         List<City> cant = Roles.self.getForbiddenCities();
         for (City c : cant) {
-            if (c.equals(this)){
+            if (c.equals(this)) {
                 return false;
             }
         }
         return true;
+    }
+
+    public boolean havePlayer() {
+        return Roles.self.getPlayersInCity(this).size() > 0;
     }
 
 }

@@ -24,6 +24,7 @@ import pandemic.game.board.parts.tokens.City;
 import pandemic.game.cards.Card;
 import pandemic.game.cards.PlayerCard;
 import pandemic.game.roles.Roles;
+import pandemic.game.roles.implementations.Dispatcher;
 
 /**
  *
@@ -141,6 +142,15 @@ public class Board extends Observable {
      */
     public void mainClick(int x, int y) {
         System.out.println("left!");
+        
+        if (selected == null && roles.getCurrentPlayer() instanceof Dispatcher){
+            City clickedCity = cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y));
+            if (clickedCity!=null && clickedCity.havePlayer()){
+                roles.getCurrentPlayer().flyToTheCity(clickedCity);
+                drawBoard();
+                return;
+            }
+        }
         if (selected instanceof Card) {
             Card card = (Card) selected;
             //special cards
