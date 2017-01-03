@@ -29,5 +29,9 @@ public class Medic extends Role implements DiseaseTreater, CityStaying {
     public void inCityStaying() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    @Override
+    public String getDescription() {
+        return "During healing, as one actions all cubes of given diseasese are cleared. If disease is cured, it do not cost actionm at all";
+    }
     
 }

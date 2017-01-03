@@ -124,7 +124,9 @@ public class OtherActions extends JDialog {
         List<Role> allInCity = roles.getPlayersInCity(roles.getCurrentPlayer().getCity());
         this.setLayout(new GridLayout(0, 6));
 
-        this.add(new JLabel(roles.getCurrentPlayer().getName()));
+        JLabel ll = new JLabel(roles.getCurrentPlayer().getName());
+        this.add(ll);
+        ll.setToolTipText(roles.getCurrentPlayer().getDescription());
 
         mainList = new CardsList(new CardsModel(roles.getCurrentPlayer()));
         final JButton drop = new JButton("drop card(s)");
@@ -338,7 +340,9 @@ public class OtherActions extends JDialog {
         for (Role role : allInCity) {
             if (role != roles.getCurrentPlayer()) {
                 this.add(new JLabel());
-                this.add(new JLabel(role.getName()));
+                JLabel lll = new JLabel(role.getName());
+                this.add(lll);
+                lll.setToolTipText(role.getDescription());
                 OtherPlayerGuiWrapper other = new OtherPlayerGuiWrapper(role, roles.getCurrentPlayer());
                 others.add(other);
                 this.add(other.giveTo);

@@ -2,6 +2,7 @@ package pandemic.game.android;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,8 +13,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 
 import pandemic.game.board.Board;
 import pandemic.game.roles.Roles;
@@ -64,6 +63,32 @@ public class MainActivity extends Activity {
         c9.setText(Roles.knownRoles[8]);
         c10.setText(Roles.knownRoles[9]);
         c11.setText(Roles.knownRoles[10]);
+
+        View.OnClickListener desc = new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                CheckBox ch = (CheckBox)v;
+                if (ch.isChecked()) {
+                    MainActivity.this.setTitle(Roles.rolesInstances.get(ch.getText()).getDescription());
+                } else {
+                    MainActivity.this.setTitle("pandemic");
+                }
+            }
+        };
+        c1.setOnClickListener(desc);
+        c2.setOnClickListener(desc);
+        c3.setOnClickListener(desc);
+        c4.setOnClickListener(desc);
+        c5.setOnClickListener(desc);
+        c6.setOnClickListener(desc);
+        c7.setOnClickListener(desc);
+        c8.setOnClickListener(desc);
+        c9.setOnClickListener(desc);
+        c10.setOnClickListener(desc);
+        c11.setOnClickListener(desc);
+
+
         final Button b = (Button) findViewById(R.id.startButton);
         final Button bEn1 = (Button) findViewById(R.id.buttonEN1);
         final Button bEn2 = (Button) findViewById(R.id.buttonEN2);

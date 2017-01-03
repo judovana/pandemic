@@ -64,6 +64,7 @@ public class PandemicSwing extends javax.swing.JFrame {
                 j.setFont(j.getFont().deriveFont(Font.ITALIC));
             }
             boxes.add(j);
+            j.setToolTipText(Roles.rolesInstances.get(q1).getDescription());
             this.add(j);
         }
         boxes.get(0).setSelected(true);

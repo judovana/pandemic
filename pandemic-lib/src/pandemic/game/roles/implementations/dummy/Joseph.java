@@ -7,7 +7,7 @@ import pandemic.game.roles.Role;
  *
  * @author Pípa
  */
-public class Joseph extends Role {
+public class Joseph extends DummyPlayer {
 
     @Override
     public void doJob() {

@@ -40,6 +40,8 @@ public abstract class Role {
     private int actionCounter = 0;
 
     public abstract void doJob();
+    
+    public abstract String getDescription();
 
     public void cureDisease() {
     }

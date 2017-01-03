@@ -24,4 +24,9 @@ public class Researcher extends Role implements SpecialAction {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+    public String getDescription() {
+        return "You can GIVE any card to any other player in this city";
+    }
+    
 }

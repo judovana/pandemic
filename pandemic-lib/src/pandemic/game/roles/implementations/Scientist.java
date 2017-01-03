@@ -24,4 +24,9 @@ public class Scientist extends Role implements CuringAction{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+    public String getDescription() {
+        return "Inventing cure costs only 4 cards";
+    }
+    
 }

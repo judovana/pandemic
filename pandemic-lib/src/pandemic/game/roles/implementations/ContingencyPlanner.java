@@ -29,5 +29,10 @@ public class ContingencyPlanner extends Role implements SpecialAction, CardPlay{
     public void onCardRemove() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String getDescription() {
+        return "Can have 8 cards instead of 7";
+    }
     
 }

@@ -30,4 +30,9 @@ public class OperationExpert extends Role implements SpecialAction,MovementActio
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+    public String getDescription() {
+        return "Can build station without spending the card";
+    }
+    
 }

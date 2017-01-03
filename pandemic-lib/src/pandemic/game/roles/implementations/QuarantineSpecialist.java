@@ -24,4 +24,9 @@ public class QuarantineSpecialist extends Role implements CityStaying {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+    public String getDescription() {
+        return "In city where it is, or in adjectent cities, no disease can spread";
+    }
+    
 }

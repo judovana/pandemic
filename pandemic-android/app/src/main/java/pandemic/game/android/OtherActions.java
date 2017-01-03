@@ -129,6 +129,19 @@ public class OtherActions extends Activity {
         protected TextView setName() {
             TextView t = new TextView(mContext);
             t.setText(thisPlayer.getName());
+            t.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String tt = OtherActions.this.getTitle().toString();
+                    String nn = thisPlayer.getDescription();
+                    String title = roles.getCurrentPlayer().getTitle();
+                    if (tt.equals(title)){
+                        OtherActions.this.setTitle(nn);
+                    } else {
+                        OtherActions.this.setTitle(title);
+                    }
+                }
+            });
             t.setLayoutParams(LparamsWW2);
             this.addView(t);
             return t;

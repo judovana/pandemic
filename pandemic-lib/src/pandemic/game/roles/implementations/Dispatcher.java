@@ -29,5 +29,10 @@ public class Dispatcher extends Role implements MovementAction, SpecialAction{
     public void instedAction() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String getDescription() {
+        return "During movement can move to any city with another player";
+    }
     
 }
