@@ -145,7 +145,7 @@ public class Board extends Observable {
         
         if (selected == null && roles.getCurrentPlayer() instanceof Dispatcher){
             City clickedCity = cities.getCityByCoord(j2a.Factory.Point.newPoint(x, y));
-            if (clickedCity!=null && clickedCity.havePlayer()){
+            if (clickedCity!=null && clickedCity.havePlayer() && !clickedCity.equals(roles.getCurrentPlayer().getCity())){
                 roles.getCurrentPlayer().flyToTheCity(clickedCity);
                 drawBoard();
                 return;
