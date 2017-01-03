@@ -49,6 +49,10 @@ public class MainActivity extends Activity {
         final CheckBox c5 = (CheckBox) findViewById(R.id.checkBox5);
         final CheckBox c6 = (CheckBox) findViewById(R.id.checkBox6);
         final CheckBox c7 = (CheckBox) findViewById(R.id.checkBox7);
+        final CheckBox c8 = (CheckBox) findViewById(R.id.checkBox8);
+        final CheckBox c9 = (CheckBox) findViewById(R.id.checkBox9);
+        final CheckBox c10 = (CheckBox) findViewById(R.id.checkBox10);
+        final CheckBox c11 = (CheckBox) findViewById(R.id.checkBox11);
         c1.setText(Roles.knownRoles[0]);
         c2.setText(Roles.knownRoles[1]);
         c3.setText(Roles.knownRoles[2]);
@@ -56,6 +60,10 @@ public class MainActivity extends Activity {
         c5.setText(Roles.knownRoles[4]);
         c6.setText(Roles.knownRoles[5]);
         c7.setText(Roles.knownRoles[6]);
+        c8.setText(Roles.knownRoles[7]);
+        c9.setText(Roles.knownRoles[8]);
+        c10.setText(Roles.knownRoles[9]);
+        c11.setText(Roles.knownRoles[10]);
         final Button b = (Button) findViewById(R.id.startButton);
         final Button bEn1 = (Button) findViewById(R.id.buttonEN1);
         final Button bEn2 = (Button) findViewById(R.id.buttonEN2);
@@ -69,6 +77,10 @@ public class MainActivity extends Activity {
             c5.setEnabled(false);
             c6.setEnabled(false);
             c7.setEnabled(false);
+            c8.setEnabled(false);
+            c9.setEnabled(false);
+            c11.setEnabled(false);
+            c11.setEnabled(false);
             b.setText("Continue");
 
         }
@@ -82,6 +94,10 @@ public class MainActivity extends Activity {
                 c5.setEnabled(false);
                 c6.setEnabled(false);
                 c7.setEnabled(false);
+                c8.setEnabled(false);
+                c9.setEnabled(false);
+                c10.setEnabled(false);
+                c11.setEnabled(false);
                 b.setText("Continue");
                 Intent myIntent = new Intent(MainActivity.this, GameActivity.class);
                 myIntent.putExtra(Roles.knownRoles[0], c1.isChecked());
@@ -91,6 +107,10 @@ public class MainActivity extends Activity {
                 myIntent.putExtra(Roles.knownRoles[4], c5.isChecked());
                 myIntent.putExtra(Roles.knownRoles[5], c6.isChecked());
                 myIntent.putExtra(Roles.knownRoles[6], c7.isChecked());
+                myIntent.putExtra(Roles.knownRoles[7], c8.isChecked());
+                myIntent.putExtra(Roles.knownRoles[8], c9.isChecked());
+                myIntent.putExtra(Roles.knownRoles[9], c10.isChecked());
+                myIntent.putExtra(Roles.knownRoles[10], c11.isChecked());
                 myIntent.putExtra("random", random.isChecked());
                 myIntent.putExtra("epidemies", Integer.valueOf(epidemyCards.getText().toString()));
                 MainActivity.this.startActivity(myIntent);

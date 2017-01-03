@@ -28,6 +28,10 @@ import pandemic.game.roles.implementations.OperationExpert;
 import pandemic.game.roles.implementations.QuarantineSpecialist;
 import pandemic.game.roles.implementations.Researcher;
 import pandemic.game.roles.implementations.Scientist;
+import pandemic.game.roles.implementations.dummy.Franz;
+import pandemic.game.roles.implementations.dummy.Joe;
+import pandemic.game.roles.implementations.dummy.Joseph;
+import pandemic.game.roles.implementations.dummy.Karl;
 
 /**
  *
@@ -45,7 +49,11 @@ public class Roles {
         "dispatcher",
         "hygienist",
         "analytic",
-        "operator"
+        "operator",
+        "Franz",
+        "Karl",
+        "Joseph",
+        "Joe"
     };
     /**
      * List of all existing roles
@@ -64,6 +72,10 @@ public class Roles {
         rolesInstances.put(knownRoles[4], new QuarantineSpecialist());
         rolesInstances.put(knownRoles[5], new ContingencyPlanner());
         rolesInstances.put(knownRoles[6], new OperationExpert());
+        rolesInstances.put(knownRoles[7], new Franz());
+        rolesInstances.put(knownRoles[8], new Karl());
+        rolesInstances.put(knownRoles[9], new Joseph());
+        rolesInstances.put(knownRoles[10], new Joe());
     }
 
     ;
