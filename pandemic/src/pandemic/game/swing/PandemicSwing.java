@@ -127,6 +127,15 @@ public class PandemicSwing extends javax.swing.JFrame {
         epidemies = new JSpinner(new SpinnerNumberModel(4, 0, 100, 1));
         this.add(epidemies);
         this.add(new JLabel("2-4 are easy game, 4-5 is hard game, 6+is very hard.  Less then 2, you can easily run of time!"));
+        this.add(new JLabel("Number of duplicated players' card (N):"));
+        JSpinner longing = new JSpinner(new SpinnerNumberModel(1, 0, 48, 1));
+        this.add(longing);
+        JCheckBox symetric  = new JCheckBox("symetric", true);
+        this.add(symetric);
+        this.add(new JLabel("Number of random player cards which will appear N times in players deck. This is making game a bit longer, and making  sucess with Franz-Joe more probabble."));
+        this.add(new JLabel("If symetric is checked, then *each* color got N duplications (so real duplication will be 4xN"));
+        this.add(new JLabel("Eg N=2, and symetric false will add 2 more player cards to players deck. There can be both red, or yellow or each different"));
+        this.add(new JLabel("Eg N=2, and symetric true  will add 8 more player cards to players deck. 2 for each color"));
         JButton manE1 = new JButton("Manual EN images (internal) - F1");
         JButton manE2 = new JButton("Manual EN pdf (external) - F2");
         JButton manC1 = new JButton("Manual CZ images (internal) - F3");
