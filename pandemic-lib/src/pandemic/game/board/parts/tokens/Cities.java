@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import pandemic.game.board.parts.Deck;
@@ -63,7 +64,7 @@ public class Cities {
             for (int x = 0; x < 9; x++) {
                 Card c = deck.getCard();
                 int count = x % 3 + 1;
-                for (int i=0;i<count;i++ ){
+                for (int i = 0; i < count; i++) {
                     c.getCity().infect(c.getCity().getColor(), new ArrayList<City>());
                 }
                 deck.returnCard(c);
@@ -91,6 +92,16 @@ public class Cities {
 
     public Collection<City> getCities() {
         return Collections.unmodifiableCollection(cities);
+    }
+
+    public List<City> getCitiesByColor(Color c) {
+        List<City> r = new ArrayList<City>(cities.size() / 3);
+        for (City city : cities) {
+            if (city.getColor().equals(c)) {
+                r.add(city);
+            }
+        }
+        return r;
     }
 
     public static class CityNotFoundException extends RuntimeException {

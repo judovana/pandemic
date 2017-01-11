@@ -49,7 +49,7 @@ public class Board extends Observable {
         this.roles = roles;
         cities = new Cities();
         outbreaks = new Outbreaks();
-        deck = new Deck(cities);
+        deck = new Deck(cities, symetric, additionalCards);
         roles.initPlayers(cities, deck);
         infDeck = new InfectionDeck(cities);
         cities.initialDiseases(randomize ? null : infDeck);

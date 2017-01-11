@@ -8,6 +8,7 @@ package pandemic.game.board.parts;
 import j2a.GraphicsCanvas;
 import j2a.Point;
 import j2a.BitmapImage;
+import j2a.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +41,28 @@ public class Deck {
         }
         Collections.shuffle(cards);
 
+    }
+
+    public Deck(Cities cities, boolean symetric, int additionalCards) {
+        this(cities);
+        if (symetric) {
+            for (Color c : Cities.colors) {
+                List<City> r = cities.getCitiesByColor(c);
+                Collections.shuffle(r);
+                for (int x = 0; x < additionalCards; x++) {
+                    cards.add(new PlayerCard(backgroud, r.get(x)));
+                    Collections.shuffle(cards);
+                }
+            }
+        } else {
+            List<City> r = new ArrayList<>(cities.getCities());
+            Collections.shuffle(r);
+            for (int x = 0; x < additionalCards; x++) {
+                cards.add(new PlayerCard(backgroud, r.get(x)));
+                Collections.shuffle(cards);
+            }
+        }
+        Collections.shuffle(cards);
     }
 
     public void insertEpidemies(int count) {
