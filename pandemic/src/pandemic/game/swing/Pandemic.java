@@ -49,11 +49,12 @@ public class Pandemic implements Observer {
         }
         int ns = countNumbers(args);
         int bs = countBooleans(args);
+        int as = countAdditionalCards(args);
         boolean randomize = false;
-        boolean symetric=true;
-        int moreCards=0;
+        boolean symetric = true;
+        int moreCards = 0;
         int epidemy = 4;
-        String[] args2 = new String[args.length - ns - bs];
+        String[] args2 = new String[args.length - ns - bs - as];
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
             if (isBool(arg)) {
@@ -61,8 +62,8 @@ public class Pandemic implements Observer {
             } else if (isInt(arg)) {
                 epidemy = Integer.valueOf(arg);
             } else if (isAdditionalCards(arg)) {
-                symetric=additionalCardsBool(arg);
-                moreCards=additionalCardsInt(arg);
+                symetric = additionalCardsBool(arg);
+                moreCards = additionalCardsInt(arg);
             } else {
                 args2[i] = arg;
             }
@@ -150,6 +151,16 @@ public class Pandemic implements Observer {
 
     private static int additionalCardsInt(String arg) {
         return Integer.valueOf(arg.replace("-", "").split(".*sync")[1]);
+    }
+
+    private int countAdditionalCards(String[] args) {
+        int r = 0;
+        for (String arg : args) {
+            if (isAdditionalCards(arg)) {
+                r++;
+            }
+        }
+        return r;
     }
 
     private class DrawingPanel extends JPanel {
