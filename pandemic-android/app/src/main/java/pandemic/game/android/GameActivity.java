@@ -173,7 +173,7 @@ public class GameActivity extends Activity implements Observer {
                         OtherActions.game = GameActivity.this;
                         GameActivity.this.startActivity(register);
                     }
-                },extras.getBoolean("random"),extras.getInt("epidemies"));
+                },extras.getBoolean("random"),extras.getInt("epidemies"), extras.getBoolean("symetric"),extras.getInt("longing"));
             }
             board.addObserver(GameActivity.this);
             board.notifyObservers();

@@ -211,7 +211,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView6" />
+<!---->
+            <TextView
+                android:text="Number of duplicated players' card (N):"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView51" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/butonMinus51"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:text="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/longingCounter"
+                    android:layout_weight="1"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonPlus52"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:text="Symetric?"
+                android:layout_width="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/symetric"
+                android:checked="true"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="Number of random player cards which will appear N times in players deck. This is making game a bit longer, and making  sucess with Franz-Joe more probabble."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView52" />
+            <TextView
+                android:text="If symetric is checked, then *each* color got N duplications (so real duplication will be 4xN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView53" />
+            <TextView
+                android:text="Eg N=2, and symetric false will add 2 more player cards to players deck. There can be both red, or yellow or each different"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView54" />
+            <TextView
+                android:text="Eg N=2, and symetric true  will add 8 more player cards to players deck. 2 for each color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView55" />
+<!---->
             <TextView
                 android:text="Manual:"
                 android:layout_width="match_parent"

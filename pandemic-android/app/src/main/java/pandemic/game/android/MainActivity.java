@@ -24,19 +24,36 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final CheckBox random = (CheckBox) findViewById(R.id.randomBeggining);
+        final CheckBox symetric = (CheckBox) findViewById(R.id.symetric);
         final TextView epidemyCards = (TextView) findViewById(R.id.epidemyCounter);
-        final Button plus = (Button) findViewById(R.id.buttonPlus);
-        final Button minus = (Button) findViewById(R.id.butonMinus);
-        plus.setOnClickListener(new View.OnClickListener() {
+        final Button plus1 = (Button) findViewById(R.id.buttonPlus);
+        final Button minus1 = (Button) findViewById(R.id.butonMinus);
+        plus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 epidemyCards.setText("" + (Integer.valueOf(epidemyCards.getText().toString()) + 1));
             }
         });
-        minus.setOnClickListener(new View.OnClickListener() {
+        minus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 epidemyCards.setText("" + (Integer.valueOf(epidemyCards.getText().toString()) - 1));
+            }
+        });
+
+        final TextView longing = (TextView) findViewById(R.id.longingCounter);
+        final Button plus2 = (Button) findViewById(R.id.buttonPlus52);
+        final Button minus2 = (Button) findViewById(R.id.butonMinus51);
+        plus2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                longing.setText("" + (Integer.valueOf(longing.getText().toString()) + 1));
+            }
+        });
+        minus2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                longing.setText("" + (Integer.valueOf(longing.getText().toString()) - 1));
             }
         });
 
@@ -138,6 +155,8 @@ public class MainActivity extends Activity {
                 myIntent.putExtra(Roles.knownRoles[10], c11.isChecked());
                 myIntent.putExtra("random", random.isChecked());
                 myIntent.putExtra("epidemies", Integer.valueOf(epidemyCards.getText().toString()));
+                myIntent.putExtra("symetric", symetric.isChecked());
+                myIntent.putExtra("longing", Integer.valueOf(longing.getText().toString()));
                 MainActivity.this.startActivity(myIntent);
 
             }
