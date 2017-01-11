@@ -44,7 +44,7 @@ public class Board extends Observable {
     private final Drugs cures;
     private final OtherActionsProvider oa;
 
-    public Board(Roles roles, OtherActionsProvider oa, boolean randomize, int epidemyCards) throws IOException {
+    public Board(Roles roles, OtherActionsProvider oa, boolean randomize, int epidemyCards, boolean symetric, int additionalCards) throws IOException {
         this.oa = oa;
         this.roles = roles;
         cities = new Cities();

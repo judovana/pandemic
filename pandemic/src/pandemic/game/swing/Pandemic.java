@@ -23,7 +23,9 @@ import pandemic.game.board.parts.Deck;
 import pandemic.game.roles.Roles;
 
 /**
- *this is commandline launcher for application which, based on arguments(players' roles) launches gameboard for given players;
+ * this is commandline launcher for application which, based on
+ * arguments(players' roles) launches gameboard for given players;
+ *
  * @author Pípa
  */
 public class Pandemic implements Observer {
@@ -47,21 +49,24 @@ public class Pandemic implements Observer {
         }
         int ns = countNumbers(args);
         int bs = countBooleans(args);
-        boolean randomize=false;
-        int epidemy=4;
-        String[] args2 = new String[args.length-ns-bs];
-        int i2=0;
+        boolean randomize = false;
+        boolean symetric=true;
+        int moreCards=0;
+        int epidemy = 4;
+        String[] args2 = new String[args.length - ns - bs];
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
-            if (isBool(arg)){
-                randomize=Boolean.valueOf(arg);
-            }else if (isInt(arg)){
-                epidemy=Integer.valueOf(arg);
-            }else{
-                args2[i]=arg;
-                i2++;
+            if (isBool(arg)) {
+                randomize = Boolean.valueOf(arg);
+            } else if (isInt(arg)) {
+                epidemy = Integer.valueOf(arg);
+            } else if (isAdditionalCards(arg)) {
+                symetric=additionalCardsBool(arg);
+                moreCards=additionalCardsInt(arg);
+            } else {
+                args2[i] = arg;
             }
-            
+
         }
         board = new Board(new Roles(args2), new OtherActionsProvider() {
 
@@ -69,7 +74,7 @@ public class Pandemic implements Observer {
             public void provide(Roles r, Deck d) {
                 new OtherActions(r, d);
             }
-        }, randomize, epidemy);
+        }, randomize, epidemy, symetric, moreCards);
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
@@ -96,7 +101,7 @@ public class Pandemic implements Observer {
     @Override
     public void update(Observable o, Object o1) {
         if (drawPane != null) {
-            drawPane.setCurrentImage((BufferedImage) (((BitmapImage)o1).getOrigianl()));
+            drawPane.setCurrentImage((BufferedImage) (((BitmapImage) o1).getOrigianl()));
             frame.repaint();
         }
     }
@@ -104,7 +109,7 @@ public class Pandemic implements Observer {
     private int countNumbers(String[] args) {
         int r = 0;
         for (String arg : args) {
-            if (isInt(arg)){
+            if (isInt(arg)) {
                 r++;
             }
         }
@@ -114,7 +119,7 @@ public class Pandemic implements Observer {
     private int countBooleans(String[] args) {
         int r = 0;
         for (String arg : args) {
-            if (isBool(arg)){
+            if (isBool(arg)) {
                 r++;
             }
         }
@@ -124,14 +129,27 @@ public class Pandemic implements Observer {
     public boolean isBool(String arg) {
         return (arg.toLowerCase().equals("true") || arg.toLowerCase().equals("false"));
     }
+
     public boolean isInt(String arg) {
-        try{
+        try {
             Integer.valueOf(arg);
             return true;
-        }catch(Exception ex){
-            
+        } catch (Exception ex) {
+
         }
         return false;
+    }
+
+    private static boolean isAdditionalCards(String arg) {
+        return arg.matches("-+sync\\d+") || arg.matches("-+async\\d+");
+    }
+
+    private static boolean additionalCardsBool(String arg) {
+        return arg.replace("-", "").startsWith("sync");
+    }
+
+    private static int additionalCardsInt(String arg) {
+        return Integer.valueOf(arg.replace("-", "").split(".*sync")[1]);
     }
 
     private class DrawingPanel extends JPanel {
@@ -173,7 +191,7 @@ public class Pandemic implements Observer {
 
         }
         //functions for recalculate coordinations 
-         
+
         private int real(int coord, int current, int orig) {
             return (int) real((double) coord, (double) current, (double) orig);
         }

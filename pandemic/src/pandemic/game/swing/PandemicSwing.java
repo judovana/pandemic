@@ -32,6 +32,8 @@ public class PandemicSwing extends javax.swing.JFrame {
 
     private JCheckBox randomize;
     private JSpinner epidemies;
+    private JSpinner longing;
+    private JCheckBox symetric;
 
     /**
      * Creates new form PandemicSwing
@@ -73,49 +75,55 @@ public class PandemicSwing extends javax.swing.JFrame {
         s.addActionListener(
                 new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int l = 0;
-                for (JCheckBox box : boxes) {
-                    if (box.isSelected()) {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int l = 0;
+                        for (JCheckBox box : boxes) {
+                            if (box.isSelected()) {
+                                l++;
+                            }
+                        }
+                        String[] lArgs = new String[l + 3];
+                        l = 0;
+                        for (JCheckBox box : boxes) {
+                            if (box.isSelected()) {
+                                lArgs[l] = box.getText();
+                                l++;
+                            }
+                        }
+                        lArgs[l] = String.valueOf(randomize.isSelected());
                         l++;
-                    }
-                }
-                String[] lArgs = new String[l + 2];
-                l = 0;
-                for (JCheckBox box : boxes) {
-                    if (box.isSelected()) {
-                        lArgs[l] = box.getText();
+                        lArgs[l] = String.valueOf(epidemies.getModel().getValue());
                         l++;
+                        if (symetric.isSelected()) {
+                            lArgs[l] = "-sync" + String.valueOf(longing.getModel().getValue());
+                        } else {
+                            lArgs[l] = "-async" + String.valueOf(longing.getModel().getValue());
+                        }
+                        try {
+                            if (mainArgs.length == 0) {
+                                Pandemic.main(lArgs);
+                            } else {
+                                String[] call = new String[]{
+                                    "java",
+                                    "-cp",
+                                    mainArgs[0],
+                                    Pandemic.class.getName()
+                                };
+                                String[] c = new String[call.length + lArgs.length];
+                                System.arraycopy(call, 0, c, 0, call.length);
+                                System.arraycopy(lArgs, 0, c, call.length, lArgs.length);
+                                Runtime.getRuntime().exec(c);
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(PandemicSwing.this, ex.getMessage());
+                        } finally {
+                            KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(Manual.SHOW_MANUAL);
+                            PandemicSwing.this.dispose();
+                        }
                     }
                 }
-                lArgs[l] = String.valueOf(randomize.isSelected());
-                l++;
-                lArgs[l] = String.valueOf(epidemies.getModel().getValue());
-                try {
-                    if (mainArgs.length == 0) {
-                        Pandemic.main(lArgs);
-                    } else {
-                        String[] call = new String[]{
-                            "java",
-                            "-cp",
-                            mainArgs[0],
-                            Pandemic.class.getName()
-                        };
-                        String[] c = new String[call.length + lArgs.length];
-                        System.arraycopy(call, 0, c, 0, call.length);
-                        System.arraycopy(lArgs, 0, c, call.length, lArgs.length);
-                        Runtime.getRuntime().exec(c);
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(PandemicSwing.this, ex.getMessage());
-                } finally {
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(Manual.SHOW_MANUAL);
-                    PandemicSwing.this.dispose();
-                }
-            }
-        }
         );
 
         this.add(s);
@@ -128,9 +136,9 @@ public class PandemicSwing extends javax.swing.JFrame {
         this.add(epidemies);
         this.add(new JLabel("2-4 are easy game, 4-5 is hard game, 6+is very hard.  Less then 2, you can easily run of time!"));
         this.add(new JLabel("Number of duplicated players' card (N):"));
-        JSpinner longing = new JSpinner(new SpinnerNumberModel(1, 0, 48, 1));
+        longing = new JSpinner(new SpinnerNumberModel(1, 0, 48, 1));
         this.add(longing);
-        JCheckBox symetric  = new JCheckBox("symetric", true);
+        symetric = new JCheckBox("symetric", true);
         this.add(symetric);
         this.add(new JLabel("Number of random player cards which will appear N times in players deck. This is making game a bit longer, and making  sucess with Franz-Joe more probabble."));
         this.add(new JLabel("If symetric is checked, then *each* color got N duplications (so real duplication will be 4xN"));
